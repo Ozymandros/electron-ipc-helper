@@ -287,16 +287,26 @@ import {
 
 const spec = await loadMenuSpecFromFile('config/menu.yaml');
 
+const commands: Record<string, () => void> = {
+  'file.open': () => {
+    // open file flow
+  },
+  'help.docs': () => {
+    // open docs URL
+  },
+};
+
 const template = buildMenuTemplate(spec.items, {
+  commands,
   onAction: (actionId) => {
-    if (actionId === 'file.open') {
-      // handle action
-    }
+    // optional global hook (logging/analytics)
+    console.log('menu action:', actionId);
   },
 });
 
 // Or do all steps at once:
 await applyApplicationMenuFromFile('config/menu.yaml', {
+  commands,
   onAction: (actionId) => {
     console.log('menu action:', actionId);
   },
@@ -325,6 +335,11 @@ const appkit = await setupMainAppKit({
   shell: true,
   menu: {
     filePath: 'config/menu.yaml',
+    commands: {
+      'file.open': () => {
+        console.log('open requested');
+      },
+    },
   },
 });
 

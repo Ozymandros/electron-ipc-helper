@@ -49,10 +49,15 @@ export interface LoadMenuSpecOptions {
   encoding?: BufferEncoding;
 }
 
+/** Action command lookup used to resolve declarative menu action IDs. */
+export type MenuCommandRegistry = Record<string, () => void>;
+
 /** Build options for `buildMenuTemplate`. */
 export interface BuildMenuTemplateOptions {
   /** Optional action callback invoked for items that declare `actionId`. */
   onAction?: (actionId: string) => void;
+  /** Optional command registry invoked by `actionId` after `onAction`. */
+  commands?: MenuCommandRegistry;
 }
 
 function inferFormatFromPath(filePath: string): MenuSpecFormat {
@@ -199,6 +204,7 @@ function toTemplateItem(
     const actionId = item.actionId;
     templateItem.click = () => {
       options.onAction?.(actionId);
+      options.commands?.[actionId]?.();
     };
   }
 

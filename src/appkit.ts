@@ -21,6 +21,7 @@ import {
 import {
   applyApplicationMenuFromFile,
   type DeclarativeMenuSpec,
+  type MenuCommandRegistry,
   type MenuSpecFormat,
 } from './menus.js';
 import type { ApiHandlers, EventsSchema, IpcApi, IpcEvents } from './types.js';
@@ -37,6 +38,7 @@ export interface MainAppKitOptions<
     filePath: string;
     format?: MenuSpecFormat;
     encoding?: BufferEncoding;
+    commands?: MenuCommandRegistry;
     onAction?: (actionId: string) => void;
   };
 }
@@ -104,11 +106,13 @@ export async function setupMainAppKit<
     const menuOptions: {
       format?: MenuSpecFormat;
       encoding?: BufferEncoding;
+      commands?: MenuCommandRegistry;
       onAction?: (actionId: string) => void;
     } = {};
 
     if (options.menu.format !== undefined) menuOptions.format = options.menu.format;
     if (options.menu.encoding !== undefined) menuOptions.encoding = options.menu.encoding;
+    if (options.menu.commands !== undefined) menuOptions.commands = options.menu.commands;
     if (options.menu.onAction !== undefined) menuOptions.onAction = options.menu.onAction;
 
     menuSpec = await applyApplicationMenuFromFile(options.menu.filePath, menuOptions);

@@ -5,6 +5,7 @@
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { vi } from 'vitest';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { Menu, contextBridge, ipcMain, resetMocks } from './__mocks__/electron.js';
 import { setupMainAppKit, setupPreloadAppKit } from '../src/appkit.js';
@@ -99,6 +100,65 @@ describe('setupMainAppKit', () => {
       expect(ipcMain._handlers.has('native-dialog:open-file')).toBe(true);
       expect(ipcMain._handlers.has('native-shell:open-external')).toBe(true);
       expect(kit.menuSpec?.items[0]?.label).toBe('App');
+
+      kit.dispose();
+    } finally {
+      await rm(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  it('resolves actionId using menu command registry', async () => {
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'ipc-helper-appkit-'));
+
+    try {
+      const filePath = path.join(tempDir, 'menu.json');
+      await writeFile(filePath, '{"items":[{"label":"Open","actionId":"file.open"}]}', 'utf8');
+
+      const openCommand = vi.fn();
+      const kit = await setupMainAppKit({
+        menu: {
+          filePath,
+          commands: {
+            'file.open': openCommand,
+          },
+        },
+      });
+
+      const template = Menu.buildFromTemplate.mock.calls[0]?.[0] as Array<{ click?: () => void }>;
+      template[0]?.click?.();
+
+      expect(openCommand).toHaveBeenCalledTimes(1);
+
+      kit.dispose();
+    } finally {
+      await rm(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  it('runs both onAction and command handler when both are configured', async () => {
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'ipc-helper-appkit-'));
+
+    try {
+      const filePath = path.join(tempDir, 'menu.json');
+      await writeFile(filePath, '{"items":[{"label":"Open","actionId":"file.open"}]}', 'utf8');
+
+      const openCommand = vi.fn();
+      const onAction = vi.fn();
+      const kit = await setupMainAppKit({
+        menu: {
+          filePath,
+          commands: {
+            'file.open': openCommand,
+          },
+          onAction,
+        },
+      });
+
+      const template = Menu.buildFromTemplate.mock.calls[0]?.[0] as Array<{ click?: () => void }>;
+      template[0]?.click?.();
+
+      expect(onAction).toHaveBeenCalledWith('file.open');
+      expect(openCommand).toHaveBeenCalledTimes(1);
 
       kit.dispose();
     } finally {

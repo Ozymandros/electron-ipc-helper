@@ -5,6 +5,7 @@
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { vi } from 'vitest';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { Menu, resetMocks } from './__mocks__/electron.js';
 import {
@@ -130,6 +131,43 @@ describe('buildMenuTemplate', () => {
 
     expect(onActionCalls).toEqual(['file.open']);
     expect(template[1]).toEqual({ type: 'separator' });
+  });
+
+  it('supports commands registry without onAction', () => {
+    const openCommand = vi.fn();
+
+    const template = buildMenuTemplate(
+      [{ label: 'Open', actionId: 'file.open' }],
+      {
+        commands: {
+          'file.open': openCommand,
+        },
+      },
+    );
+
+    const openItem = template[0] as { click?: () => void };
+    openItem.click?.();
+
+    expect(openCommand).toHaveBeenCalledTimes(1);
+  });
+
+  it('runs onAction and commands in order', () => {
+    const order: string[] = [];
+
+    const template = buildMenuTemplate(
+      [{ label: 'Open', actionId: 'file.open' }],
+      {
+        onAction: () => order.push('onAction'),
+        commands: {
+          'file.open': () => order.push('command'),
+        },
+      },
+    );
+
+    const openItem = template[0] as { click?: () => void };
+    openItem.click?.();
+
+    expect(order).toEqual(['onAction', 'command']);
   });
 });
 
