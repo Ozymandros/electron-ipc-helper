@@ -102,7 +102,8 @@ jobs:
                    dist/preload.mjs dist/preload.cjs dist/preload.d.ts \
                    dist/integrations.mjs dist/integrations.cjs dist/integrations.d.ts \
                    dist/menus.mjs dist/menus.cjs dist/menus.d.ts \
-                   dist/appkit.mjs dist/appkit.cjs dist/appkit.d.ts; do
+                   dist/appkit.mjs dist/appkit.cjs dist/appkit.d.ts \
+                   dist/lifecycle.mjs dist/lifecycle.cjs dist/lifecycle.d.ts; do
             [ -f "$f" ] || { echo "Missing: $f"; exit 1; }
           done
           echo "All dist artefacts present."

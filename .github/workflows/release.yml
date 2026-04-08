@@ -2,6 +2,11 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      confirm_publish:
+        description: Type "publish" to confirm manual publish
+        required: true
+        default: "no"
   release:
     types: [published]
 
@@ -13,6 +18,7 @@ jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
+    if: github.event_name == 'release' || github.event.inputs.confirm_publish == 'publish'
 
     steps:
       - name: Checkout
@@ -41,6 +47,6 @@ jobs:
         run: pnpm run build
 
       - name: Publish package
-        run: pnpm publish --access public --no-git-checks
+        run: pnpm publish --access public --no-git-checks --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
