@@ -25,11 +25,13 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import type {
   ApiHandlers,
+  DialogsRendererApi,
   EventsSchema,
   IpcApi,
   IpcEvents,
   RendererApi,
   RendererEvents,
+  ShellRendererApi,
 } from './types.js';
 
 // ─── exposeApiToRenderer ──────────────────────────────────────────────────────
@@ -141,12 +143,55 @@ export function exposeValues<T extends Record<string, unknown>>(
   contextBridge.exposeInMainWorld(key, values);
 }
 
+// ─── exposeDialogsToRenderer ─────────────────────────────────────────────────
+
+/**
+ * Exposes a standard dialogs API to the renderer.
+ *
+ * @param key           - Window key used for exposure. Defaults to `dialogs`.
+ * @param channelPrefix - Channel prefix used by main handlers. Defaults to `dialog`.
+ */
+export function exposeDialogsToRenderer(
+  key = 'dialogs',
+  channelPrefix = 'dialog',
+): void {
+  const api: DialogsRendererApi = {
+    openFile: (options?: unknown) => ipcRenderer.invoke(`${channelPrefix}:open-file`, options),
+    openDirectory: (options?: unknown) => ipcRenderer.invoke(`${channelPrefix}:open-directory`, options),
+    saveFile: (options?: unknown) => ipcRenderer.invoke(`${channelPrefix}:save-file`, options),
+    messageBox: (options: unknown) => ipcRenderer.invoke(`${channelPrefix}:message-box`, options),
+  };
+
+  contextBridge.exposeInMainWorld(key, api);
+}
+
+// ─── exposeShellToRenderer ───────────────────────────────────────────────────
+
+/**
+ * Exposes a standard shell API to the renderer.
+ *
+ * @param key           - Window key used for exposure. Defaults to `shell`.
+ * @param channelPrefix - Channel prefix used by main handlers. Defaults to `shell`.
+ */
+export function exposeShellToRenderer(
+  key = 'shell',
+  channelPrefix = 'shell',
+): void {
+  const api: ShellRendererApi = {
+    openExternal: (url: string) => ipcRenderer.invoke(`${channelPrefix}:open-external`, url),
+    openPath: (path: string) => ipcRenderer.invoke(`${channelPrefix}:open-path`, path),
+  };
+
+  contextBridge.exposeInMainWorld(key, api);
+}
+
 // ─── Re-exports ───────────────────────────────────────────────────────────────
 
 // Re-export all shared types so preload files need only one import source.
 export type {
   ApiHandlers,
   AsyncFn,
+  DialogsRendererApi,
   EventHandler,
   EventsSchema,
   ExtractRendererApi,
@@ -155,5 +200,6 @@ export type {
   IpcEvents,
   RendererApi,
   RendererEvents,
+  ShellRendererApi,
   WindowTarget,
 } from './types.js';

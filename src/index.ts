@@ -14,11 +14,17 @@
  * @see https://github.com/your-org/electron-ipc-helper
  */
 
-export { defineIpcApi, defineIpcEvents } from './main.js';
+export {
+  defineIpcApi,
+  defineIpcEvents,
+  registerDialogHandlers,
+  registerShellHandlers,
+} from './main.js';
 
 export type {
   ApiHandlers,
   AsyncFn,
+  DialogsRendererApi,
   EventHandler,
   EventsSchema,
   ExtractRendererApi,
@@ -27,5 +33,6 @@ export type {
   IpcEvents,
   RendererApi,
   RendererEvents,
+  ShellRendererApi,
   WindowTarget,
 } from './types.js';

@@ -8,8 +8,19 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { contextBridge, ipcRenderer, resetMocks } from './__mocks__/electron.js';
-import { defineIpcApi, defineIpcEvents } from '../src/main.js';
-import { exposeApiToRenderer, exposeEventsToRenderer, exposeValues } from '../src/preload.js';
+import {
+  defineIpcApi,
+  defineIpcEvents,
+  registerDialogHandlers,
+  registerShellHandlers,
+} from '../src/main.js';
+import {
+  exposeApiToRenderer,
+  exposeDialogsToRenderer,
+  exposeEventsToRenderer,
+  exposeShellToRenderer,
+  exposeValues,
+} from '../src/preload.js';
 
 beforeEach(() => {
   resetMocks();
@@ -216,5 +227,61 @@ describe('exposeValues', () => {
 
     const exposed = contextBridge._exposed.get('cfg');
     expect(exposed).toStrictEqual({ a: true, b: 42, c: 'hello' });
+  });
+});
+
+// ─── exposeDialogsToRenderer ─────────────────────────────────────────────────
+
+describe('exposeDialogsToRenderer', () => {
+  it('exposes dialogs API under "dialogs" key by default', () => {
+    exposeDialogsToRenderer();
+
+    expect(contextBridge.exposeInMainWorld).toHaveBeenCalledWith('dialogs', expect.any(Object));
+  });
+
+  it('accepts custom key and channel prefix', async () => {
+    registerDialogHandlers('native-dialog');
+    exposeDialogsToRenderer('nativeDialogs', 'native-dialog');
+
+    const exposed = contextBridge._exposed.get('nativeDialogs') as Record<string, (...a: unknown[]) => Promise<unknown>>;
+    await exposed['openFile']!({ title: 'Pick one' });
+
+    expect(ipcRenderer.invoke).toHaveBeenCalledWith('native-dialog:open-file', { title: 'Pick one' });
+  });
+
+  it('wires all dialog methods to invoke channels', async () => {
+    registerDialogHandlers();
+    exposeDialogsToRenderer();
+
+    const exposed = contextBridge._exposed.get('dialogs') as Record<string, (...a: unknown[]) => Promise<unknown>>;
+    await exposed['openDirectory']!({});
+    await exposed['saveFile']!({ defaultPath: 'a.txt' });
+    await exposed['messageBox']!({ message: 'Hello' });
+
+    expect(ipcRenderer.invoke).toHaveBeenCalledWith('dialog:open-directory', {});
+    expect(ipcRenderer.invoke).toHaveBeenCalledWith('dialog:save-file', { defaultPath: 'a.txt' });
+    expect(ipcRenderer.invoke).toHaveBeenCalledWith('dialog:message-box', { message: 'Hello' });
+  });
+});
+
+// ─── exposeShellToRenderer ───────────────────────────────────────────────────
+
+describe('exposeShellToRenderer', () => {
+  it('exposes shell API under "shell" key by default', () => {
+    exposeShellToRenderer();
+
+    expect(contextBridge.exposeInMainWorld).toHaveBeenCalledWith('shell', expect.any(Object));
+  });
+
+  it('wires openExternal and openPath channels', async () => {
+    registerShellHandlers();
+    exposeShellToRenderer();
+
+    const exposed = contextBridge._exposed.get('shell') as Record<string, (...a: unknown[]) => Promise<unknown>>;
+    await exposed['openExternal']!('https://example.com');
+    await exposed['openPath']!('C:/tmp/file.txt');
+
+    expect(ipcRenderer.invoke).toHaveBeenCalledWith('shell:open-external', 'https://example.com');
+    expect(ipcRenderer.invoke).toHaveBeenCalledWith('shell:open-path', 'C:/tmp/file.txt');
   });
 });

@@ -52,6 +52,32 @@ export const ipcMain = {
   _handlers,
 };
 
+// ─── dialog ───────────────────────────────────────────────────────────────────
+
+export const dialog = {
+  showOpenDialog: vi.fn(async (): Promise<{ canceled: boolean; filePaths: string[] }> => ({
+    canceled: false,
+    filePaths: ['C:/tmp/default.txt'],
+  })),
+
+  showSaveDialog: vi.fn(async (): Promise<{ canceled: boolean; filePath?: string }> => ({
+    canceled: false,
+    filePath: 'C:/tmp/saved.txt',
+  })),
+
+  showMessageBox: vi.fn(async (): Promise<{ response: number; checkboxChecked: boolean }> => ({
+    response: 0,
+    checkboxChecked: false,
+  })),
+};
+
+// ─── shell ────────────────────────────────────────────────────────────────────
+
+export const shell = {
+  openExternal: vi.fn(async () => {}),
+  openPath: vi.fn(async () => ''),
+};
+
 // ─── ipcRenderer ──────────────────────────────────────────────────────────────
 
 export const ipcRenderer = {
