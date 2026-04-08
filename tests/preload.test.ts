@@ -11,16 +11,18 @@ import { contextBridge, ipcRenderer, resetMocks } from './__mocks__/electron.js'
 import {
   defineIpcApi,
   defineIpcEvents,
-  registerDialogHandlers,
-  registerShellHandlers,
 } from '../src/main.js';
 import {
   exposeApiToRenderer,
-  exposeDialogsToRenderer,
   exposeEventsToRenderer,
-  exposeShellToRenderer,
   exposeValues,
 } from '../src/preload.js';
+import {
+  exposeDialogsToRenderer,
+  exposeShellToRenderer,
+  registerDialogHandlers,
+  registerShellHandlers,
+} from '../src/integrations.js';
 
 beforeEach(() => {
   resetMocks();

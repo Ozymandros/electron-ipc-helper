@@ -27,6 +27,11 @@
       "types": "./dist/preload.d.ts",
       "import": "./dist/preload.mjs",
       "require": "./dist/preload.cjs"
+    },
+    "./integrations": {
+      "types": "./dist/integrations.d.ts",
+      "import": "./dist/integrations.mjs",
+      "require": "./dist/integrations.cjs"
     }
   },
   "main": "./dist/index.cjs",
@@ -38,6 +43,7 @@
     "lint": "eslint src/ tests/",
     "check": "eslint src/ tests/ && tsc --noEmit -p tsconfig.typecheck.json && vitest --typecheck run",
     "test": "vitest run",
+    "check:all": "pnpm run check && pnpm run test:types && pnpm run test",
     "coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "test:types": "vitest --typecheck run",

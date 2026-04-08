@@ -1,9 +1,10 @@
-// @ts-check
-import tseslint from '@typescript-eslint/eslint-plugin';
-import tsparser from '@typescript-eslint/parser';
+import tseslintPlugin from '@typescript-eslint/eslint-plugin';
+import tsparserModule from '@typescript-eslint/parser';
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
+const tseslint = /** @type {any} */ (tseslintPlugin);
+const tsparser = /** @type {any} */ (tsparserModule);
+
+const config = /** @type {any} */ ([
   {
     ignores: ['dist/**', 'coverage/**', 'node_modules/**'],
   },
@@ -21,22 +22,15 @@ export default [
     },
     rules: {
       ...tseslint.configs['recommended'].rules,
-      // Enforce explicit return types on exported functions
       '@typescript-eslint/explicit-module-boundary-types': 'error',
-      // Disallow `any` in non-test code
       '@typescript-eslint/no-explicit-any': 'error',
-      // Disallow unused variables (catches dead code)
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      // Prefer `const` assertions over repeated casts
       '@typescript-eslint/prefer-as-const': 'error',
-      // Consistent type imports (avoids value-vs-type import confusion)
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
-      // No floating promises — every Promise must be awaited or explicitly voided
       '@typescript-eslint/no-floating-promises': 'error',
     },
   },
   {
-    // Tests may use `any` and don't need explicit return types
     files: ['tests/**/*.ts'],
     languageOptions: {
       parser: tsparser,
@@ -56,7 +50,6 @@ export default [
     },
   },
   {
-    // Declaration-style type tests often create values used only in type positions.
     files: ['tests/**/*.test-d.ts'],
     languageOptions: {
       parser: tsparser,
@@ -74,4 +67,6 @@ export default [
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
     },
   },
-];
+]);
+
+export default config;

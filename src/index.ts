@@ -17,14 +17,11 @@
 export {
   defineIpcApi,
   defineIpcEvents,
-  registerDialogHandlers,
-  registerShellHandlers,
 } from './main.js';
 
 export type {
   ApiHandlers,
   AsyncFn,
-  DialogsRendererApi,
   EventHandler,
   EventsSchema,
   ExtractRendererApi,
@@ -33,6 +30,5 @@ export type {
   IpcEvents,
   RendererApi,
   RendererEvents,
-  ShellRendererApi,
   WindowTarget,
 } from './types.js';

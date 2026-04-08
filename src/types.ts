@@ -86,32 +86,6 @@ export interface WindowTarget {
   };
 }
 
-// ─── Built-in Renderer APIs ──────────────────────────────────────────────────
-
-/**
- * Renderer-facing API exposed by `exposeDialogsToRenderer`.
- */
-export interface DialogsRendererApi {
-  /** Opens a file picker and returns the selected path or `null`. */
-  openFile(options?: unknown): Promise<string | null>;
-  /** Opens a directory picker and returns the selected path or `null`. */
-  openDirectory(options?: unknown): Promise<string | null>;
-  /** Opens a save dialog and returns the chosen file path or `null`. */
-  saveFile(options?: unknown): Promise<string | null>;
-  /** Opens a message box and returns the clicked button index. */
-  messageBox(options: unknown): Promise<number>;
-}
-
-/**
- * Renderer-facing API exposed by `exposeShellToRenderer`.
- */
-export interface ShellRendererApi {
-  /** Opens an external URL in the system browser. */
-  openExternal(url: string): Promise<void>;
-  /** Opens a file or directory path with the system shell. */
-  openPath(path: string): Promise<string>;
-}
-
 // ─── Opaque Handles ───────────────────────────────────────────────────────────
 
 /** Unique brand symbols — prevent structural subtyping on opaque handles. */

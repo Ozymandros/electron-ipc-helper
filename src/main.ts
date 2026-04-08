@@ -20,13 +20,8 @@
  * ```
  */
 
-import { dialog, ipcMain, shell } from 'electron';
-import type { ApiHandlers, EventsSchema, IpcApi, IpcEvents, WindowTarget } from './types.js';
-
-/** Disposable registration returned by built-in IPC registrars. */
-export interface IpcRegistration {
-  dispose(): void;
-}
+import { ipcMain } from 'electron';
+import type { ApiHandlers, EventsSchema, IpcApi, IpcEvents, WindowTarget } from './types';
 
 // ─── defineIpcApi ─────────────────────────────────────────────────────────────
 
@@ -130,96 +125,9 @@ export function defineIpcEvents<T extends EventsSchema>(schema: T): IpcEvents<T>
   } as unknown as IpcEvents<T>;
 }
 
-// ─── registerDialogHandlers ──────────────────────────────────────────────────
+// Compatibility re-exports for editor/consumer migrations.
+export {
+  registerDialogHandlers,
+  registerShellHandlers,
+} from './integrations';
 
-/**
- * Registers a standard dialog IPC surface in the main process.
- *
- * Channels:
- * - `${channelPrefix}:open-file`
- * - `${channelPrefix}:open-directory`
- * - `${channelPrefix}:save-file`
- * - `${channelPrefix}:message-box`
- *
- * @param channelPrefix - Prefix for all dialog channels. Defaults to `dialog`.
- */
-export function registerDialogHandlers(channelPrefix = 'dialog'): IpcRegistration {
-  const openFileChannel = `${channelPrefix}:open-file`;
-  const openDirectoryChannel = `${channelPrefix}:open-directory`;
-  const saveFileChannel = `${channelPrefix}:save-file`;
-  const messageBoxChannel = `${channelPrefix}:message-box`;
-
-  ipcMain.handle(openFileChannel, async (_event, options?: Record<string, unknown>) => {
-    const result = await dialog.showOpenDialog({
-      ...options,
-      properties: ['openFile'],
-    });
-    return result.canceled ? null : (result.filePaths[0] ?? null);
-  });
-
-  ipcMain.handle(openDirectoryChannel, async (_event, options?: Record<string, unknown>) => {
-    const result = await dialog.showOpenDialog({
-      ...options,
-      properties: ['openDirectory'],
-    });
-    return result.canceled ? null : (result.filePaths[0] ?? null);
-  });
-
-  ipcMain.handle(saveFileChannel, async (_event, options?: Record<string, unknown>) => {
-    const result = await dialog.showSaveDialog(options ?? {});
-    return result.canceled ? null : (result.filePath ?? null);
-  });
-
-  ipcMain.handle(messageBoxChannel, async (_event, options: unknown) => {
-    if (
-      typeof options !== 'object'
-      || options === null
-      || typeof (options as { message?: unknown }).message !== 'string'
-    ) {
-      throw new TypeError(
-        `[electron-ipc-helper] ${messageBoxChannel} requires an options object with a string \"message\" property.`,
-      );
-    }
-
-    const result = await dialog.showMessageBox(options as { message: string } & Record<string, unknown>);
-    return result.response;
-  });
-
-  return {
-    dispose(): void {
-      ipcMain.removeHandler(openFileChannel);
-      ipcMain.removeHandler(openDirectoryChannel);
-      ipcMain.removeHandler(saveFileChannel);
-      ipcMain.removeHandler(messageBoxChannel);
-    },
-  };
-}
-
-// ─── registerShellHandlers ───────────────────────────────────────────────────
-
-/**
- * Registers a standard shell IPC surface in the main process.
- *
- * Channels:
- * - `${channelPrefix}:open-external`
- * - `${channelPrefix}:open-path`
- *
- * @param channelPrefix - Prefix for all shell channels. Defaults to `shell`.
- */
-export function registerShellHandlers(channelPrefix = 'shell'): IpcRegistration {
-  const openExternalChannel = `${channelPrefix}:open-external`;
-  const openPathChannel = `${channelPrefix}:open-path`;
-
-  ipcMain.handle(openExternalChannel, async (_event, url: string) => {
-    await shell.openExternal(url);
-  });
-
-  ipcMain.handle(openPathChannel, async (_event, path: string) => shell.openPath(path));
-
-  return {
-    dispose(): void {
-      ipcMain.removeHandler(openExternalChannel);
-      ipcMain.removeHandler(openPathChannel);
-    },
-  };
-}

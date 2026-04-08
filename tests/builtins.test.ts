@@ -5,8 +5,8 @@
  */
 
 import { beforeEach, describe, expect, it } from 'vitest';
-import { dialog, ipcMain, shell, resetMocks } from './__mocks__/electron.js';
-import { registerDialogHandlers, registerShellHandlers } from '../src/main.js';
+import { dialog, ipcMain, shell, resetMocks } from './__mocks__/electron';
+import { registerDialogHandlers, registerShellHandlers } from '../src/integrations';
 
 beforeEach(() => {
   resetMocks();

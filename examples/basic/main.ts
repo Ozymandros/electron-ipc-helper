@@ -7,8 +7,8 @@
 
 import { app, BrowserWindow, dialog } from 'electron';
 import path from 'node:path';
-import { api } from './api.js';
-import { events } from './events.js';
+import { api } from './api.';
+import { events } from './events.';
 
 // ─── Keep a reference to the window ──────────────────────────────────────────
 

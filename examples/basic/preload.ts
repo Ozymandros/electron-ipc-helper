@@ -14,8 +14,8 @@ import {
   exposeEventsToRenderer,
   exposeValues,
 } from 'electron-ipc-helper/preload';
-import { api }    from './api.js';
-import { events } from './events.js';
+import { api }    from './api.';
+import { events } from './events.';
 
 // ── window.api ──────────────────────────────────────────────────────────────
 // Typed request/response methods — renderer calls these like normal functions.
