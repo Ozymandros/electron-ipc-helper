@@ -141,6 +141,105 @@ export interface IpcEvents<T extends EventsSchema> {
   ): void;
 }
 
+// ─── Menu Action Descriptors ──────────────────────────────────────────────────
+
+/**
+ * Calls a local function when the menu item is activated.
+ *
+ * Use for direct, synchronous logic or fire-and-forget async operations that
+ * live entirely in the main process and do not need IPC.
+ *
+ * @example
+ * ```ts
+ * { kind: 'command', run: () => openFileDialog() }
+ * ```
+ */
+export interface CommandActionDescriptor {
+  readonly kind: 'command';
+  /** The function to invoke. May be async; errors are caught and logged. */
+  run: () => void | Promise<void>;
+}
+
+/**
+ * Calls a shared service function when the menu item is activated.
+ *
+ * Semantically distinct from `'command'` to signal that `call` is a **shared
+ * service function** — i.e., the same function that an IPC handler may also
+ * delegate to. This enforces the architectural rule that menu clicks and IPC
+ * calls share business logic rather than duplicating it.
+ *
+ * Never invoke an `ipcMain.handle` channel directly from a menu descriptor.
+ * Register the business logic as a plain function and call it from both the
+ * IPC handler and the service descriptor.
+ *
+ * @example
+ * ```ts
+ * // services/fileService.ts
+ * export async function openFolder() { ... }
+ *
+ * // main.ts
+ * const api = defineIpcApi({ openFolder });               // IPC entry point
+ * const actions: ActionRegistry = {
+ *   'file.open': serviceAction(openFolder),               // menu entry point
+ * };
+ * ```
+ */
+export interface ServiceActionDescriptor {
+  readonly kind: 'service';
+  /** The shared service function to invoke. May be async; errors are caught and logged. */
+  call: () => void | Promise<void>;
+}
+
+/**
+ * Pushes a typed IPC event to a renderer window when the menu item is activated.
+ *
+ * The `emit` function must be **pre-bound** — provide a zero-arg closure that
+ * captures the window reference and calls `events.emit(window, channel, ...args)`.
+ * This avoids threading the window reference through the registry at type-definition
+ * time while still keeping the call fully type-checked.
+ *
+ * @example
+ * ```ts
+ * // events.ts
+ * export const events = defineIpcEvents({ folderOpened: (_path: string) => {} });
+ *
+ * // main.ts
+ * const actions: ActionRegistry = {
+ *   'file.open': emitAction(() => events.emit(mainWindow!, 'folderOpened', '/home/user')),
+ * };
+ * ```
+ */
+export interface EmitActionDescriptor {
+  readonly kind: 'emit';
+  /** Zero-arg closure that calls `events.emit(target, channel, ...args)`. */
+  emit: () => void;
+}
+
+/**
+ * A discriminated union of all supported menu action descriptor kinds.
+ *
+ * Use the `kind` field to switch exhaustively:
+ * ```ts
+ * switch (descriptor.kind) {
+ *   case 'command': descriptor.run(); break;
+ *   case 'service': descriptor.call(); break;
+ *   case 'emit':    descriptor.emit(); break;
+ * }
+ * ```
+ */
+export type ActionDescriptor =
+  | CommandActionDescriptor
+  | ServiceActionDescriptor
+  | EmitActionDescriptor;
+
+/**
+ * Maps `actionId` strings (from the declarative menu spec) to typed descriptors.
+ *
+ * All registered actions are resolved at click-time via `buildMenuTemplate`.
+ * Unknown `actionId` values produce a console warning and are no-ops.
+ */
+export type ActionRegistry = Record<string, ActionDescriptor>;
+
 // ─── Utility Types ────────────────────────────────────────────────────────────
 
 /**

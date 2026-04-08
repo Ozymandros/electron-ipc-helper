@@ -21,6 +21,7 @@ Full end-to-end type inference across main, preload, and renderer with no `any` 
 | `exposeValues` | Expose static read-only constants to the renderer |
 | `menus` subpath | Load declarative JSON/YAML menus and build Electron templates |
 | `appkit` subpath | Glue IPC + integrations + menus setup in one place |
+| `lifecycle` subpath | Supervise child process lifecycle with restart and readiness checks |
 | `dispose()` | Remove all registered handlers from `ipcMain` |
 
 ---
@@ -358,6 +359,44 @@ setupPreloadAppKit({
   dialogs: true,
   shell: true,
 });
+```
+
+---
+
+## Child Process Lifecycle
+
+Use `electron-ipc-helper/lifecycle` to supervise a backend process from the
+main process with optional readiness checks and bounded auto-restarts.
+
+```ts
+import { ChildProcessLifecycle } from 'electron-ipc-helper/lifecycle';
+
+const lifecycle = new ChildProcessLifecycle({
+  command: 'dotnet',
+  args: ['run', '--project', 'MyBackend'],
+  readyCheck: async () => {
+    // Replace with your own health check (pipe/socket/http probe).
+  },
+  maxRestarts: 3,
+  restartDelayMs: 1_000,
+});
+
+lifecycle.on('ready', () => {
+  console.log('backend ready');
+});
+
+lifecycle.on('crashed', (info) => {
+  console.warn('backend crashed', info.code, info.signal);
+});
+
+lifecycle.on('failed', (reason) => {
+  console.error('backend failed permanently', reason.message);
+});
+
+await lifecycle.start();
+
+// Later during shutdown:
+await lifecycle.stop();
 ```
 
 ---

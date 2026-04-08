@@ -1,9 +1,9 @@
 /**
  * Vitest mock for the 'electron' module.
  *
- * Simulates ipcMain, ipcRenderer, and contextBridge with enough fidelity to
- * exercise electron-ipc-helper's logic end-to-end without a real Electron
- * runtime.
+ * Simulates ipcMain, ipcRenderer, contextBridge, dialog, shell, and Menu with
+ * enough fidelity to exercise electron-ipc-helper's logic end-to-end without a
+ * real Electron runtime.
  *
  * Registered handlers are stored in a shared in-memory map so that
  * ipcRenderer.invoke can call them directly, matching the actual round-trip
@@ -14,22 +14,13 @@ import { vi } from 'vitest';
 
 // ─── Shared state ─────────────────────────────────────────────────────────────
 
-/**
- * Registry of handlers registered via ipcMain.handle.
- * Keyed by channel name.
- */
+/** Registry of handlers registered via ipcMain.handle. Keyed by channel name. */
 const _handlers = new Map<string, (...args: unknown[]) => unknown>();
 
-/**
- * Registry of APIs exposed via contextBridge.exposeInMainWorld.
- * Keyed by the window property name.
- */
+/** Registry of APIs exposed via contextBridge.exposeInMainWorld. Keyed by window property. */
 const _exposed = new Map<string, Record<string, unknown>>();
 
-/**
- * Registry of listeners registered via ipcRenderer.on.
- * Keyed by channel name; each entry is the ordered set of active listeners.
- */
+/** Registry of listeners registered via ipcRenderer.on. Keyed by channel name. */
 const _listeners = new Map<string, Set<(...args: unknown[]) => void>>();
 
 // ─── ipcMain ──────────────────────────────────────────────────────────────────
@@ -113,7 +104,7 @@ export const ipcRenderer = {
    * @internal Simulates a push event from the main process to the renderer.
    * Calls all listeners registered for the channel with the provided args.
    * Matches the real Electron wire format where args include the IpcRendererEvent
-   * as the first argument (e.g. `_emit('test', { sender: null }, ...userArgs)`).
+   * as the first argument (e.g. _emit('test', { sender: null }, ...userArgs)).
    */
   _emit(channel: string, ...args: unknown[]): void {
     for (const listener of _listeners.get(channel) ?? []) {
@@ -121,7 +112,7 @@ export const ipcRenderer = {
     }
   },
 
-  /** @internal exposed listeners for assertion and emit testing */
+  /** @internal Exposed listeners registry for assertion and emit testing. */
   _listeners,
 };
 
@@ -140,7 +131,7 @@ export const contextBridge = {
 
 /**
  * Resets all mock state and call history.
- * Call this in a `beforeEach` hook to keep tests fully isolated.
+ * Call this in a beforeEach hook to keep tests fully isolated.
  */
 export function resetMocks(): void {
   _handlers.clear();

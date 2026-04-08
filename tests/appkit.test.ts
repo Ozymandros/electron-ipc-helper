@@ -9,6 +9,7 @@ import { vi } from 'vitest';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { Menu, contextBridge, ipcMain, resetMocks } from './__mocks__/electron.js';
 import { setupMainAppKit, setupPreloadAppKit } from '../src/appkit.js';
+import { commandAction, emitAction, serviceAction } from '../src/menus.js';
 
 describe('setupMainAppKit', () => {
   beforeEach(() => {
@@ -214,5 +215,88 @@ describe('setupPreloadAppKit', () => {
     expect(contextBridge._exposed.has('cfg')).toBe(true);
     expect(contextBridge._exposed.has('nativeDialogs')).toBe(true);
     expect(contextBridge._exposed.has('nativeShell')).toBe(true);
+  });
+});
+
+// ─── setupMainAppKit — actions registry passthrough ───────────────────────────
+
+describe('setupMainAppKit — menu actions registry', () => {
+  beforeEach(() => {
+    resetMocks();
+  });
+
+  it('passes typed actions registry to the menu builder', async () => {
+    const run     = vi.fn();
+    const call    = vi.fn();
+    const emit    = vi.fn();
+
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'ipc-helper-appkit-actions-'));
+    try {
+      const filePath = path.join(tempDir, 'menu.json');
+      await writeFile(
+        filePath,
+        JSON.stringify({
+          items: [
+            { label: 'New',    actionId: 'file.new' },
+            { label: 'Export', actionId: 'file.export' },
+            { label: 'Notify', actionId: 'app.notify' },
+          ],
+        }),
+        'utf8',
+      );
+
+      await setupMainAppKit({
+        menu: {
+          filePath,
+          actions: {
+            'file.new':    commandAction(run),
+            'file.export': serviceAction(call),
+            'app.notify':  emitAction(emit),
+          },
+        },
+      });
+
+      const template = Menu.buildFromTemplate.mock.calls[0]?.[0] as
+        Array<{ click?: () => void }>;
+
+      template[0]?.click?.();
+      template[1]?.click?.();
+      template[2]?.click?.();
+
+      expect(run).toHaveBeenCalledTimes(1);
+      expect(call).toHaveBeenCalledTimes(1);
+      expect(emit).toHaveBeenCalledTimes(1);
+    } finally {
+      await rm(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  it('legacy commands still work when actions is not provided', async () => {
+    const legacyFn = vi.fn();
+
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'ipc-helper-appkit-legacy-'));
+    try {
+      const filePath = path.join(tempDir, 'menu.json');
+      await writeFile(
+        filePath,
+        JSON.stringify({ items: [{ label: 'Open', actionId: 'file.open' }] }),
+        'utf8',
+      );
+
+      await setupMainAppKit({
+        menu: {
+          filePath,
+          commands: { 'file.open': legacyFn },
+        },
+      });
+
+      const template = Menu.buildFromTemplate.mock.calls[0]?.[0] as
+        Array<{ click?: () => void }>;
+      template[0]?.click?.();
+
+      expect(legacyFn).toHaveBeenCalledTimes(1);
+    } finally {
+      await rm(tempDir, { recursive: true, force: true });
+    }
   });
 });

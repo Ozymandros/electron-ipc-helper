@@ -161,5 +161,4 @@ export type {
   IpcEvents,
   RendererApi,
   RendererEvents,
-  WindowTarget,
-} from './types.js';
+} from './types';

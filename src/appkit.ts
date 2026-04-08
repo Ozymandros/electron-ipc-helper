@@ -20,6 +20,7 @@ import {
 } from './integrations.js';
 import {
   applyApplicationMenuFromFile,
+  type ActionRegistry,
   type DeclarativeMenuSpec,
   type MenuCommandRegistry,
   type MenuSpecFormat,
@@ -38,6 +39,15 @@ export interface MainAppKitOptions<
     filePath: string;
     format?: MenuSpecFormat;
     encoding?: BufferEncoding;
+    /**
+     * Typed action descriptor registry.
+     * Maps `actionId` strings to typed `ActionDescriptor` values.
+     * Takes priority over the legacy `commands` map.
+     */
+    actions?: ActionRegistry;
+    /**
+     * @deprecated Use `actions` with `commandAction` / `serviceAction` / `emitAction`.
+     */
     commands?: MenuCommandRegistry;
     onAction?: (actionId: string) => void;
   };
@@ -106,12 +116,14 @@ export async function setupMainAppKit<
     const menuOptions: {
       format?: MenuSpecFormat;
       encoding?: BufferEncoding;
+      actions?: ActionRegistry;
       commands?: MenuCommandRegistry;
       onAction?: (actionId: string) => void;
     } = {};
 
-    if (options.menu.format !== undefined) menuOptions.format = options.menu.format;
+    if (options.menu.format !== undefined)   menuOptions.format   = options.menu.format;
     if (options.menu.encoding !== undefined) menuOptions.encoding = options.menu.encoding;
+    if (options.menu.actions !== undefined)  menuOptions.actions  = options.menu.actions;
     if (options.menu.commands !== undefined) menuOptions.commands = options.menu.commands;
     if (options.menu.onAction !== undefined) menuOptions.onAction = options.menu.onAction;
 

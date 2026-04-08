@@ -42,6 +42,11 @@
       "types": "./dist/appkit.d.ts",
       "import": "./dist/appkit.mjs",
       "require": "./dist/appkit.cjs"
+    },
+    "./lifecycle": {
+      "types": "./dist/lifecycle.d.ts",
+      "import": "./dist/lifecycle.mjs",
+      "require": "./dist/lifecycle.cjs"
     }
   },
   "main": "./dist/index.cjs",

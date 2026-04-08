@@ -19,9 +19,23 @@ export {
   defineIpcEvents,
 } from './main.js';
 
+export {
+  ChildProcessLifecycle,
+} from './lifecycle.js';
+
 export type {
+  ChildProcessLifecycleEvents,
+  ChildProcessLifecycleOptions,
+  ProcessExitInfo,
+} from './lifecycle.js';
+
+export type {
+  ActionDescriptor,
+  ActionRegistry,
   ApiHandlers,
   AsyncFn,
+  CommandActionDescriptor,
+  EmitActionDescriptor,
   EventHandler,
   EventsSchema,
   ExtractRendererApi,
@@ -30,5 +44,6 @@ export type {
   IpcEvents,
   RendererApi,
   RendererEvents,
+  ServiceActionDescriptor,
   WindowTarget,
 } from './types.js';

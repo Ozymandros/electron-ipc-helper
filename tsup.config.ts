@@ -7,6 +7,7 @@ export default defineConfig({
     integrations: 'src/integrations.ts',
     menus: 'src/menus.ts',
     appkit: 'src/appkit.ts',
+    lifecycle: 'src/lifecycle.ts',
   },
   format: ['esm', 'cjs'],
   outExtension: ({ format }) => ({ js: format === 'esm' ? '.mjs' : '.cjs' }),
