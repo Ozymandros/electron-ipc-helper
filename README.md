@@ -5,8 +5,50 @@
 [![npm](https://img.shields.io/npm/v/electron-ipc-helper)](https://www.npmjs.com/package/electron-ipc-helper)
 [![license](https://img.shields.io/npm/l/electron-ipc-helper)](LICENSE)
 
-A small, typed, zero-boilerplate Electron IPC library.
-Full end-to-end type inference across main, preload, and renderer with no `any` leakage.
+---
+
+## Introduction
+
+A small, typed, zero‑boilerplate Electron IPC library that gives you a clean, safe, and fully typed IPC layer without the usual wiring or runtime overhead. It provides **end‑to‑end type inference** across main, preload, and renderer—**no `any` leakage**, no manual channel plumbing, and no hidden abstractions.
+
+### Why this library?
+
+- **Zero boilerplate** — abstracts all IPC setup for main, preload, and renderer.  
+- **Fully typed** — complete type inference across processes with friendly TS autocompletion.  
+- **Context‑isolation ready** — works seamlessly with sandboxing and secure preload bridges.  
+- **Decoupled design** — channel names and handler logic stay separate for maintainability and security.  
+- **Composable** — define multiple APIs and event sets without conflicts.  
+- **Safe by default** — guaranteed cleanup of handlers and listeners to prevent memory leaks.  
+- **Hot‑reload friendly** — explicit `dispose()` methods and Vite HMR integration.  
+- **Lightweight** — no dependencies, minimal API surface, and zero runtime cost beyond Electron’s IPC.  
+- **Framework‑agnostic** — works with React, Vue, Svelte, Solid, vanilla JS, or anything else.  
+- **Well‑tested** — unit tests cover core behavior and edge cases, with CI to prevent regressions.
+
+### Modular by design
+
+Use only what you need:
+
+- **Core IPC helper** — import from the root package.  
+- **Optional modules** — import separately when needed:
+  - `integrations` — helpers for Electron modules like `dialog` and `shell`.  
+  - `menus` — declarative menu definitions.  
+  - `appkit` — common app utilities.  
+  - `lifecycle` — child‑process lifecycle helpers.
+
+Nothing outside the core is required.
+
+### Perfect for…
+
+- New Electron apps that want a clean, maintainable IPC layer from day one.  
+- Existing apps that want to gradually replace manual `ipcMain`/`ipcRenderer` code with a typed, safer alternative.  
+- Teams that value type safety, predictable architecture, and minimal boilerplate.
+
+### What you get
+
+- A tiny, focused API that’s easy to learn.  
+- Strong TypeScript guidance everywhere.  
+- Cleaner main and preload scripts—focused on app logic, not IPC wiring.  
+- Fewer IPC bugs, less maintenance overhead, and a more scalable architecture.
 
 ---
 
