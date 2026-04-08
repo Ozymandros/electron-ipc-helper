@@ -1,0 +1,41 @@
+# Dependency schedule
+version: 2
+
+updates:
+  # npm — library dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Madrid"
+    # Group all devDependency bumps into a single PR to reduce noise
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+      eslint:
+        patterns:
+          - "eslint*"
+          - "@typescript-eslint/*"
+    # Never auto-bump peerDependencies (electron major versions are manual)
+    ignore:
+      - dependency-name: "electron"
+    commit-message:
+      prefix: "chore(deps)"
+    labels:
+      - "dependencies"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Madrid"
+    commit-message:
+      prefix: "chore(ci)"
+    labels:
+      - "dependencies"
+      - "ci"
