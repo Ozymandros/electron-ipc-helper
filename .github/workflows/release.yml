@@ -85,7 +85,13 @@ jobs:
             echo "${ADAPTER_INFO} is already published. Skipping adapter publish."
             exit 0
           fi
-          pnpm --dir packages/adapter-assemblyscript publish --access public --no-git-checks --provenance
+
+          echo "pnpm version: $(pnpm --version)"
+          echo "npm version: $(npm --version)"
+
+          pushd packages/adapter-assemblyscript
+          pnpm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org
+          popd
         shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -120,7 +126,7 @@ jobs:
         run: |
           node -e 'const fs=require("node:fs");const path=require("node:path");const pkgPath=path.join(process.cwd(),"packages","adapter-assemblyscript","package.json");const pkg=JSON.parse(fs.readFileSync(pkgPath,"utf8"));console.log(pkg.name+"@"+pkg.version)'
           ADAPTER_VERSION=$(node -e 'const fs=require("node:fs");const path=require("node:path");const pkgPath=path.join(process.cwd(),"packages","adapter-assemblyscript","package.json");const pkg=JSON.parse(fs.readFileSync(pkgPath,"utf8"));process.stdout.write(pkg.version)')
-          PACKAGE_NAME="@electron-ipc-helper/adapter-assemblyscript@${ADAPTER_VERSION}"
+          PACKAGE_NAME="@electron-message-bridge/adapter-assemblyscript@${ADAPTER_VERSION}"
           MAX_ATTEMPTS=10
 
           for attempt in $(seq 1 "${MAX_ATTEMPTS}"); do

@@ -212,7 +212,7 @@ function resolveDescriptor(descriptor: ActionDescriptor, actionId: string): void
     case 'command':
       Promise.resolve(descriptor.run()).catch((err: unknown) => {
         console.error(
-          `[electron-ipc-helper] Action "${actionId}" (command) threw:`,
+          `[electron-message-bridge] Action "${actionId}" (command) threw:`,
           err,
         );
       });
@@ -221,7 +221,7 @@ function resolveDescriptor(descriptor: ActionDescriptor, actionId: string): void
     case 'service':
       Promise.resolve(descriptor.call()).catch((err: unknown) => {
         console.error(
-          `[electron-ipc-helper] Action "${actionId}" (service) threw:`,
+          `[electron-message-bridge] Action "${actionId}" (service) threw:`,
           err,
         );
       });
@@ -236,7 +236,7 @@ function resolveDescriptor(descriptor: ActionDescriptor, actionId: string): void
       // a corresponding case above.
       const exhaustive: never = descriptor;
       console.warn(
-        '[electron-ipc-helper] Unknown action kind:',
+        '[electron-message-bridge] Unknown action kind:',
         (exhaustive as { kind: string }).kind,
       );
     }
@@ -250,7 +250,7 @@ function inferFormatFromPath(filePath: string): MenuSpecFormat {
   if (ext === '.json') return 'json';
   if (ext === '.yaml' || ext === '.yml') return 'yaml';
   throw new TypeError(
-    `[electron-ipc-helper] Unsupported menu file extension "${ext}". Use .json, .yaml, or .yml.`,
+    `[electron-message-bridge] Unsupported menu file extension "${ext}". Use .json, .yaml, or .yml.`,
   );
 }
 
@@ -260,42 +260,42 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function validateItem(item: unknown, pathLabel: string): asserts item is DeclarativeMenuItem {
   if (!isRecord(item)) {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel} must be an object.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel} must be an object.`);
   }
 
   const type = item['type'];
   if (type !== undefined && typeof type !== 'string') {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel}.type must be a string.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel}.type must be a string.`);
   }
   if (type === 'separator') return;
 
   if (item['label'] !== undefined && typeof item['label'] !== 'string') {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel}.label must be a string.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel}.label must be a string.`);
   }
   if (item['id'] !== undefined && typeof item['id'] !== 'string') {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel}.id must be a string.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel}.id must be a string.`);
   }
   if (item['role'] !== undefined && typeof item['role'] !== 'string') {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel}.role must be a string.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel}.role must be a string.`);
   }
   if (item['accelerator'] !== undefined && typeof item['accelerator'] !== 'string') {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel}.accelerator must be a string.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel}.accelerator must be a string.`);
   }
   if (item['enabled'] !== undefined && typeof item['enabled'] !== 'boolean') {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel}.enabled must be a boolean.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel}.enabled must be a boolean.`);
   }
   if (item['visible'] !== undefined && typeof item['visible'] !== 'boolean') {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel}.visible must be a boolean.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel}.visible must be a boolean.`);
   }
   if (item['checked'] !== undefined && typeof item['checked'] !== 'boolean') {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel}.checked must be a boolean.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel}.checked must be a boolean.`);
   }
   if (item['actionId'] !== undefined && typeof item['actionId'] !== 'string') {
-    throw new TypeError(`[electron-ipc-helper] ${pathLabel}.actionId must be a string.`);
+    throw new TypeError(`[electron-message-bridge] ${pathLabel}.actionId must be a string.`);
   }
   if (item['submenu'] !== undefined) {
     if (!Array.isArray(item['submenu'])) {
-      throw new TypeError(`[electron-ipc-helper] ${pathLabel}.submenu must be an array.`);
+      throw new TypeError(`[electron-message-bridge] ${pathLabel}.submenu must be an array.`);
     }
     item['submenu'].forEach((child, index) =>
       validateItem(child, `${pathLabel}.submenu[${index}]`),
@@ -308,11 +308,11 @@ function validateItem(item: unknown, pathLabel: string): asserts item is Declara
  */
 export function validateMenuSpec(raw: unknown): DeclarativeMenuSpec {
   if (!isRecord(raw)) {
-    throw new TypeError('[electron-ipc-helper] Menu spec root must be an object.');
+    throw new TypeError('[electron-message-bridge] Menu spec root must be an object.');
   }
   const items = raw['items'];
   if (!Array.isArray(items)) {
-    throw new TypeError('[electron-ipc-helper] Menu spec root must contain an "items" array.');
+    throw new TypeError('[electron-message-bridge] Menu spec root must contain an "items" array.');
   }
   items.forEach((item, index) => validateItem(item, `items[${index}]`));
   return { items: items as DeclarativeMenuItem[] };
@@ -390,7 +390,7 @@ function toTemplateItem(
       //    so purely `onAction`-based setups remain silent.
       if (options.actions !== undefined || options.commands !== undefined) {
         console.warn(
-          `[electron-ipc-helper] No action registered for actionId "${actionId}". ` +
+          `[electron-message-bridge] No action registered for actionId "${actionId}". ` +
           `Add it to the "actions" registry or remove it from the menu spec.`,
         );
       }

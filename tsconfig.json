@@ -5,11 +5,11 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@electron-ipc-helper/adapter-assemblyscript": [
+      "@electron-message-bridge/adapter-assemblyscript": [
         "./packages/adapter-assemblyscript/src/index.ts"
       ],
-      "electron-ipc-helper": ["./src/index.ts"],
-      "electron-ipc-helper/plugins": ["./src/plugins.ts"]
+      "electron-message-bridge": ["./src/index.ts"],
+      "electron-message-bridge/plugins": ["./src/plugins.ts"]
     },
     "lib": ["ES2020", "DOM"],
     "forceConsistentCasingInFileNames": true,

@@ -1,7 +1,7 @@
 /**
  * @module main
  *
- * Main-process entry point for electron-ipc-helper.
+ * Main-process entry point for electron-message-bridge.
  *
  * Import this module **only** from your Electron main process.
  *
@@ -11,7 +11,7 @@
  * @example
  * ```ts
  * // src-electron/api.ts
- * import { defineIpcApi } from 'electron-ipc-helper';
+ * import { defineIpcApi } from 'electron-message-bridge';
  *
  * export const api = defineIpcApi({
  *   getUser:      async (id: string)       => db.users.findById(id),

@@ -4,7 +4,7 @@
  * Optional Electron feature integrations that are built on top of core IPC
  * transport primitives.
  *
- * Import from `electron-ipc-helper/integrations` when you want ready-made
+ * Import from `electron-message-bridge/integrations` when you want ready-made
  * wrappers for common Electron APIs such as dialogs and shell operations.
  */
 
@@ -95,7 +95,7 @@ export function registerDialogHandlers(
       typeof (options as { message?: unknown }).message !== "string"
     ) {
       throw new TypeError(
-        `[electron-ipc-helper] ${messageBoxChannel} requires an options object with a string \"message\" property.`,
+        `[electron-message-bridge] ${messageBoxChannel} requires an options object with a string \"message\" property.`,
       );
     }
 

@@ -11,8 +11,8 @@
  *
  * ```ts
  * import { autoUpdater } from 'electron-updater';
- * import { PluginHost } from 'electron-ipc-helper/plugins';
- * import { UpdaterPlugin } from 'electron-ipc-helper/plugins/updater';
+ * import { PluginHost } from 'electron-message-bridge/plugins';
+ * import { UpdaterPlugin } from 'electron-message-bridge/plugins/updater';
  *
  * const host = new PluginHost();
  * host.register(new UpdaterPlugin({

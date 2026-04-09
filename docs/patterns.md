@@ -1,6 +1,6 @@
 # Patterns
 
-Common real-world patterns for building Electron apps with electron-ipc-helper.
+Common real-world patterns for building Electron apps with electron-message-bridge.
 
 ---
 
@@ -21,13 +21,13 @@ export async function openFolderDialog(): Promise<string | null> {
 }
 
 // api.ts — IPC entry point
-import { defineIpcApi } from 'electron-ipc-helper';
+import { defineIpcApi } from 'electron-message-bridge';
 import { openFolderDialog } from './services/fileService.js';
 
 export const api = defineIpcApi({ openFolderDialog });
 
 // main.ts — menu entry point
-import { serviceAction } from 'electron-ipc-helper/menus';
+import { serviceAction } from 'electron-message-bridge/menus';
 import { openFolderDialog } from './services/fileService.js';
 
 const actions = {
@@ -47,7 +47,7 @@ Both paths call the same function. No duplication, no coupling.
 
 ```ts
 // main.ts
-import { defineIpcApi } from 'electron-ipc-helper';
+import { defineIpcApi } from 'electron-message-bridge';
 import { handlers } from './handlers.js';
 
 let api = defineIpcApi(handlers);
@@ -88,7 +88,7 @@ export function all(): BrowserWindow[] {
 }
 
 // events.ts
-import { defineIpcEvents } from 'electron-ipc-helper';
+import { defineIpcEvents } from 'electron-message-bridge';
 import { all } from './windows.js';
 
 export const events = defineIpcEvents({
@@ -113,7 +113,7 @@ export function broadcastSyncStatus(status: 'idle' | 'syncing' | 'error'): void 
 ```ts
 // preload.ts
 import { app } from 'electron';
-import { exposeValues } from 'electron-ipc-helper/preload';
+import { exposeValues } from 'electron-message-bridge/preload';
 
 exposeValues(
   {
@@ -159,7 +159,7 @@ if (window.meta.isDev) {
 ```ts
 // lifecycle.ts
 import { app } from 'electron';
-import { ChildProcessLifecycle } from 'electron-ipc-helper/lifecycle';
+import { ChildProcessLifecycle } from 'electron-message-bridge/lifecycle';
 
 export const worker = new ChildProcessLifecycle({
   command: 'node',
@@ -195,8 +195,8 @@ app.on('before-quit', async (e) => {
 ```ts
 // main.ts
 import { BrowserWindow } from 'electron';
-import { PluginHost } from 'electron-ipc-helper/plugins';
-import { WindowStatePlugin } from 'electron-ipc-helper/plugins/window-state';
+import { PluginHost } from 'electron-message-bridge/plugins';
+import { WindowStatePlugin } from 'electron-message-bridge/plugins/window-state';
 
 const windowState = new WindowStatePlugin({ key: 'main' });
 const host = new PluginHost({ logger: console });
@@ -244,7 +244,7 @@ app.on('before-quit', async () => {
 
 ```ts
 // menus.ts
-import { applyApplicationMenuFromFile, commandAction, serviceAction } from 'electron-ipc-helper/menus';
+import { applyApplicationMenuFromFile, commandAction, serviceAction } from 'electron-message-bridge/menus';
 import { openFolderDialog } from './services/fileService.js';
 
 await applyApplicationMenuFromFile('./menu.yaml', {
@@ -265,8 +265,8 @@ await applyApplicationMenuFromFile('./menu.yaml', {
 
 ```ts
 // main.ts
-import { DiagnosticsPlugin } from 'electron-ipc-helper/plugins/diagnostics';
-import { defineIpcApi } from 'electron-ipc-helper';
+import { DiagnosticsPlugin } from 'electron-message-bridge/plugins/diagnostics';
+import { defineIpcApi } from 'electron-message-bridge';
 
 const diagnostics = new DiagnosticsPlugin();
 

@@ -10,8 +10,8 @@
  *
  * ```ts
  * import { app, BrowserWindow } from 'electron';
- * import { PluginHost } from 'electron-ipc-helper/plugins';
- * import { WindowStatePlugin } from 'electron-ipc-helper/plugins/window-state';
+ * import { PluginHost } from 'electron-message-bridge/plugins';
+ * import { WindowStatePlugin } from 'electron-message-bridge/plugins/window-state';
  *
  * const host = new PluginHost();
  * const windowState = new WindowStatePlugin({ key: 'mainWindow' });
@@ -222,7 +222,7 @@ export class WindowStatePlugin implements Plugin<WindowStateCapabilities> {
   private static validateKey(key: string): void {
     if (/[/\\:]/.test(key) || key.includes('..')) {
       throw new Error(
-        `[electron-ipc-helper] WindowStatePlugin key "${key}" is invalid. ` +
+        `[electron-message-bridge] WindowStatePlugin key "${key}" is invalid. ` +
         `Keys must not contain path separators ('/', '\\\\'), colons (':'), or '..'.`,
       );
     }

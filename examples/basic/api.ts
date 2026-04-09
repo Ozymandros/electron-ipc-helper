@@ -8,7 +8,7 @@
  * the typed channel list.
  */
 
-import { defineIpcApi } from 'electron-ipc-helper';
+import { defineIpcApi } from 'electron-message-bridge';
 
 // ─── Request / Response API ───────────────────────────────────────────────────
 

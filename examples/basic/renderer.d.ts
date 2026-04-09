@@ -13,7 +13,7 @@ import type { events } from './events';
 import type {
   ExtractRendererApi,
   ExtractRendererEvents,
-} from 'electron-ipc-helper';
+} from 'electron-message-bridge';
 
 declare global {
   interface Window {

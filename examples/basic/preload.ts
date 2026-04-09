@@ -4,8 +4,8 @@
  * Runs in an isolated context before the renderer page loads.
  * Bridges the typed IPC API and push events to the renderer via contextBridge.
  *
- * IMPORTANT: This file must ONLY use 'electron-ipc-helper/preload'.
- * Never import 'electron-ipc-helper' (main entry) here.
+ * IMPORTANT: This file must ONLY use 'electron-message-bridge/preload'.
+ * Never import 'electron-message-bridge' (main entry) here.
  */
 
 import { app } from 'electron';
@@ -13,7 +13,7 @@ import {
   exposeApiToRenderer,
   exposeEventsToRenderer,
   exposeValues,
-} from 'electron-ipc-helper/preload';
+} from 'electron-message-bridge/preload';
 import { api }    from './api.';
 import { events } from './events.';
 

@@ -1,6 +1,6 @@
 ## Plan: Electron Framework Evolution Roadmap
 
-Objective: evolve electron-ipc-helper from a typed IPC utility library into a framework-grade platform with opinionated architecture, strong DX, plugin extensibility, release safety, and performance/security quality gates.
+Objective: evolve electron-message-bridge from a typed IPC utility library into a framework-grade platform with opinionated architecture, strong DX, plugin extensibility, release safety, and performance/security quality gates.
 
 Recommended strategy: ship in incremental, reversible phases. Keep core runtime stable while adding framework layers in separate packages and templates. Enforce quality via automated gates at every phase.
 

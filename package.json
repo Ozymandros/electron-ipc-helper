@@ -1,5 +1,5 @@
 {
-  "name": "electron-ipc-helper",
+  "name": "electron-message-bridge",
   "version": "0.1.0",
   "description": "A small, typed, zero-boilerplate Electron IPC helper. Full end-to-end type inference across main, preload, and renderer.",
   "keywords": [
@@ -90,7 +90,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "docker:mock:build": "docker build -t electron-ipc-helper/mock-backend:local docker/mock-backend",
+    "docker:mock:build": "docker build -t electron-message-bridge/mock-backend:local docker/mock-backend",
     "docker:mock:up": "docker compose -f docker-compose.integration.yml up -d --build",
     "docker:mock:down": "docker compose -f docker-compose.integration.yml down -v",
     "docker:mock:logs": "docker compose -f docker-compose.integration.yml logs -f mock-backend",
@@ -106,8 +106,7 @@
     "test:types": "vitest --typecheck run",
     "typecheck": "tsc --noEmit -p tsconfig.typecheck.json",
     "clean": "rimraf dist",
-    "pack:all": "pnpm run build && pnpm --dir packages/adapter-assemblyscript run build && pnpm pack && pnpm --dir packages/adapter-assemblyscript pack --pack-destination ../..",
-    "pack:nupkg": "pnpm run build && pnpm --dir packages/adapter-assemblyscript run build && node scripts/nuget-pack.mjs"
+    "pack:all": "pnpm run build && pnpm --dir packages/adapter-assemblyscript run build && pnpm pack && pnpm --dir packages/adapter-assemblyscript pack --pack-destination ../.."
   },
   "peerDependencies": {
     "electron": ">=20.0.0"

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `electron-ipc-helper` are documented here.
+All notable changes to `electron-message-bridge` are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -12,7 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 - Plugin architecture (`src/plugins.ts`): `PluginHost`, `Plugin<Caps>`, `PluginContext`, `PluginConflictError`, `PluginHook` — lifecycle-managed, typed capability plugins with conflict detection and error isolation.
 - Reference plugins: `WindowStatePlugin` (window bounds persistence), `DiagnosticsPlugin` (IPC call counting, snapshots), `UpdaterPlugin` (auto-updater facade).
-- New entry points: `electron-ipc-helper/plugins`, `electron-ipc-helper/plugins/window-state`, `electron-ipc-helper/plugins/diagnostics`, `electron-ipc-helper/plugins/updater`.
+- New entry points: `electron-message-bridge/plugins`, `electron-message-bridge/plugins/window-state`, `electron-message-bridge/plugins/diagnostics`, `electron-message-bridge/plugins/updater`.
 - Scaffolding CLI package: `create-electron-ipc-app` — `minimal` and `full` templates, non-interactive mode.
 - API surface snapshot tests (`tests/api-surface.test.ts`) — guards against accidental breaking changes.
 - Chaos lifecycle tests (`tests/lifecycle-chaos.test.ts`) — rapid crash/restart, concurrent start/stop, flaky readyCheck scenarios.
@@ -50,5 +50,5 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
-[Unreleased]: https://github.com/your-org/electron-ipc-helper/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/your-org/electron-ipc-helper/releases/tag/v0.1.0
+[Unreleased]: https://github.com/your-org/electron-message-bridge/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/your-org/electron-message-bridge/releases/tag/v0.1.0

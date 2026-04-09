@@ -33,14 +33,14 @@ if (import.meta.hot) {
 3. Check the Electron DevTools console for preload errors.
 4. Check that `contextIsolation: true` is set (required for `contextBridge`).
 
-**Cause (secondary):** You imported `exposeApiToRenderer` from `electron-ipc-helper` (root) instead of `electron-ipc-helper/preload`.
+**Cause (secondary):** You imported `exposeApiToRenderer` from `electron-message-bridge` (root) instead of `electron-message-bridge/preload`.
 
 ```ts
 // Wrong — imports from main-process entry, contextBridge may not be available
-import { exposeApiToRenderer } from 'electron-ipc-helper';
+import { exposeApiToRenderer } from 'electron-message-bridge';
 
 // Correct
-import { exposeApiToRenderer } from 'electron-ipc-helper/preload';
+import { exposeApiToRenderer } from 'electron-message-bridge/preload';
 ```
 
 ---
@@ -99,7 +99,7 @@ lifecycle.on('crashed', (info) => console.error('Crashed:', info));
 **Fix:** Check for typos. A `console.warn` is emitted when an `actionId` is unregistered (if a registry is provided):
 
 ```
-[electron-ipc-helper] No action registered for actionId "file.opn".
+[electron-message-bridge] No action registered for actionId "file.opn".
 Add it to the "actions" registry or remove it from the menu spec.
 ```
 

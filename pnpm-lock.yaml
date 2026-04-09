@@ -64,7 +64,7 @@ importers:
       electron:
         specifier: '>=39.8.5'
         version: 41.2.0
-      electron-ipc-helper:
+      electron-message-bridge:
         specifier: workspace:*
         version: link:../..
       rimraf:

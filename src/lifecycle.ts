@@ -268,7 +268,7 @@ export class ChildProcessLifecycle {
     } catch (error) {
       const reason = error instanceof Error ? error : new Error(String(error));
       this.options.logger?.warn?.(
-        `[electron-ipc-helper] Restart attempt failed: ${reason.message}`,
+        `[electron-message-bridge] Restart attempt failed: ${reason.message}`,
       );
       this.scheduleRestart();
     }

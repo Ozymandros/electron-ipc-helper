@@ -1,7 +1,7 @@
 /**
- * @module @electron-ipc-helper/adapter-assemblyscript
+ * @module @electron-message-bridge/adapter-assemblyscript
  *
- * Optional AssemblyScript / WebAssembly adapter for electron-ipc-helper.
+ * Optional AssemblyScript / WebAssembly adapter for electron-message-bridge.
  *
  * Bridges AssemblyScript WASM module exports into typed IPC handlers that slot
  * directly into the existing `defineIpcApi` / `exposeApiToRenderer` pipeline.
@@ -12,8 +12,8 @@
  *
  * ```ts
  * // main.ts
- * import { createAssemblyScriptAdapter, asc } from '@electron-ipc-helper/adapter-assemblyscript';
- * import { defineIpcApi } from 'electron-ipc-helper';
+ * import { createAssemblyScriptAdapter, asc } from '@electron-message-bridge/adapter-assemblyscript';
+ * import { defineIpcApi } from 'electron-message-bridge';
  *
  * const schema = {
  *   add:       { params: ['i32', 'i32'] as const, result: 'i32' as const },
@@ -32,7 +32,7 @@
  * ## Type helper
  *
  * ```ts
- * import type { InferAscHandlers } from '@electron-ipc-helper/adapter-assemblyscript';
+ * import type { InferAscHandlers } from '@electron-message-bridge/adapter-assemblyscript';
  *
  * type MyApi = InferAscHandlers<typeof schema>;
  * // => { add: (a: number, b: number) => Promise<number>; greet: (s: string) => Promise<string>; ... }
@@ -62,7 +62,7 @@
  *
  * ```ts
  * import { instantiate } from '@assemblyscript/loader';
- * import { wrapLoaderInstance } from '@electron-ipc-helper/adapter-assemblyscript';
+ * import { wrapLoaderInstance } from '@electron-message-bridge/adapter-assemblyscript';
  *
  * const { exports } = await instantiate(fs.readFileSync('./math.wasm'));
  * const adapter = createAssemblyScriptAdapter(wrapLoaderInstance(exports), schema);
@@ -70,13 +70,13 @@
  */
 
 import { readFile } from 'node:fs/promises';
-import type { ApiHandlers } from 'electron-ipc-helper';
-import { ExportMissingError, RuntimeMissingError } from 'electron-ipc-helper';
-import type { NegotiablePlugin, AdapterManifest } from 'electron-ipc-helper/plugins';
-import { PROTOCOL_VERSION } from 'electron-ipc-helper/plugins';
+import type { ApiHandlers } from 'electron-message-bridge';
+import { ExportMissingError, RuntimeMissingError } from 'electron-message-bridge';
+import type { NegotiablePlugin, AdapterManifest } from 'electron-message-bridge/plugins';
+import { PROTOCOL_VERSION } from 'electron-message-bridge/plugins';
 
 /** @internal Package manifest values for capability negotiation. */
-const ADAPTER_NAME    = '@electron-ipc-helper/adapter-assemblyscript' as const;
+const ADAPTER_NAME    = '@electron-message-bridge/adapter-assemblyscript' as const;
 const ADAPTER_VERSION = '0.1.0' as const;
 
 // ─── Value type descriptors ───────────────────────────────────────────────────
@@ -316,7 +316,7 @@ function encodeArg(
 
     default: {
       const _exhaustive: never = type;
-      logger.warn('[@electron-ipc-helper/adapter-assemblyscript] Unknown type:', _exhaustive);
+      logger.warn('[@electron-message-bridge/adapter-assemblyscript] Unknown type:', _exhaustive);
       return value;
     }
   }
@@ -357,7 +357,7 @@ function decodeResult(
 
     default: {
       const _exhaustive: never = type;
-      logger.warn('[@electron-ipc-helper/adapter-assemblyscript] Unknown return type:', _exhaustive);
+      logger.warn('[@electron-message-bridge/adapter-assemblyscript] Unknown return type:', _exhaustive);
       return raw;
     }
   }
@@ -381,7 +381,7 @@ function extractRuntime(
   if (missing.length > 0) {
     if (warnOnMissing) {
       logger.warn(
-        '[@electron-ipc-helper/adapter-assemblyscript] WASM module is missing AssemblyScript runtime exports:',
+        '[@electron-message-bridge/adapter-assemblyscript] WASM module is missing AssemblyScript runtime exports:',
         missing.join(', '),
         '— managed types (string, bytes) are unavailable. ' +
         'Compile with --runtime full or --runtime half. ' +
@@ -408,7 +408,7 @@ function buildHandlers<S extends AscSchema>(
     const fn = exports[name];
     if (typeof fn !== 'function') {
       logger.warn(
-        `[@electron-ipc-helper/adapter-assemblyscript] WASM module does not export function "${name}". ` +
+        `[@electron-message-bridge/adapter-assemblyscript] WASM module does not export function "${name}". ` +
         `Calls to this handler will throw at runtime.`,
       );
       handlers[name] = async () => {
@@ -568,7 +568,7 @@ export async function createAssemblyScriptAdapter<S extends AscSchema>(
  *
  * ```ts
  * import { instantiate } from '@assemblyscript/loader';
- * import { wrapLoaderInstance } from '@electron-ipc-helper/adapter-assemblyscript';
+ * import { wrapLoaderInstance } from '@electron-message-bridge/adapter-assemblyscript';
  *
  * const { exports } = await instantiate(wasmBuffer, { /* ... *\/ });
  * const adapter = await createAssemblyScriptAdapter(
@@ -592,9 +592,9 @@ export function wrapLoaderInstance(
 
 // ─── AssemblyScriptPlugin ─────────────────────────────────────────────────────
 
-import type { Plugin, PluginContext } from 'electron-ipc-helper/plugins';
-import { defineIpcApi } from 'electron-ipc-helper';
-import type { IpcApi } from 'electron-ipc-helper';
+import type { Plugin, PluginContext } from 'electron-message-bridge/plugins';
+import { defineIpcApi } from 'electron-message-bridge';
+import type { IpcApi } from 'electron-message-bridge';
 
 /** Capabilities declared by `AssemblyScriptPlugin`. */
 export interface AssemblyScriptCapabilities {
@@ -637,8 +637,8 @@ export interface AssemblyScriptPluginOptions<S extends AscSchema> {
  * exports into `ipcMain`, and cleans up when the app shuts down.
  *
  * ```ts
- * import { PluginHost } from 'electron-ipc-helper/plugins';
- * import { AssemblyScriptPlugin } from '@electron-ipc-helper/adapter-assemblyscript';
+ * import { PluginHost } from 'electron-message-bridge/plugins';
+ * import { AssemblyScriptPlugin } from '@electron-message-bridge/adapter-assemblyscript';
  *
  * let mathApi: IpcApi<...>;
  *
@@ -741,7 +741,7 @@ export class AssemblyScriptPlugin<S extends AscSchema>
  * Convenience namespace for concise schema authoring:
  *
  * ```ts
- * import { asc } from '@electron-ipc-helper/adapter-assemblyscript';
+ * import { asc } from '@electron-message-bridge/adapter-assemblyscript';
  *
  * const schema = {
  *   add:   asc.fn(['i32', 'i32'], 'i32'),

@@ -1,6 +1,6 @@
 # Architecture
 
-A technical overview of how electron-ipc-helper is structured, how data flows between processes, and how the layered model is designed for safe evolution.
+A technical overview of how electron-message-bridge is structured, how data flows between processes, and how the layered model is designed for safe evolution.
 
 ---
 
@@ -27,7 +27,7 @@ Electron apps run across three distinct JavaScript contexts with hard boundaries
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-electron-ipc-helper provides the typed glue for each boundary.
+electron-message-bridge provides the typed glue for each boundary.
 
 ---
 
@@ -118,16 +118,16 @@ No `as`, no type assertions, no manual annotations.
 
 | Entry point | Process | Key exports |
 |---|---|---|
-| `electron-ipc-helper` | Main | `defineIpcApi`, `defineIpcEvents`, `ChildProcessLifecycle` |
-| `electron-ipc-helper/preload` | Preload | `exposeApiToRenderer`, `exposeEventsToRenderer`, `exposeValues` |
-| `electron-ipc-helper/integrations` | Main | `registerDialogHandlers`, `registerShellHandlers` |
-| `electron-ipc-helper/menus` | Main | `buildMenuTemplate`, `applyApplicationMenuFromFile`, action factories |
-| `electron-ipc-helper/appkit` | Main | `createMainAppKit` |
-| `electron-ipc-helper/lifecycle` | Main | `ChildProcessLifecycle` |
-| `electron-ipc-helper/plugins` | Main | `PluginHost`, `Plugin`, `PluginConflictError` |
-| `electron-ipc-helper/plugins/window-state` | Main | `WindowStatePlugin` |
-| `electron-ipc-helper/plugins/diagnostics` | Main | `DiagnosticsPlugin` |
-| `electron-ipc-helper/plugins/updater` | Main | `UpdaterPlugin` |
+| `electron-message-bridge` | Main | `defineIpcApi`, `defineIpcEvents`, `ChildProcessLifecycle` |
+| `electron-message-bridge/preload` | Preload | `exposeApiToRenderer`, `exposeEventsToRenderer`, `exposeValues` |
+| `electron-message-bridge/integrations` | Main | `registerDialogHandlers`, `registerShellHandlers` |
+| `electron-message-bridge/menus` | Main | `buildMenuTemplate`, `applyApplicationMenuFromFile`, action factories |
+| `electron-message-bridge/appkit` | Main | `createMainAppKit` |
+| `electron-message-bridge/lifecycle` | Main | `ChildProcessLifecycle` |
+| `electron-message-bridge/plugins` | Main | `PluginHost`, `Plugin`, `PluginConflictError` |
+| `electron-message-bridge/plugins/window-state` | Main | `WindowStatePlugin` |
+| `electron-message-bridge/plugins/diagnostics` | Main | `DiagnosticsPlugin` |
+| `electron-message-bridge/plugins/updater` | Main | `UpdaterPlugin` |
 
 Each entry point compiles to a separate `.mjs`/`.cjs` bundle. Renderer bundles never receive main-process code.
 

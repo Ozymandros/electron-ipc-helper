@@ -8,6 +8,5 @@ coverage
 .DS_Store
 obj/
 bin/
-nuget/
 packages/
 *.tgz

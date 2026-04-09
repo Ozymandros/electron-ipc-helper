@@ -8,6 +8,5 @@ vitest.config.ts
 
 obj/
 bin/
-nuget/
 packages/
 *.tgz

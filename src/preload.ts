@@ -1,7 +1,7 @@
 /**
  * @module preload
  *
- * Preload-script entry point for electron-ipc-helper.
+ * Preload-script entry point for electron-message-bridge.
  *
  * Import this module **only** from your Electron preload script.
  *
@@ -12,7 +12,7 @@
  * @example
  * ```ts
  * // preload.ts
- * import { exposeApiToRenderer, exposeEventsToRenderer, exposeValues } from 'electron-ipc-helper/preload';
+ * import { exposeApiToRenderer, exposeEventsToRenderer, exposeValues } from 'electron-message-bridge/preload';
  * import { api }    from './api';
  * import { events } from './events';
  *
