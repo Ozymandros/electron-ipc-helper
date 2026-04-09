@@ -122,8 +122,7 @@ export class WindowStatePlugin implements Plugin<WindowStateCapabilities> {
     // Attempt to resolve userData path via electron app module
     try {
       // Dynamic import to avoid hard dependency when running in tests
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const { app } = require('electron') as { app: { getPath(name: string): string } };
+      const { app } = await import('electron') as { app: { getPath(name: string): string } };
       if (!this.stateDir || this.stateDir === process.cwd()) {
         this.stateDir = app.getPath('userData');
       }
