@@ -12,8 +12,8 @@
  * ## Usage
  *
  * ```ts
- * import { PluginHost } from 'electron-ipc-helper/plugins';
- * import { DiagnosticsPlugin } from 'electron-ipc-helper/plugins/diagnostics';
+ * import { PluginHost } from 'electron-message-bridge/plugins';
+ * import { DiagnosticsPlugin } from 'electron-message-bridge/plugins/diagnostics';
  *
  * const diagnostics = new DiagnosticsPlugin({ logIntervalMs: 60_000 });
  * const host = new PluginHost();

@@ -6,7 +6,7 @@
 
 ## Overview
 
-The electron-ipc-helper maturity model describes the progression from experimental feature to long-term stable support. Each module and the framework as a whole moves through these stages:
+The electron-message-bridge maturity model describes the progression from experimental feature to long-term stable support. Each module and the framework as a whole moves through these stages:
 
 ```
 Experimental → Beta → Stable → LTS

@@ -1,4 +1,4 @@
-# Contributing to electron-ipc-helper
+# Contributing to electron-message-bridge
 
 Thank you for contributing! This document explains how to propose changes, set up your development environment, and ensure your work meets our quality standards.
 
@@ -41,8 +41,8 @@ This project follows the [Contributor Covenant](https://www.contributor-covenant
 
 ```bash
 # 1. Clone
-git clone https://github.com/your-org/electron-ipc-helper.git
-cd electron-ipc-helper
+git clone https://github.com/your-org/electron-message-bridge.git
+cd electron-message-bridge
 
 # 2. Install
 pnpm install

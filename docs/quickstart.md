@@ -15,9 +15,9 @@ Get a typed, zero-boilerplate Electron IPC bridge running in under 5 minutes.
 ## Install
 
 ```bash
-npm install electron-ipc-helper
+npm install electron-message-bridge
 # or
-pnpm add electron-ipc-helper
+pnpm add electron-message-bridge
 ```
 
 ---
@@ -28,7 +28,7 @@ Create `src/api.ts` (or anywhere in the main process):
 
 ```ts
 // src/api.ts — main process
-import { defineIpcApi } from 'electron-ipc-helper';
+import { defineIpcApi } from 'electron-message-bridge';
 
 export const api = defineIpcApi({
   getUser:      async (id: string)       => db.getUser(id),
@@ -45,14 +45,14 @@ export const api = defineIpcApi({
 
 ```ts
 // src/preload.ts — preload script
-import { exposeApiToRenderer } from 'electron-ipc-helper/preload';
+import { exposeApiToRenderer } from 'electron-message-bridge/preload';
 import { api } from './api.js';
 
 exposeApiToRenderer(api);
 // → window.api is now available in the renderer
 ```
 
-Import this from `electron-ipc-helper/preload`, not the root. The two entry points are separate to prevent bundler cross-contamination.
+Import this from `electron-message-bridge/preload`, not the root. The two entry points are separate to prevent bundler cross-contamination.
 
 ---
 
@@ -63,7 +63,7 @@ Add type declarations so TypeScript knows what `window.api` looks like:
 ```ts
 // src/renderer.d.ts
 import type { api } from './api.js';
-import type { ExtractRendererApi } from 'electron-ipc-helper';
+import type { ExtractRendererApi } from 'electron-message-bridge';
 
 declare global {
   interface Window {
@@ -114,7 +114,7 @@ Push events let the main process notify the renderer without the renderer pollin
 
 ```ts
 // src/events.ts — main process
-import { defineIpcEvents } from 'electron-ipc-helper';
+import { defineIpcEvents } from 'electron-message-bridge';
 
 export const events = defineIpcEvents({
   // descriptor functions — parameters define the payload type
@@ -129,7 +129,7 @@ events.emit(mainWindow, 'fileChanged', '/home/user/doc.txt');
 Expose to renderer in preload:
 
 ```ts
-import { exposeEventsToRenderer } from 'electron-ipc-helper/preload';
+import { exposeEventsToRenderer } from 'electron-message-bridge/preload';
 import { events } from './events.js';
 
 exposeEventsToRenderer(events);

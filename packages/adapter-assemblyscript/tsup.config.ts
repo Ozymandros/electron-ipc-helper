@@ -11,6 +11,6 @@ export default defineConfig({
   sourcemap: true,
   splitting: false,
   treeshake: true,
-  // electron and electron-ipc-helper are always externals — never bundle them
-  external: ['electron', 'electron-ipc-helper'],
+  // electron and electron-message-bridge are always externals — never bundle them
+  external: ['electron', 'electron-message-bridge'],
 });

@@ -2,8 +2,8 @@ services:
   mock-backend:
     build:
       context: ./docker/mock-backend
-    image: electron-ipc-helper/mock-backend:local
-    container_name: electron-ipc-helper-mock-backend
+    image: electron-message-bridge/mock-backend:local
+    container_name: electron-message-bridge-mock-backend
     environment:
       PORT: 4010
     ports:

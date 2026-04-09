@@ -43,7 +43,7 @@ Current stability assignments are in [`CHARTER.md`](./CHARTER.md).
  * @deprecated Use `newFunction` instead. Will be removed in v2.0.
  */
 export function oldFunction() {
-  console.warn('[electron-ipc-helper] oldFunction is deprecated. Use newFunction instead.');
+  console.warn('[electron-message-bridge] oldFunction is deprecated. Use newFunction instead.');
   return newFunction();
 }
 ```
@@ -73,14 +73,14 @@ The following are **not** breaking changes:
 
 ## Version Support Matrix
 
-### Core Package (`electron-ipc-helper`)
+### Core Package (`electron-message-bridge`)
 
-| electron-ipc-helper | Electron | Node.js | TypeScript | Status |
+| electron-message-bridge | Electron | Node.js | TypeScript | Status |
 |---|---|---|---|---|
 | **0.x** (current) | ≥ 20.0 | ≥ 18 LTS | ≥ 5.0 | Active |
 | **1.x** (planned) | ≥ 28.0 | ≥ 20 LTS | ≥ 5.4 | Planned |
 
-### Adapter: `@electron-ipc-helper/adapter-assemblyscript`
+### Adapter: `@electron-message-bridge/adapter-assemblyscript`
 
 | adapter version | core peer | Node.js | AssemblyScript | AS Loader | Status |
 |---|---|---|---|---|---|
@@ -91,7 +91,7 @@ The following are **not** breaking changes:
 
 Electron follows Chromium's release cadence. We track the **two most recent major Electron versions** with active Chromium support.
 
-| Electron | Chromium | Node.js (bundled) | Tested | electron-ipc-helper 0.x |
+| Electron | Chromium | Node.js (bundled) | Tested | electron-message-bridge 0.x |
 |---|---|---|---|---|
 | 20.x | 104 | 16.15 | No (EOL) | ✗ |
 | 28.x | 120 | 18.18 | ✓ | ✓ |
@@ -106,7 +106,7 @@ Electron follows Chromium's release cadence. We track the **two most recent majo
 
 ### Node.js LTS Coverage
 
-| Node.js | Status | electron-ipc-helper 0.x |
+| Node.js | Status | electron-message-bridge 0.x |
 |---|---|---|
 | 16.x | EOL | ✗ |
 | 18.x | Maintenance LTS | ✓ |
@@ -118,7 +118,7 @@ We test against all Node.js **Active LTS** and **Current** releases in CI. End-o
 
 ### TypeScript Compatibility
 
-| TypeScript | electron-ipc-helper 0.x | Notes |
+| TypeScript | electron-message-bridge 0.x | Notes |
 |---|---|---|
 | < 4.9 | ✗ | Missing `satisfies` operator |
 | 4.9.x | ✗ | Missing `exactOptionalPropertyTypes` correctness |
@@ -136,7 +136,7 @@ The package ships with `"strict": true`, `"exactOptionalPropertyTypes": true`, a
 
 ## Electron Version Support
 
-Electron follows its own LTS calendar. We track the latest **two** Electron major versions. A release of `electron-ipc-helper` specifies the minimum Electron version as a `peerDependency`; consuming projects that pin older Electron versions may still work but are not officially tested.
+Electron follows its own LTS calendar. We track the latest **two** Electron major versions. A release of `electron-message-bridge` specifies the minimum Electron version as a `peerDependency`; consuming projects that pin older Electron versions may still work but are not officially tested.
 
 ---
 

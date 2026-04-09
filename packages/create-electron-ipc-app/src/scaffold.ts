@@ -42,7 +42,7 @@ function templateDir(slug: string): string {
 
 function packageJsonContent(projectName: string, template: TemplateDefinition): string {
   const deps: Record<string, string> = {
-    'electron-ipc-helper': '^0.1.0',
+    'electron-message-bridge': '^0.1.0',
   };
 
   if (template.modules.menus) {
@@ -106,7 +106,7 @@ function tsconfigContent(): string {
 function readmeContent(projectName: string, template: TemplateDefinition): string {
   return `# ${projectName}
 
-Scaffolded with [create-electron-ipc-app](https://github.com/your-org/electron-ipc-helper) using the **${template.label}** template.
+Scaffolded with [create-electron-ipc-app](https://github.com/your-org/electron-message-bridge) using the **${template.label}** template.
 
 ## Getting started
 
@@ -132,7 +132,7 @@ ${template.description}
 
 ## Learn more
 
-- [electron-ipc-helper docs](https://github.com/your-org/electron-ipc-helper/docs)
+- [electron-message-bridge docs](https://github.com/your-org/electron-message-bridge/docs)
 - [Electron docs](https://www.electronjs.org/docs)
 `;
 }
@@ -165,7 +165,7 @@ const MINIMAL_SOURCES: Record<string, string> = {
   'src/api.ts': `/**
  * IPC API definition — runs in the main process.
  */
-import { defineIpcApi } from 'electron-ipc-helper';
+import { defineIpcApi } from 'electron-message-bridge';
 
 export const api = defineIpcApi({
   ping: async () => 'pong',
@@ -176,7 +176,7 @@ export const api = defineIpcApi({
   'src/events.ts': `/**
  * Push events definition — runs in the main process.
  */
-import { defineIpcEvents } from 'electron-ipc-helper';
+import { defineIpcEvents } from 'electron-message-bridge';
 
 export const events = defineIpcEvents({
   // (_message: string) => void   means: push a string message to the renderer
@@ -188,7 +188,7 @@ export const events = defineIpcEvents({
  * Preload script — runs in an isolated context before the renderer.
  * THIS FILE MUST BE COMPILED AND REFERENCED IN BrowserWindow.webPreferences.preload.
  */
-import { exposeApiToRenderer, exposeEventsToRenderer } from 'electron-ipc-helper/preload';
+import { exposeApiToRenderer, exposeEventsToRenderer } from 'electron-message-bridge/preload';
 import { api } from './api.js';
 import { events } from './events.js';
 
@@ -237,7 +237,7 @@ app.on('window-all-closed', () => {
  */
 import type { api } from './api.js';
 import type { events } from './events.js';
-import type { ExtractRendererApi, ExtractRendererEvents } from 'electron-ipc-helper';
+import type { ExtractRendererApi, ExtractRendererEvents } from 'electron-message-bridge';
 
 declare global {
   interface Window {
@@ -254,7 +254,7 @@ const FULL_EXTRA_SOURCES: Record<string, string> = {
   'src/lifecycle.ts': `/**
  * Child process lifecycle example.
  */
-import { ChildProcessLifecycle } from 'electron-ipc-helper/lifecycle';
+import { ChildProcessLifecycle } from 'electron-message-bridge/lifecycle';
 
 export const workerLifecycle = new ChildProcessLifecycle({
   command: 'node',
@@ -275,9 +275,9 @@ workerLifecycle.on('failed',  (err)  => console.error('[worker] failed:', err));
   'src/plugins.ts': `/**
  * Plugin host setup.
  */
-import { PluginHost } from 'electron-ipc-helper/plugins';
-import { DiagnosticsPlugin } from 'electron-ipc-helper/plugins/diagnostics';
-import { WindowStatePlugin } from 'electron-ipc-helper/plugins/window-state';
+import { PluginHost } from 'electron-message-bridge/plugins';
+import { DiagnosticsPlugin } from 'electron-message-bridge/plugins/diagnostics';
+import { WindowStatePlugin } from 'electron-message-bridge/plugins/window-state';
 
 export const diagnostics = new DiagnosticsPlugin({ logIntervalMs: 60_000 });
 
@@ -289,7 +289,7 @@ host.register(windowState);
 `,
 
   'src/menu.yaml': `# Declarative application menu spec
-# See electron-ipc-helper/menus for full options
+# See electron-message-bridge/menus for full options
 
 - label: File
   submenu:

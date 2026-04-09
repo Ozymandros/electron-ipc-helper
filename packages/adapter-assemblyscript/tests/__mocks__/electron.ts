@@ -2,7 +2,7 @@
  * Vitest mock for the 'electron' module.
  *
  * Simulates ipcMain, ipcRenderer, contextBridge, dialog, shell, and Menu with
- * enough fidelity to exercise electron-ipc-helper's logic end-to-end without a
+ * enough fidelity to exercise electron-message-bridge's logic end-to-end without a
  * real Electron runtime.
  *
  * Registered handlers are stored in a shared in-memory map so that

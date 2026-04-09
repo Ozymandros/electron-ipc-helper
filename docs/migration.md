@@ -1,13 +1,13 @@
 # Migration Guide
 
-Step-by-step guides for migrating to electron-ipc-helper from bare Electron IPC or earlier library versions.
+Step-by-step guides for migrating to electron-message-bridge from bare Electron IPC or earlier library versions.
 
 ---
 
 ## Migrating AssemblyScript adapter to standalone package (v0.1.x → v0.2.x)
 
 The AssemblyScript / WASM adapter has been extracted from the core package into
-the standalone package **`@electron-ipc-helper/adapter-assemblyscript`**. This
+the standalone package **`@electron-message-bridge/adapter-assemblyscript`**. This
 keeps the core bundle lean for the majority of users who don't need WASM.
 
 ### Why this change?
@@ -20,13 +20,13 @@ keeps the core bundle lean for the majority of users who don't need WASM.
 
 ```bash
 # npm
-npm install @electron-ipc-helper/adapter-assemblyscript
+npm install @electron-message-bridge/adapter-assemblyscript
 
 # pnpm
-pnpm add @electron-ipc-helper/adapter-assemblyscript
+pnpm add @electron-message-bridge/adapter-assemblyscript
 
 # yarn
-yarn add @electron-ipc-helper/adapter-assemblyscript
+yarn add @electron-message-bridge/adapter-assemblyscript
 ```
 
 ### Step 2 — Update your imports
@@ -37,14 +37,14 @@ import {
   createAssemblyScriptAdapter,
   AssemblyScriptPlugin,
   asc,
-} from 'electron-ipc-helper/adapters/assemblyscript';
+} from 'electron-message-bridge/adapters/assemblyscript';
 
 // ✅ New import path
 import {
   createAssemblyScriptAdapter,
   AssemblyScriptPlugin,
   asc,
-} from '@electron-ipc-helper/adapter-assemblyscript';
+} from '@electron-message-bridge/adapter-assemblyscript';
 ```
 
 No API changes — the function signatures, types, and behaviour are identical.
@@ -52,7 +52,7 @@ No API changes — the function signatures, types, and behaviour are identical.
 ### Compatibility shim
 
 During the transition release (`0.1.x`), the old import path
-`electron-ipc-helper/adapters/assemblyscript` continues to work as a thin
+`electron-message-bridge/adapters/assemblyscript` continues to work as a thin
 re-export shim. It will be **removed in the next major release**.
 
 To silence editor warnings about the deprecated path, switch to the new
@@ -85,11 +85,11 @@ contextBridge.exposeInMainWorld('api', {
 const user = await window.api.getUser('123'); // any
 ```
 
-### After (electron-ipc-helper)
+### After (electron-message-bridge)
 
 ```ts
 // api.ts — main process
-import { defineIpcApi } from 'electron-ipc-helper';
+import { defineIpcApi } from 'electron-message-bridge';
 
 export const api = defineIpcApi({
   getUser:      async (id: string)      => db.getUser(id),
@@ -97,13 +97,13 @@ export const api = defineIpcApi({
 });
 
 // preload.ts
-import { exposeApiToRenderer } from 'electron-ipc-helper/preload';
+import { exposeApiToRenderer } from 'electron-message-bridge/preload';
 import { api } from './api.js';
 exposeApiToRenderer(api);
 
 // renderer.d.ts
 import type { api } from './api.js';
-import type { ExtractRendererApi } from 'electron-ipc-helper';
+import type { ExtractRendererApi } from 'electron-message-bridge';
 declare global {
   interface Window { api: ExtractRendererApi<typeof api>; }
 }
@@ -140,7 +140,7 @@ contextBridge.exposeInMainWorld('events', {
 
 ```ts
 // events.ts — main process
-import { defineIpcEvents } from 'electron-ipc-helper';
+import { defineIpcEvents } from 'electron-message-bridge';
 
 export const events = defineIpcEvents({
   fileChanged: (_path: string) => {},
@@ -150,7 +150,7 @@ export const events = defineIpcEvents({
 events.emit(win, 'fileChanged', '/path/to/file');
 
 // preload.ts
-import { exposeEventsToRenderer } from 'electron-ipc-helper/preload';
+import { exposeEventsToRenderer } from 'electron-message-bridge/preload';
 import { events } from './events.js';
 exposeEventsToRenderer(events);
 
@@ -196,7 +196,7 @@ buildMenuTemplate(items, {
 });
 
 // Preferred
-import { serviceAction } from 'electron-ipc-helper/menus';
+import { serviceAction } from 'electron-message-bridge/menus';
 
 buildMenuTemplate(items, {
   actions: { 'file.open': serviceAction(openDialog) },
@@ -229,9 +229,9 @@ app.on('before-quit', async (e) => {
 ### After
 
 ```ts
-import { PluginHost } from 'electron-ipc-helper/plugins';
-import { WindowStatePlugin } from 'electron-ipc-helper/plugins/window-state';
-import { DiagnosticsPlugin } from 'electron-ipc-helper/plugins/diagnostics';
+import { PluginHost } from 'electron-message-bridge/plugins';
+import { WindowStatePlugin } from 'electron-message-bridge/plugins/window-state';
+import { DiagnosticsPlugin } from 'electron-message-bridge/plugins/diagnostics';
 
 const host = new PluginHost({ logger: console });
 host.register(new WindowStatePlugin({ key: 'main' }));

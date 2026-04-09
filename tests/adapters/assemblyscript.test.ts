@@ -1,8 +1,8 @@
 /**
- * Shim compatibility test for `electron-ipc-helper/adapters/assemblyscript`.
+ * Shim compatibility test for `electron-message-bridge/adapters/assemblyscript`.
  *
  * The AssemblyScript adapter implementation has moved to the standalone
- * package `@electron-ipc-helper/adapter-assemblyscript`. The core package
+ * package `@electron-message-bridge/adapter-assemblyscript`. The core package
  * retains a thin deprecated re-export shim for one transition release.
  *
  * These tests verify that:
@@ -27,7 +27,7 @@ import type { AscSchema } from '../../src/adapters/assemblyscript.js';
 
 // ─── Shim exports surface ─────────────────────────────────────────────────────
 
-describe('shim: electron-ipc-helper/adapters/assemblyscript re-exports', () => {
+describe('shim: electron-message-bridge/adapters/assemblyscript re-exports', () => {
   it('createAssemblyScriptAdapter is a function', () => {
     expect(typeof createAssemblyScriptAdapter).toBe('function');
   });

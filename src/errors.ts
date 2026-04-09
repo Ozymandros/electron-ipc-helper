@@ -1,7 +1,7 @@
 /**
  * @module errors
  *
- * Typed interop error taxonomy for electron-ipc-helper.
+ * Typed interop error taxonomy for electron-message-bridge.
  *
  * Every error thrown by the library carries a stable `code` string so callers
  * can branch on error type without relying on fragile message-string matching.
@@ -22,7 +22,7 @@
  * ## Usage
  *
  * ```ts
- * import { IpcHelperError, BridgeTimeoutError, ERR_BRIDGE_TIMEOUT } from 'electron-ipc-helper';
+ * import { IpcHelperError, BridgeTimeoutError, ERR_BRIDGE_TIMEOUT } from 'electron-message-bridge';
  *
  * try {
  *   await lifecycle.start();
@@ -50,7 +50,7 @@ export const ERR_ADAPTER_MISSING   = 'ERR_ADAPTER_MISSING'   as const;
 export const ERR_TRANSPORT_FAILURE = 'ERR_TRANSPORT_FAILURE' as const;
 
 /**
- * Union of all stable error codes produced by electron-ipc-helper.
+ * Union of all stable error codes produced by electron-message-bridge.
  *
  * Use this type when you need to store or compare error codes in a type-safe way:
  *
@@ -75,7 +75,7 @@ export type IpcHelperErrorCode =
 // ─── Base class ───────────────────────────────────────────────────────────────
 
 /**
- * Base class for all errors thrown by electron-ipc-helper.
+ * Base class for all errors thrown by electron-message-bridge.
  *
  * All subclasses set `name` to their class name and carry a stable `code`
  * string for programmatic branching without fragile message parsing.
@@ -120,7 +120,7 @@ export class InvalidPayloadError extends IpcHelperError {
   constructor(channel: string) {
     super(
       ERR_INVALID_PAYLOAD,
-      `[electron-ipc-helper] Handler for channel "${channel}" must be a function.`,
+      `[electron-message-bridge] Handler for channel "${channel}" must be a function.`,
       { channel },
     );
     this.name = 'InvalidPayloadError';
@@ -142,7 +142,7 @@ export class InvalidBridgePayloadError extends IpcHelperError {
     const where = context ?? '(unknown)';
     super(
       ERR_INVALID_BRIDGE_PAYLOAD,
-      `[electron-ipc-helper] Value at "${where}" is not a valid BridgePayload (must be JSON-serialisable).`,
+      `[electron-message-bridge] Value at "${where}" is not a valid BridgePayload (must be JSON-serialisable).`,
       { context: where },
     );
     this.name = 'InvalidBridgePayloadError';
@@ -168,7 +168,7 @@ export class BridgeTimeoutError extends IpcHelperError {
   constructor(timeoutMs: number) {
     super(
       ERR_BRIDGE_TIMEOUT,
-      `[electron-ipc-helper] Child process readyCheck timed out after ${timeoutMs}ms.`,
+      `[electron-message-bridge] Child process readyCheck timed out after ${timeoutMs}ms.`,
       { timeoutMs },
     );
     this.name = 'BridgeTimeoutError';
@@ -195,7 +195,7 @@ export class MaxRestartsError extends IpcHelperError {
   constructor(maxRestarts: number) {
     super(
       ERR_MAX_RESTARTS,
-      `[electron-ipc-helper] Child process exceeded max restarts (${maxRestarts}).`,
+      `[electron-message-bridge] Child process exceeded max restarts (${maxRestarts}).`,
       { maxRestarts },
     );
     this.name = 'MaxRestartsError';
@@ -223,7 +223,7 @@ export class PluginConflictError extends IpcHelperError {
   constructor(capability: string, existing: string, incoming: string) {
     super(
       ERR_PLUGIN_CONFLICT,
-      `[electron-ipc-helper] Plugin "${incoming}" declares capability "${capability}" ` +
+      `[electron-message-bridge] Plugin "${incoming}" declares capability "${capability}" ` +
       `which is already registered by plugin "${existing}". ` +
       `Remove one of the conflicting plugins.`,
       { capability, existing, incoming },
@@ -251,7 +251,7 @@ export class ExportMissingError extends IpcHelperError {
   constructor(exportName: string) {
     super(
       ERR_EXPORT_MISSING,
-      `[electron-ipc-helper] Export "${exportName}" not found in WebAssembly instance.`,
+      `[electron-message-bridge] Export "${exportName}" not found in WebAssembly instance.`,
       { exportName },
     );
     this.name = 'ExportMissingError';
@@ -276,7 +276,7 @@ export class RuntimeMissingError extends IpcHelperError {
   constructor(missingExports: string[]) {
     super(
       ERR_RUNTIME_MISSING,
-      `[electron-ipc-helper] AssemblyScript runtime exports (${missingExports.join(', ')}) ` +
+      `[electron-message-bridge] AssemblyScript runtime exports (${missingExports.join(', ')}) ` +
       `not found. Compile your module with --exportRuntime.`,
       { missingExports },
     );
@@ -291,7 +291,7 @@ export class RuntimeMissingError extends IpcHelperError {
  * @example
  * ```ts
  * // Trying to use AssemblyScript adapter without installing the package
- * // → AdapterMissingError: Adapter "@electron-ipc-helper/adapter-assemblyscript" is not available.
+ * // → AdapterMissingError: Adapter "@electron-message-bridge/adapter-assemblyscript" is not available.
  * ```
  */
 export class AdapterMissingError extends IpcHelperError {
@@ -301,7 +301,7 @@ export class AdapterMissingError extends IpcHelperError {
   constructor(adapterName: string) {
     super(
       ERR_ADAPTER_MISSING,
-      `[electron-ipc-helper] Adapter "${adapterName}" is not available. ` +
+      `[electron-message-bridge] Adapter "${adapterName}" is not available. ` +
       `Install it with: npm install ${adapterName}`,
       { adapterName },
     );
@@ -329,7 +329,7 @@ export class TransportError extends IpcHelperError {
   constructor(message: string, context: Record<string, unknown> = {}) {
     super(
       ERR_TRANSPORT_FAILURE,
-      `[electron-ipc-helper] Transport failure: ${message}`,
+      `[electron-message-bridge] Transport failure: ${message}`,
       context,
     );
     this.name = 'TransportError';

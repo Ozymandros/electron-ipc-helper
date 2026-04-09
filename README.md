@@ -1,9 +1,9 @@
-# electron-ipc-helper
+# electron-message-bridge
 
-[![CI](https://github.com/your-org/electron-ipc-helper/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/electron-ipc-helper/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/your-org/electron-ipc-helper/actions/workflows/codeql.yml/badge.svg)](https://github.com/your-org/electron-ipc-helper/actions/workflows/codeql.yml)
-[![npm](https://img.shields.io/npm/v/electron-ipc-helper)](https://www.npmjs.com/package/electron-ipc-helper)
-[![license](https://img.shields.io/npm/l/electron-ipc-helper)](LICENSE)
+[![CI](https://github.com/your-org/electron-message-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/electron-message-bridge/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/your-org/electron-message-bridge/actions/workflows/codeql.yml/badge.svg)](https://github.com/your-org/electron-message-bridge/actions/workflows/codeql.yml)
+[![npm](https://img.shields.io/npm/v/electron-message-bridge)](https://www.npmjs.com/package/electron-message-bridge)
+[![license](https://img.shields.io/npm/l/electron-message-bridge)](LICENSE)
 
 ---
 
@@ -73,7 +73,7 @@ For optional adapters (for example AssemblyScript), install the adapter package 
 ## Installation
 
 ```bash
-pnpm add electron-ipc-helper
+pnpm add electron-message-bridge
 ```
 
 `electron` must be installed separately as a peer dependency.
@@ -112,7 +112,7 @@ pnpm run test:integration
 
 ```ts
 // src-electron/api.ts
-import { defineIpcApi } from 'electron-ipc-helper';
+import { defineIpcApi } from 'electron-message-bridge';
 import { db } from './db';
 
 export const api = defineIpcApi({
@@ -126,7 +126,7 @@ export const api = defineIpcApi({
 
 ```ts
 // src-electron/events.ts
-import { defineIpcEvents } from 'electron-ipc-helper';
+import { defineIpcEvents } from 'electron-message-bridge';
 
 export const events = defineIpcEvents({
   backendReady:   (_code: number)                            => {},
@@ -139,7 +139,7 @@ export const events = defineIpcEvents({
 
 ```ts
 // preload.ts
-import { exposeApiToRenderer, exposeEventsToRenderer, exposeValues } from 'electron-ipc-helper/preload';
+import { exposeApiToRenderer, exposeEventsToRenderer, exposeValues } from 'electron-message-bridge/preload';
 import { api }    from './api';
 import { events } from './events';
 
@@ -162,7 +162,7 @@ import type { events } from '../src-electron/events';
 import type {
   ExtractRendererApi,
   ExtractRendererEvents,
-} from 'electron-ipc-helper';
+} from 'electron-message-bridge';
 
 declare global {
   interface Window {
@@ -197,7 +197,7 @@ unsub();
 Registers each key of `handlers` as an `ipcMain.handle` channel.
 
 ```ts
-import { defineIpcApi } from 'electron-ipc-helper';
+import { defineIpcApi } from 'electron-message-bridge';
 
 const api = defineIpcApi({
   myMethod: async (arg: string) => `hello ${arg}`,
@@ -237,7 +237,7 @@ if (import.meta.hot) {
 Declares a set of typed push events. Schema values are **descriptor functions** — they are never called; they exist only so TypeScript can infer parameter types.
 
 ```ts
-import { defineIpcEvents } from 'electron-ipc-helper';
+import { defineIpcEvents } from 'electron-message-bridge';
 
 const events = defineIpcEvents({
   backendReady:   (_code: number)   => {},
@@ -354,7 +354,7 @@ import {
   applyApplicationMenuFromFile,
   buildMenuTemplate,
   loadMenuSpecFromFile,
-} from 'electron-ipc-helper/menus';
+} from 'electron-message-bridge/menus';
 
 const spec = await loadMenuSpecFromFile('config/menu.yaml');
 
@@ -388,12 +388,12 @@ await applyApplicationMenuFromFile('config/menu.yaml', {
 
 ## AppKit (Optional Glue Layer)
 
-Use `electron-ipc-helper/appkit` when you want one setup flow that composes
+Use `electron-message-bridge/appkit` when you want one setup flow that composes
 core IPC, optional integrations, and optional menus.
 
 ```ts
 // main.ts
-import { setupMainAppKit } from 'electron-ipc-helper/appkit';
+import { setupMainAppKit } from 'electron-message-bridge/appkit';
 
 const appkit = await setupMainAppKit({
   apiHandlers: {
@@ -420,7 +420,7 @@ appkit.dispose();
 
 ```ts
 // preload.ts
-import { setupPreloadAppKit } from 'electron-ipc-helper/appkit';
+import { setupPreloadAppKit } from 'electron-message-bridge/appkit';
 
 setupPreloadAppKit({
   api: appkit.api,
@@ -435,11 +435,11 @@ setupPreloadAppKit({
 
 ## Child Process Lifecycle
 
-Use `electron-ipc-helper/lifecycle` to supervise a backend process from the
+Use `electron-message-bridge/lifecycle` to supervise a backend process from the
 main process with optional readiness checks and bounded auto-restarts.
 
 ```ts
-import { ChildProcessLifecycle } from 'electron-ipc-helper/lifecycle';
+import { ChildProcessLifecycle } from 'electron-message-bridge/lifecycle';
 
 const lifecycle = new ChildProcessLifecycle({
   command: 'dotnet',
@@ -551,5 +551,5 @@ pnpm run build
 ## Note on impact
 
 In a typical setup with 3 request/response IPC methods and 3 push events,
-`electron-ipc-helper` usually removes around 35 lines of IPC boilerplate
+`electron-message-bridge` usually removes around 35 lines of IPC boilerplate
 and reduces IPC maintenance surface by roughly 70%.

@@ -1,6 +1,6 @@
-# @electron-ipc-helper/adapter-assemblyscript
+# @electron-message-bridge/adapter-assemblyscript
 
-Optional AssemblyScript / WebAssembly adapter for [`electron-ipc-helper`](https://github.com/your-org/electron-ipc-helper).
+Optional AssemblyScript / WebAssembly adapter for [`electron-message-bridge`](https://github.com/your-org/electron-message-bridge).
 
 Bridges AssemblyScript WASM module exports into typed IPC handlers that slot directly into the existing `defineIpcApi` / `exposeApiToRenderer` pipeline — with **zero mandatory runtime dependencies**.
 
@@ -8,7 +8,7 @@ Bridges AssemblyScript WASM module exports into typed IPC handlers that slot dir
 
 ## Why a separate package?
 
-The core `electron-ipc-helper` is intentionally lean. AssemblyScript support is an advanced, optional use-case; keeping it separate:
+The core `electron-message-bridge` is intentionally lean. AssemblyScript support is an advanced, optional use-case; keeping it separate:
 
 - Keeps the core bundle small for users who don't need WASM.
 - Allows the adapter to evolve independently.
@@ -19,9 +19,9 @@ The core `electron-ipc-helper` is intentionally lean. AssemblyScript support is 
 ## Installation
 
 ```bash
-npm install @electron-ipc-helper/adapter-assemblyscript
+npm install @electron-message-bridge/adapter-assemblyscript
 # peer deps (if not already installed)
-npm install electron-ipc-helper electron
+npm install electron-message-bridge electron
 ```
 
 ---
@@ -30,9 +30,9 @@ npm install electron-ipc-helper electron
 
 ```ts
 // main.ts
-import { createAssemblyScriptAdapter, asc } from '@electron-ipc-helper/adapter-assemblyscript';
-import { defineIpcApi } from 'electron-ipc-helper';
-import { exposeApiToRenderer } from 'electron-ipc-helper/preload';
+import { createAssemblyScriptAdapter, asc } from '@electron-message-bridge/adapter-assemblyscript';
+import { defineIpcApi } from 'electron-message-bridge';
+import { exposeApiToRenderer } from 'electron-message-bridge/preload';
 
 // 1. Define the schema (mirrors your AssemblyScript exports)
 const schema = {
@@ -88,8 +88,8 @@ interface AssemblyScriptAdapter<S> {
 Lifecycle-managed plugin for use with `PluginHost`:
 
 ```ts
-import { PluginHost } from 'electron-ipc-helper/plugins';
-import { AssemblyScriptPlugin } from '@electron-ipc-helper/adapter-assemblyscript';
+import { PluginHost } from 'electron-message-bridge/plugins';
+import { AssemblyScriptPlugin } from '@electron-message-bridge/adapter-assemblyscript';
 
 const host = new PluginHost();
 host.register(new AssemblyScriptPlugin({
@@ -114,7 +114,7 @@ Compatibility shim for [`@assemblyscript/loader`](https://www.assemblyscript.org
 
 ```ts
 import { instantiate } from '@assemblyscript/loader';
-import { wrapLoaderInstance, createAssemblyScriptAdapter } from '@electron-ipc-helper/adapter-assemblyscript';
+import { wrapLoaderInstance, createAssemblyScriptAdapter } from '@electron-message-bridge/adapter-assemblyscript';
 
 const { exports } = await instantiate(fs.readFileSync('./math.wasm'));
 const adapter = await createAssemblyScriptAdapter(
@@ -141,16 +141,16 @@ const adapter = await createAssemblyScriptAdapter(
 
 ## Migrating from the old import path
 
-In `electron-ipc-helper@0.1.x` a compatibility shim re-exports this package from `electron-ipc-helper/adapters/assemblyscript`. That shim is **deprecated** and will be removed in the next major release.
+In `electron-message-bridge@0.1.x` a compatibility shim re-exports this package from `electron-message-bridge/adapters/assemblyscript`. That shim is **deprecated** and will be removed in the next major release.
 
 **Update your imports:**
 
 ```ts
 // ❌ Old (deprecated)
-import { createAssemblyScriptAdapter } from 'electron-ipc-helper/adapters/assemblyscript';
+import { createAssemblyScriptAdapter } from 'electron-message-bridge/adapters/assemblyscript';
 
 // ✅ New
-import { createAssemblyScriptAdapter } from '@electron-ipc-helper/adapter-assemblyscript';
+import { createAssemblyScriptAdapter } from '@electron-message-bridge/adapter-assemblyscript';
 ```
 
 ---

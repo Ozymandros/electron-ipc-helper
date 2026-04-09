@@ -1,4 +1,4 @@
-# electron-ipc-helper Framework Charter
+# electron-message-bridge Framework Charter
 
 **Version:** 1.0  
 **Status:** Active  
@@ -8,7 +8,7 @@
 
 ## 1. Mission
 
-`electron-ipc-helper` exists to eliminate the repetitive, error-prone boilerplate of Electron's IPC system. It provides a **typed, zero-boilerplate, safe-by-default** bridge between the main process, preload scripts, and renderer processes — and grows into a framework-grade platform for building production Electron applications.
+`electron-message-bridge` exists to eliminate the repetitive, error-prone boilerplate of Electron's IPC system. It provides a **typed, zero-boilerplate, safe-by-default** bridge between the main process, preload scripts, and renderer processes — and grows into a framework-grade platform for building production Electron applications.
 
 ---
 

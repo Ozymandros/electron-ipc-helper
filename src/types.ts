@@ -1,7 +1,7 @@
 /**
  * @module types
  *
- * Core type definitions for electron-ipc-helper.
+ * Core type definitions for electron-message-bridge.
  * All types are designed for strict end-to-end inference with no `any` leakage
  * at the call site.
  */
@@ -252,7 +252,7 @@ export type ActionRegistry = Record<string, ActionDescriptor>;
  * ```ts
  * // renderer.d.ts
  * import type { api } from '../src-electron/api';
- * import type { ExtractRendererApi } from 'electron-ipc-helper';
+ * import type { ExtractRendererApi } from 'electron-message-bridge';
  *
  * declare global {
  *   interface Window {
@@ -274,7 +274,7 @@ export type ExtractRendererApi<T> = T extends IpcApi<infer H>
  * ```ts
  * // renderer.d.ts
  * import type { events } from '../src-electron/events';
- * import type { ExtractRendererEvents } from 'electron-ipc-helper';
+ * import type { ExtractRendererEvents } from 'electron-message-bridge';
  *
  * declare global {
  *   interface Window {
