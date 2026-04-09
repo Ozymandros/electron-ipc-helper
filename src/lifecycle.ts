@@ -5,6 +5,7 @@
  */
 
 import { spawn, type ChildProcess, type SpawnOptions } from 'node:child_process';
+import { BridgeTimeoutError, MaxRestartsError } from './errors.js';
 
 export interface ProcessExitInfo {
   code: number | null;
@@ -43,10 +44,6 @@ const DEFAULT_MAX_RESTARTS = 5;
 const DEFAULT_RAPID_WINDOW_MS = 10_000;
 const DEFAULT_FORCE_KILL_AFTER_MS = 1_000;
 
-function createTimeoutError(timeoutMs: number): Error {
-  return new Error(`[electron-ipc-helper] Child process readyCheck timed out after ${timeoutMs}ms.`);
-}
-
 async function runWithTimeout(task: () => Promise<void>, timeoutMs: number): Promise<void> {
   if (timeoutMs <= 0) {
     await task();
@@ -54,7 +51,7 @@ async function runWithTimeout(task: () => Promise<void>, timeoutMs: number): Pro
   }
 
   await new Promise<void>((resolve, reject) => {
-    const timer = setTimeout(() => reject(createTimeoutError(timeoutMs)), timeoutMs);
+    const timer = setTimeout(() => reject(new BridgeTimeoutError(timeoutMs)), timeoutMs);
 
     task()
       .then(() => {
@@ -247,9 +244,7 @@ export class ChildProcessLifecycle {
 
     const maxRestarts = this.options.maxRestarts ?? DEFAULT_MAX_RESTARTS;
     if (this.restartCount > maxRestarts) {
-      const reason = new Error(
-        `[electron-ipc-helper] Child process exceeded max restarts (${maxRestarts}).`,
-      );
+      const reason = new MaxRestartsError(maxRestarts);
       this.options.logger?.error?.(reason.message);
       this.emit('failed', reason);
       return;

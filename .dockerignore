@@ -1,0 +1,13 @@
+node_modules
+dist
+coverage
+.git
+.gitignore
+.pnpm-store
+*.log
+.DS_Store
+obj/
+bin/
+nuget/
+packages/
+*.tgz

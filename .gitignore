@@ -1,5 +1,11 @@
 node_modules/
 dist/
 coverage/
+artifacts/
 *.log
 .DS_Store
+obj/
+bin/
+packages/
+*.tgz
+.pnpm-store

@@ -47,6 +47,41 @@
       "types": "./dist/lifecycle.d.ts",
       "import": "./dist/lifecycle.mjs",
       "require": "./dist/lifecycle.cjs"
+    },
+    "./plugins": {
+      "types": "./dist/plugins.d.ts",
+      "import": "./dist/plugins.mjs",
+      "require": "./dist/plugins.cjs"
+    },
+    "./plugins/window-state": {
+      "types": "./dist/plugins/window-state.d.ts",
+      "import": "./dist/plugins/window-state.mjs",
+      "require": "./dist/plugins/window-state.cjs"
+    },
+    "./plugins/diagnostics": {
+      "types": "./dist/plugins/diagnostics.d.ts",
+      "import": "./dist/plugins/diagnostics.mjs",
+      "require": "./dist/plugins/diagnostics.cjs"
+    },
+    "./plugins/updater": {
+      "types": "./dist/plugins/updater.d.ts",
+      "import": "./dist/plugins/updater.mjs",
+      "require": "./dist/plugins/updater.cjs"
+    },
+    "./boundary": {
+      "types": "./dist/boundary.d.ts",
+      "import": "./dist/boundary.mjs",
+      "require": "./dist/boundary.cjs"
+    },
+    "./adapters/loader": {
+      "types": "./dist/adapters/loader.d.ts",
+      "import": "./dist/adapters/loader.mjs",
+      "require": "./dist/adapters/loader.cjs"
+    },
+    "./adapters/assemblyscript": {
+      "types": "./dist/adapters/assemblyscript.d.ts",
+      "import": "./dist/adapters/assemblyscript.mjs",
+      "require": "./dist/adapters/assemblyscript.cjs"
     }
   },
   "main": "./dist/index.cjs",
@@ -55,16 +90,24 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "docker:mock:build": "docker build -t electron-ipc-helper/mock-backend:local docker/mock-backend",
+    "docker:mock:up": "docker compose -f docker-compose.integration.yml up -d --build",
+    "docker:mock:down": "docker compose -f docker-compose.integration.yml down -v",
+    "docker:mock:logs": "docker compose -f docker-compose.integration.yml logs -f mock-backend",
     "lint": "eslint src/ tests/",
     "check": "eslint src/ tests/ && tsc --noEmit -p tsconfig.typecheck.json && vitest --typecheck run",
     "test": "vitest run",
+    "test:integration": "vitest run tests/integration/mock-backend.integration.test.ts",
+    "test:integration:docker": "pnpm run docker:mock:up && pnpm run test:integration",
     "check:all": "pnpm run check && pnpm run test:types && pnpm run test",
     "check:all:coverage": "pnpm run check && pnpm run test:types && pnpm run test:coverage",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "test:types": "vitest --typecheck run",
     "typecheck": "tsc --noEmit -p tsconfig.typecheck.json",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "pack:all": "pnpm run build && pnpm --dir packages/adapter-assemblyscript run build && pnpm pack && pnpm --dir packages/adapter-assemblyscript pack --pack-destination ../..",
+    "pack:nupkg": "pnpm run build && pnpm --dir packages/adapter-assemblyscript run build && node scripts/nuget-pack.mjs"
   },
   "peerDependencies": {
     "electron": ">=20.0.0"

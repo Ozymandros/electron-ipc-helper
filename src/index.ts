@@ -20,6 +20,60 @@ export {
 } from './main.js';
 
 export {
+  IpcHelperError,
+  InvalidPayloadError,
+  InvalidBridgePayloadError,
+  BridgeTimeoutError,
+  MaxRestartsError,
+  PluginConflictError,
+  ExportMissingError,
+  RuntimeMissingError,
+  AdapterMissingError,
+  TransportError,
+  ERR_INVALID_PAYLOAD,
+  ERR_INVALID_BRIDGE_PAYLOAD,
+  ERR_BRIDGE_TIMEOUT,
+  ERR_MAX_RESTARTS,
+  ERR_PLUGIN_CONFLICT,
+  ERR_EXPORT_MISSING,
+  ERR_RUNTIME_MISSING,
+  ERR_ADAPTER_MISSING,
+  ERR_TRANSPORT_FAILURE,
+} from './errors.js';
+
+export type { IpcHelperErrorCode } from './errors.js';
+
+export {
+  negotiate,
+  isNegotiablePlugin,
+  PROTOCOL_VERSION,
+} from './negotiation.js';
+
+export type {
+  AdapterManifest,
+  CapabilityRequirements,
+  NegotiationResult,
+  NegotiablePlugin,
+} from './negotiation.js';
+
+export {
+  isBridgePayload,
+  assertBridgePayload,
+  withValidation,
+  withOutputValidation,
+  withBoundary,
+} from './boundary.js';
+
+export type {
+  JsonPrimitive,
+  JsonArray,
+  JsonObject,
+  JsonValue,
+  BridgePayload,
+  BridgeSchema,
+} from './boundary.js';
+
+export {
   ChildProcessLifecycle,
 } from './lifecycle.js';
 
