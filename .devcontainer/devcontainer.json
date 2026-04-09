@@ -18,8 +18,7 @@
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
         "vitest.explorer",
-        "ms-vscode.vscode-typescript-next",
-        "ms-vscode"
+        "ms-vscode.vscode-typescript-next"
       ]
     }
   },
