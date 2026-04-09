@@ -146,8 +146,8 @@ jobs:
             dist/plugins/window-state.mjs dist/plugins/window-state.cjs dist/plugins/window-state.d.ts \
             dist/plugins/diagnostics.mjs dist/plugins/diagnostics.cjs dist/plugins/diagnostics.d.ts \
             dist/plugins/updater.mjs dist/plugins/updater.cjs dist/plugins/updater.d.ts \
-            dist/adapters/node.mjs dist/adapters/node.cjs dist/adapters/node.d.ts \
-            dist/adapters/electron.mjs dist/adapters/electron.cjs dist/adapters/electron.d.ts; do
+            dist/adapters/loader.mjs dist/adapters/loader.cjs dist/adapters/loader.d.ts \
+            dist/adapters/assemblyscript.mjs dist/adapters/assemblyscript.cjs dist/adapters/assemblyscript.d.ts; do
             if [ ! -f "$f" ]; then
               echo "::error::Missing dist artefact: $f"
               MISSING=1
