@@ -291,7 +291,7 @@ describe('createAssemblyScriptAdapter: missing export', () => {
     }, { warnOnMissingRuntime: false, logger: silentLogger() });
 
     await expect(adapter.handlers.missing(1)).rejects.toThrow(
-      /WASM export "missing" is not a function/,
+      /Export "missing" not found in WebAssembly instance/,
     );
   });
 });

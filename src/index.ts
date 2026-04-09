@@ -20,6 +20,28 @@ export {
 } from './main.js';
 
 export {
+  IpcHelperError,
+  InvalidPayloadError,
+  BridgeTimeoutError,
+  MaxRestartsError,
+  PluginConflictError,
+  ExportMissingError,
+  RuntimeMissingError,
+  AdapterMissingError,
+  TransportError,
+  ERR_INVALID_PAYLOAD,
+  ERR_BRIDGE_TIMEOUT,
+  ERR_MAX_RESTARTS,
+  ERR_PLUGIN_CONFLICT,
+  ERR_EXPORT_MISSING,
+  ERR_RUNTIME_MISSING,
+  ERR_ADAPTER_MISSING,
+  ERR_TRANSPORT_FAILURE,
+} from './errors.js';
+
+export type { IpcHelperErrorCode } from './errors.js';
+
+export {
   ChildProcessLifecycle,
 } from './lifecycle.js';
 

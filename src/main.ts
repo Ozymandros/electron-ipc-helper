@@ -21,6 +21,7 @@
  */
 
 import { ipcMain } from 'electron';
+import { InvalidPayloadError } from './errors.js';
 import type { ApiHandlers, EventsSchema, IpcApi, IpcEvents, WindowTarget } from './types';
 
 // ─── defineIpcApi ─────────────────────────────────────────────────────────────
@@ -61,9 +62,7 @@ export function defineIpcApi<T extends ApiHandlers>(handlers: T): IpcApi<T> {
     const handler = handlers[channel];
 
     if (typeof handler !== 'function') {
-      throw new TypeError(
-        `[electron-ipc-helper] Handler for channel "${channel}" must be a function.`,
-      );
+      throw new InvalidPayloadError(channel);
     }
 
     ipcMain.handle(channel, (_event, ...args: unknown[]) => handler(...args));

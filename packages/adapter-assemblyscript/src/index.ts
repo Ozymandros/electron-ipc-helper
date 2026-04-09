@@ -71,6 +71,7 @@
 
 import { readFile } from 'node:fs/promises';
 import type { ApiHandlers } from 'electron-ipc-helper';
+import { ExportMissingError } from 'electron-ipc-helper';
 
 // ─── Value type descriptors ───────────────────────────────────────────────────
 
@@ -409,10 +410,7 @@ function buildHandlers<S extends AscSchema>(
         `Calls to this handler will throw at runtime.`,
       );
       handlers[name] = async () => {
-        throw new Error(
-          `[@electron-ipc-helper/adapter-assemblyscript] WASM export "${name}" is not a function. ` +
-          `Check your AssemblyScript module exports.`,
-        );
+        throw new ExportMissingError(name);
       };
       continue;
     }

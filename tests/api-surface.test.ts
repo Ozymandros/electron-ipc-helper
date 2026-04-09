@@ -153,6 +153,52 @@ describe('src/adapters/assemblyscript — optional AssemblyScript WASM adapter',
   });
 });
 
+// ─── src/index — error taxonomy exports ──────────────────────────────────────
+
+describe('src/index — error taxonomy exports', () => {
+  const ERROR_CLASSES = [
+    'IpcHelperError',
+    'InvalidPayloadError',
+    'BridgeTimeoutError',
+    'MaxRestartsError',
+    'PluginConflictError',
+    'ExportMissingError',
+    'RuntimeMissingError',
+    'AdapterMissingError',
+    'TransportError',
+  ] as const;
+
+  const ERROR_CODES = [
+    'ERR_INVALID_PAYLOAD',
+    'ERR_BRIDGE_TIMEOUT',
+    'ERR_MAX_RESTARTS',
+    'ERR_PLUGIN_CONFLICT',
+    'ERR_EXPORT_MISSING',
+    'ERR_RUNTIME_MISSING',
+    'ERR_ADAPTER_MISSING',
+    'ERR_TRANSPORT_FAILURE',
+  ] as const;
+
+  it('exports all error classes as functions', () => {
+    for (const name of ERROR_CLASSES) {
+      expect(typeof (mainIndex as Record<string, unknown>)[name], `${name} should be a function`).toBe('function');
+    }
+  });
+
+  it('exports all error code constants as strings', () => {
+    for (const code of ERROR_CODES) {
+      expect(typeof (mainIndex as Record<string, unknown>)[code], `${code} should be a string`).toBe('string');
+      expect((mainIndex as Record<string, unknown>)[code]).toBe(code);
+    }
+  });
+
+  it('error code constants match their literal values', () => {
+    expect(mainIndex.ERR_INVALID_PAYLOAD).toBe('ERR_INVALID_PAYLOAD');
+    expect(mainIndex.ERR_BRIDGE_TIMEOUT).toBe('ERR_BRIDGE_TIMEOUT');
+    expect(mainIndex.ERR_EXPORT_MISSING).toBe('ERR_EXPORT_MISSING');
+  });
+});
+
 // ─── src/lifecycle ────────────────────────────────────────────────────────────
 
 describe('src/lifecycle — child process lifecycle helpers', () => {

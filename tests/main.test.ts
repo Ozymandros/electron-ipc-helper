@@ -127,13 +127,14 @@ describe('defineIpcApi — error propagation', () => {
 // ─── defineIpcApi — guard rails ──────────────────────────────────────────────
 
 describe('defineIpcApi — guard rails', () => {
-  it('throws a TypeError if a handler value is not a function', () => {
+  it('throws an InvalidPayloadError if a handler value is not a function', async () => {
+    const { InvalidPayloadError } = await import('../src/errors.js');
     expect(() => {
       defineIpcApi({
         // @ts-expect-error intentional bad input
         badHandler: 'not-a-function',
       });
-    }).toThrow(TypeError);
+    }).toThrow(InvalidPayloadError);
   });
 });
 

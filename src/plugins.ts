@@ -52,6 +52,9 @@
  * ```
  */
 
+import { PluginConflictError } from './errors.js';
+export { PluginConflictError } from './errors.js';
+
 // ─── Public interfaces ────────────────────────────────────────────────────────
 
 /**
@@ -131,24 +134,6 @@ export interface PluginHostOptions {
 
 /** The four lifecycle hook names. */
 export type PluginHook = 'init' | 'start' | 'stop' | 'dispose';
-
-/**
- * Error thrown when two plugins declare the same capability key.
- */
-export class PluginConflictError extends Error {
-  constructor(
-    public readonly capability: string,
-    public readonly existing: string,
-    public readonly incoming: string,
-  ) {
-    super(
-      `[electron-ipc-helper] Plugin "${incoming}" declares capability "${capability}" ` +
-      `which is already registered by plugin "${existing}". ` +
-      `Remove one of the conflicting plugins.`,
-    );
-    this.name = 'PluginConflictError';
-  }
-}
 
 // ─── PluginHost ───────────────────────────────────────────────────────────────
 

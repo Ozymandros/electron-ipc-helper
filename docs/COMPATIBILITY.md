@@ -71,14 +71,72 @@ The following are **not** breaking changes:
 
 ---
 
+## Version Support Matrix
+
+### Core Package (`electron-ipc-helper`)
+
+| electron-ipc-helper | Electron | Node.js | TypeScript | Status |
+|---|---|---|---|---|
+| **0.x** (current) | ≥ 20.0 | ≥ 18 LTS | ≥ 5.0 | Active |
+| **1.x** (planned) | ≥ 28.0 | ≥ 20 LTS | ≥ 5.4 | Planned |
+
+### Adapter: `@electron-ipc-helper/adapter-assemblyscript`
+
+| adapter version | core peer | Node.js | AssemblyScript | AS Loader | Status |
+|---|---|---|---|---|---|
+| **0.1.x** (current) | `^0.1.0` | ≥ 18 | ≥ 0.27 | ≥ 0.10 (optional) | Active |
+| **0.2.x** (planned) | `^0.2.0` | ≥ 18 | ≥ 0.27 | ≥ 0.10 (optional) | Planned |
+
+### Electron LTS Coverage
+
+Electron follows Chromium's release cadence. We track the **two most recent major Electron versions** with active Chromium support.
+
+| Electron | Chromium | Node.js (bundled) | Tested | electron-ipc-helper 0.x |
+|---|---|---|---|---|
+| 20.x | 104 | 16.15 | No (EOL) | ✗ |
+| 28.x | 120 | 18.18 | ✓ | ✓ |
+| 29.x | 122 | 20.9 | ✓ | ✓ |
+| 30.x | 124 | 20.14 | ✓ | ✓ |
+| 31.x | 126 | 20.15 | ✓ | ✓ |
+| 32.x | 128 | 20.16 | ✓ | ✓ |
+| 33.x | 130 | 20.18 | ✓ | ✓ |
+| 34.x | 132 | 22.12 | ✓ | ✓ |
+
+> **Note:** Electron versions older than 20 used APIs (`contextBridge`, `ipcMain.handle`) that predate the stable patterns this library relies on. They are not supported.
+
+### Node.js LTS Coverage
+
+| Node.js | Status | electron-ipc-helper 0.x |
+|---|---|---|
+| 16.x | EOL | ✗ |
+| 18.x | Maintenance LTS | ✓ |
+| 20.x | Active LTS | ✓ |
+| 22.x | Active LTS | ✓ |
+| 23.x | Current | ✓ |
+
+We test against all Node.js **Active LTS** and **Current** releases in CI. End-of-life Node.js versions are not supported.
+
+### TypeScript Compatibility
+
+| TypeScript | electron-ipc-helper 0.x | Notes |
+|---|---|---|
+| < 4.9 | ✗ | Missing `satisfies` operator |
+| 4.9.x | ✗ | Missing `exactOptionalPropertyTypes` correctness |
+| 5.0.x | ✓ | Minimum supported version |
+| 5.1.x | ✓ | |
+| 5.2.x | ✓ | |
+| 5.3.x | ✓ | |
+| 5.4.x | ✓ | |
+| 5.5.x | ✓ | |
+| Latest stable | ✓ | Always tested in CI |
+
+The package ships with `"strict": true`, `"exactOptionalPropertyTypes": true`, and `"noUncheckedIndexedAccess": true` in its own build. Consumers with less strict configs are supported — our type exports are valid under all standard strict settings.
+
+---
+
 ## Electron Version Support
 
-| electron-ipc-helper | Electron peer | Node.js minimum |
-|---|---|---|
-| 0.x | ≥ 20.0.0 | 18 |
-| 1.x (planned) | ≥ 28.0.0 | 20 |
-
-Electron follows its own LTS calendar. We track the latest **two** Electron major versions.
+Electron follows its own LTS calendar. We track the latest **two** Electron major versions. A release of `electron-ipc-helper` specifies the minimum Electron version as a `peerDependency`; consuming projects that pin older Electron versions may still work but are not officially tested.
 
 ---
 
@@ -86,7 +144,7 @@ Electron follows its own LTS calendar. We track the latest **two** Electron majo
 
 Minimum TypeScript version: **5.0**.
 
-We do not guarantee compatibility with TypeScript versions older than 5.0. We test against the latest stable TypeScript release.
+We do not guarantee compatibility with TypeScript versions older than 5.0. We test against the latest stable TypeScript release and all minor versions in the 5.x series.
 
 ---
 
@@ -94,4 +152,4 @@ We do not guarantee compatibility with TypeScript versions older than 5.0. We te
 
 Minimum Node.js version: **18 (LTS)**.
 
-We test against all Node.js **Active LTS** and **Current** releases.
+We test against all Node.js **Active LTS** and **Current** releases in CI.
