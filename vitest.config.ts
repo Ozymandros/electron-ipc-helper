@@ -3,6 +3,14 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     environment: 'node',
+    setupFiles: ['./tests/vitest-ssr-shim.ts'],
+    // Inline local workspace packages to avoid problematic CJS->ESM SSR helper
+    // wrappers in the test runtime.
+    server: {
+      deps: {
+        inline: ['electron-ipc-helper', '@electron-ipc-helper/adapter-assemblyscript'],
+      },
+    },
     // Maps bare 'electron' imports to our mock during tests.
     // Also maps the adapter package and peer dep references to their workspace
     // sources so both core shim tests and adapter package tests resolve correctly.
