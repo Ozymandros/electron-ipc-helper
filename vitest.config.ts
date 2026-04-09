@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config';
+import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
   test: {
@@ -15,15 +16,14 @@ export default defineConfig({
     // Also maps the adapter package and peer dep references to their workspace
     // sources so both core shim tests and adapter package tests resolve correctly.
     alias: {
-      electron: new URL('./tests/__mocks__/electron.ts', import.meta.url).pathname,
-      '@electron-ipc-helper/adapter-assemblyscript': new URL(
-        './packages/adapter-assemblyscript/src/index.ts',
-        import.meta.url,
-      ).pathname,
+      electron: fileURLToPath(new URL('./tests/__mocks__/electron.ts', import.meta.url)),
+      '@electron-ipc-helper/adapter-assemblyscript': fileURLToPath(
+        new URL('./packages/adapter-assemblyscript/src/index.ts', import.meta.url),
+      ),
       // When the adapter package tests import peer deps (electron-ipc-helper,
       // electron-ipc-helper/plugins) resolve to workspace source directly.
-      'electron-ipc-helper/plugins': new URL('./src/plugins.ts', import.meta.url).pathname,
-      'electron-ipc-helper': new URL('./src/index.ts', import.meta.url).pathname,
+      'electron-ipc-helper/plugins': fileURLToPath(new URL('./src/plugins.ts', import.meta.url)),
+      'electron-ipc-helper': fileURLToPath(new URL('./src/index.ts', import.meta.url)),
     },
     typecheck: {
       tsconfig: './tsconfig.typecheck.json',
