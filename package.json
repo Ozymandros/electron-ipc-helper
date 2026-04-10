@@ -1,6 +1,6 @@
 {
   "name": "electron-message-bridge",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A small, typed, zero-boilerplate Electron IPC helper. Full end-to-end type inference across main, preload, and renderer.",
   "keywords": [
     "electron",
@@ -82,6 +82,26 @@
       "types": "./dist/adapters/assemblyscript.d.ts",
       "import": "./dist/adapters/assemblyscript.mjs",
       "require": "./dist/adapters/assemblyscript.cjs"
+    },
+    "./adapters/named-pipe": {
+      "types": "./dist/adapters/named-pipe.d.ts",
+      "import": "./dist/adapters/named-pipe.mjs",
+      "require": "./dist/adapters/named-pipe.cjs"
+    },
+    "./adapters/grpc": {
+      "types": "./dist/adapters/grpc.d.ts",
+      "import": "./dist/adapters/grpc.mjs",
+      "require": "./dist/adapters/grpc.cjs"
+    },
+    "./transport": {
+      "types": "./dist/transport.d.ts",
+      "import": "./dist/transport.mjs",
+      "require": "./dist/transport.cjs"
+    },
+    "./adapters/stdio": {
+      "types": "./dist/adapters/stdio.d.ts",
+      "import": "./dist/adapters/stdio.mjs",
+      "require": "./dist/adapters/stdio.cjs"
     }
   },
   "main": "./dist/index.cjs",

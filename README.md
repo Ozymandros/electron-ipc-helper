@@ -1,8 +1,10 @@
 # electron-message-bridge
 
-[![CI](https://github.com/your-org/electron-message-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/electron-message-bridge/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/your-org/electron-message-bridge/actions/workflows/codeql.yml/badge.svg)](https://github.com/your-org/electron-message-bridge/actions/workflows/codeql.yml)
+[![CI](https://github.com/Ozymandros/electron-message-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/Ozymandros/electron-message-bridge/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/Ozymandros/electron-message-bridge/actions/workflows/codeql.yml/badge.svg)](https://github.com/Ozymandros/electron-message-bridge/actions/workflows/codeql.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/Ozymandros/electron-message-bridge?label=release)](https://github.com/Ozymandros/electron-message-bridge/releases)
 [![npm](https://img.shields.io/npm/v/electron-message-bridge)](https://www.npmjs.com/package/electron-message-bridge)
+[![npm downloads](https://img.shields.io/npm/dm/electron-message-bridge)](https://www.npmjs.com/package/electron-message-bridge)
 [![license](https://img.shields.io/npm/l/electron-message-bridge)](LICENSE)
 
 ---
@@ -37,7 +39,82 @@ Use only what you need:
 
 Nothing outside the core is required.
 
-For optional adapters (for example AssemblyScript), install the adapter package directly.
+For optional adapters, install the adapter package directly. The library ships thin shims under `electron-message-bridge/adapters/*` that lazily import the adapter package and throw a helpful `AdapterMissingError` if the package is not installed.
+
+## Optional adapters
+
+This project provides several optional transport adapters you can install when you need to expose handlers over different IPC mechanisms.
+
+- AssemblyScript / WebAssembly adapter — `electron-message-bridge-adapter-assemblyscript`
+
+  Install:
+
+  ```bash
+  pnpm add electron-message-bridge-adapter-assemblyscript
+  # or: npm install electron-message-bridge-adapter-assemblyscript
+  ```
+
+  Usage (shim import):
+
+  ```ts
+  const { createAssemblyScriptAdapter } = await import('electron-message-bridge/adapters/assemblyscript');
+  // or import directly from the adapter package:
+  // import { createAssemblyScriptAdapter } from 'electron-message-bridge-adapter-assemblyscript';
+  ```
+
+- gRPC adapter — `@electron-ipc-helper/adapter-grpc` (requires `@grpc/grpc-js`)
+
+  Install:
+
+  ```bash
+  pnpm add @electron-ipc-helper/adapter-grpc @grpc/grpc-js
+  ```
+
+  Usage:
+
+  ```ts
+  const { createGrpcServerTransport } = await import('electron-message-bridge/adapters/grpc');
+  // or import from the adapter package directly:
+  // import { createGrpcServerTransport } from '@electron-ipc-helper/adapter-grpc';
+  ```
+
+- Named Pipe / Unix socket adapter — `@electron-ipc-helper/adapter-named-pipe`
+
+  Install:
+
+  ```bash
+  pnpm add @electron-ipc-helper/adapter-named-pipe
+  ```
+
+  Usage:
+
+  ```ts
+  const { createNamedPipeServerTransport } = await import('electron-message-bridge/adapters/named-pipe');
+  // or import directly from the adapter package:
+  // import { createNamedPipeServerTransport } from '@electron-ipc-helper/adapter-named-pipe';
+  ```
+
+- stdio (stdin/stdout) adapter — `@electron-ipc-helper/adapter-stdio`
+
+  Install:
+
+  ```bash
+  pnpm add @electron-ipc-helper/adapter-stdio
+  ```
+
+  Usage:
+
+  ```ts
+  const { createStdioServerTransport } = await import('electron-message-bridge/adapters/stdio');
+  // or import directly from the adapter package:
+  // import { createStdioServerTransport } from '@electron-ipc-helper/adapter-stdio';
+  ```
+
+Notes:
+
+- The lightweight shims under `electron-message-bridge/adapters/*` keep bundlers and consumers happy by only dynamically importing the adapter package at runtime.
+- If you try to use a shim without installing the adapter package, you'll get an `AdapterMissingError` that tells you which package to install.
+
 
 ### Perfect for…
 

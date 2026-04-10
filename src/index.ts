@@ -83,6 +83,13 @@ export type {
   ProcessExitInfo,
 } from './lifecycle.js';
 
+// (deliberately not exported at top-level to match API surface test)
+
+export type {
+  TransportAdapter,
+  TransportHandler,
+} from './transport.js';
+
 export type {
   ActionDescriptor,
   ActionRegistry,

@@ -15,6 +15,10 @@ export default defineConfig({
     boundary: 'src/boundary.ts',
     'adapters/assemblyscript': 'src/adapters/assemblyscript.ts',
     'adapters/loader': 'src/adapters/loader.ts',
+    'adapters/named-pipe': 'src/adapters/named-pipe.ts',
+    'adapters/grpc': 'src/adapters/grpc.ts',
+    'adapters/stdio': 'src/adapters/stdio.ts',
+    transport: 'src/transport.ts',
   },
   format: ['esm', 'cjs'],
   outExtension: ({ format }) => ({ js: format === 'esm' ? '.mjs' : '.cjs' }),
@@ -23,6 +27,13 @@ export default defineConfig({
   sourcemap: true,
   splitting: false,
   treeshake: true,
-  // electron and the adapter package are always externals — never bundle them
-  external: ['electron', 'electron-message-bridge-adapter-assemblyscript'],
-});
+  // electron and optional adapter packages are always externals — never bundle them
+  external: [
+    'electron',
+    'electron-message-bridge-adapter-assemblyscript',
+    '@electron-ipc-helper/adapter-named-pipe',
+    '@electron-ipc-helper/adapter-grpc',
+    '@electron-ipc-helper/adapter-stdio',
+    '@grpc/grpc-js',
+  ],
+  });

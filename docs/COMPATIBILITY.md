@@ -153,3 +153,41 @@ We do not guarantee compatibility with TypeScript versions older than 5.0. We te
 Minimum Node.js version: **18 (LTS)**.
 
 We test against all Node.js **Active LTS** and **Current** releases in CI.
+
+---
+
+### Adapter: `@electron-ipc-helper/adapter-grpc`
+
+| adapter version | core peer | Node.js | Notes | Status |
+|---|---|---|---|---|
+| **0.1.x** (current) | `^0.1.0` | ≥ 18 | Requires `@grpc/grpc-js` as a peer dependency. Exposes `BridgeServiceDefinition` compatible with `@grpc/grpc-js`. | Active |
+
+Installation:
+
+```bash
+pnpm add @electron-ipc-helper/adapter-grpc @grpc/grpc-js
+```
+
+### Adapter: `@electron-ipc-helper/adapter-named-pipe`
+
+| adapter version | core peer | Node.js | Notes | Status |
+|---|---|---|---|---|
+| **0.1.x** (current) | `^0.1.0` | ≥ 18 | Exposes Named Pipe / Unix socket transport for inter-process RPC. Supports binary payloads where applicable. | Active |
+
+Installation:
+
+```bash
+pnpm add @electron-ipc-helper/adapter-named-pipe
+```
+
+### Adapter: `@electron-ipc-helper/adapter-stdio`
+
+| adapter version | core peer | Node.js | Notes | Status |
+|---|---|---|---|---|
+| **0.1.x** (current) | `^0.1.0` | ≥ 18 | Provides a newline-delimited JSON (NDJSON) stdio transport for CLI and child-process integration. | Active |
+
+Installation:
+
+```bash
+pnpm add @electron-ipc-helper/adapter-stdio
+```

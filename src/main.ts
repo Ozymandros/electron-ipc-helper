@@ -20,9 +20,13 @@
  * ```
  */
 
-import { ipcMain } from 'electron';
+import * as electron from 'electron';
 import { InvalidPayloadError } from './errors.js';
+import type { TransportAdapter } from './transport.js';
 import type { ApiHandlers, EventsSchema, IpcApi, IpcEvents, WindowTarget } from './types';
+
+const ipcMain = (electron as { ipcMain?: typeof electron.ipcMain; default?: { ipcMain?: typeof electron.ipcMain } }).ipcMain
+  ?? (electron as { default?: { ipcMain?: typeof electron.ipcMain } }).default?.ipcMain;
 
 // ─── defineIpcApi ─────────────────────────────────────────────────────────────
 
@@ -30,7 +34,8 @@ import type { ApiHandlers, EventsSchema, IpcApi, IpcEvents, WindowTarget } from 
  * Defines the IPC API in the main process.
  *
  * - Derives the complete set of channel names from the handler object keys.
- * - Registers each handler with `ipcMain.handle` automatically.
+ * - Registers each handler with `ipcMain.handle` automatically, or delegates
+ *   to a custom `TransportAdapter` when provided via `options.transport`.
  * - Returns a typed `IpcApi<T>` handle to be passed to `exposeApiToRenderer`
  *   in the preload script.
  *
@@ -44,19 +49,41 @@ import type { ApiHandlers, EventsSchema, IpcApi, IpcEvents, WindowTarget } from 
  * - The `_channels` array is frozen immediately after creation.
  *
  * @param handlers - A plain object whose values are async functions.
+ * @param options  - Optional configuration, including an alternative transport.
  * @returns An `IpcApi<T>` handle carrying the handler types.
  *
  * @example
  * ```ts
+ * // Default: Electron IPC (ipcMain.handle / ipcRenderer.invoke)
  * export const api = defineIpcApi({
  *   ping:         async ()                 => 'pong' as const,
  *   getUser:      async (id: string)       => db.users.findById(id),
  *   saveSettings: async (s: UserSettings)  => db.settings.save(s),
  * });
+ *
+ * // Alternative: Named Pipe transport
+ * import { createNamedPipeServerTransport } from '@electron-ipc-helper/adapter-named-pipe';
+ * export const api = defineIpcApi(
+ *   { getUser: async (id: string) => db.users.findById(id) },
+ *   { transport: createNamedPipeServerTransport('/tmp/my-app.sock') },
+ * );
  * ```
  */
-export function defineIpcApi<T extends ApiHandlers>(handlers: T): IpcApi<T> {
+export function defineIpcApi<T extends ApiHandlers>(
+  handlers: T,
+  options?: { transport?: TransportAdapter },
+): IpcApi<T> {
+  const transport = options?.transport;
   const channels = Object.keys(handlers) as Array<keyof T & string>;
+
+  if(!transport && !ipcMain) {
+    throw new Error(
+      'Electron ipcMain module not found. ' +
+      'This likely means you imported from "electron-message-bridge" in a non-Electron environment, ' +
+      'or before the Electron modules are available. ' +
+      'Make sure to import only from the main process and after the app is ready.',
+    );
+  };
 
   for (const channel of channels) {
     const handler = handlers[channel];
@@ -65,16 +92,31 @@ export function defineIpcApi<T extends ApiHandlers>(handlers: T): IpcApi<T> {
       throw new InvalidPayloadError(channel);
     }
 
-    ipcMain.handle(channel, (_event, ...args: unknown[]) => handler(...args));
+    if (transport) {
+      // Register with the alternative transport — handler wraps the user fn,
+      // treating the first argument as the sole payload (BridgePayload).
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transport.handle(channel, (payload) => handler(payload) as Promise<any>);
+    } else {
+      // Default: Electron built-in IPC
+      ipcMain!.handle(channel, (_event, ...args: unknown[]) => handler(...args));
+    }
   }
 
   Object.freeze(channels);
 
+  // Start the transport (bind socket, open port, etc.) after all handlers
+  // are registered so no requests arrive before the handlers are in place.
+  const startPromise = transport?.start?.() ?? Promise.resolve();
+
   return {
     _channels: channels,
     dispose(): void {
-      for (const channel of channels) {
-        ipcMain.removeHandler(channel);
+      void startPromise.then(() => transport?.dispose?.());
+      if (!transport) {
+        for (const channel of channels) {
+          ipcMain!.removeHandler(channel);
+        }
       }
     },
   } as unknown as IpcApi<T>;
@@ -129,4 +171,3 @@ export {
   registerDialogHandlers,
   registerShellHandlers,
 } from './integrations';
-
