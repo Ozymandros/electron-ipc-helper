@@ -45,6 +45,9 @@
     "electron": ">=20.0.0",
     "electron-message-bridge": "^0.1.0"
   },
+  "dependencies": {
+    "electron-message-bridge": "^0.1.0"
+  },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@vitest/coverage-v8": "^1.6.1",

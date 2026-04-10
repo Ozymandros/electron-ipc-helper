@@ -112,9 +112,7 @@
     "electron": ">=20.0.0"
   },
   "dependencies": {
-    "js-yaml": "^4.1.0"
-  },
-  "optionalDependencies": {
+    "js-yaml": "^4.1.0",
     "electron-message-bridge-adapter-assemblyscript": "^0.1.0"
   },
   "devDependencies": {
