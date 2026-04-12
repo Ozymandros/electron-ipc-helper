@@ -1,6 +1,6 @@
 {
   "name": "electron-message-bridge",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A small, typed, zero-boilerplate Electron IPC helper. Full end-to-end type inference across main, preload, and renderer.",
   "keywords": [
     "electron",
