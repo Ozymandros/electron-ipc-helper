@@ -218,7 +218,9 @@ describe('createAssemblyScriptAdapter: managed types', () => {
 
     await expect(adapter.handlers.crasher('boom')).rejects.toThrow('WASM error');
     // Verify pin/unpin counts are equal (every pin was unpinned in finally)
-    expect(runtime.__pin.mock.calls.length).toBe(runtime.__unpin.mock.calls.length);
+    expect(vi.mocked(runtime.__pin).mock.calls.length).toBe(
+      vi.mocked(runtime.__unpin).mock.calls.length,
+    );
   });
 });
 

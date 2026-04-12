@@ -34,8 +34,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Run checks (lint + typecheck + test:types)
-        run: pnpm run check
+      - name: Run checks (lint + typecheck + test:types + workspace packages typecheck)
+        run: pnpm run check && pnpm run check:packages
 
   # ──────────────────────────────────────────────────────
   # Job 2 — Tests + Coverage enforcement

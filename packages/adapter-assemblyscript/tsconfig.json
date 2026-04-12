@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "electron": ["./tests/__mocks__/electron.ts"]
+    },
     "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "bundler",
