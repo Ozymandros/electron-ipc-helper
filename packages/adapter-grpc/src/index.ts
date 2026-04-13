@@ -1,7 +1,7 @@
 /**
- * @package @electron-ipc-helper/adapter-grpc
+ * @package @electron-message-bridge/adapter-grpc
  *
- * gRPC transport adapter for electron-ipc-helper.
+ * gRPC transport adapter for electron-message-bridge.
  *
  * Exposes the same typed `defineIpcApi` handlers over a gRPC channel, enabling
  * language-agnostic clients (Go, Python, Rust, Java, …) to call into the
@@ -17,8 +17,8 @@
  *
  * ```ts
  * // main.ts (gRPC server)
- * import { defineIpcApi } from 'electron-ipc-helper';
- * import { createGrpcServerTransport } from '@electron-ipc-helper/adapter-grpc';
+ * import { defineIpcApi } from 'electron-message-bridge';
+ * import { createGrpcServerTransport } from '@electron-message-bridge/adapter-grpc';
  *
  * const transport = createGrpcServerTransport({ address: '127.0.0.1:50051' });
  * export const api = defineIpcApi(
@@ -27,7 +27,7 @@
  * );
  *
  * // client.ts (any Node.js process)
- * import { createGrpcClientTransport } from '@electron-ipc-helper/adapter-grpc';
+ * import { createGrpcClientTransport } from '@electron-message-bridge/adapter-grpc';
  *
  * const transport = createGrpcClientTransport({ address: '127.0.0.1:50051' });
  * await transport.start();
@@ -37,11 +37,11 @@
  * @module
  */
 
-import type { TransportAdapter } from 'electron-ipc-helper/transport';
-import type { BridgePayload } from 'electron-ipc-helper/boundary';
-import type { NegotiablePlugin, AdapterManifest } from 'electron-ipc-helper/plugins';
-import type { Plugin, PluginContext } from 'electron-ipc-helper/plugins';
-import { PROTOCOL_VERSION } from 'electron-ipc-helper/plugins';
+import type { TransportAdapter } from 'electron-message-bridge/transport';
+import type { BridgePayload } from 'electron-message-bridge/boundary';
+import type { NegotiablePlugin, AdapterManifest } from 'electron-message-bridge/plugins';
+import type { Plugin, PluginContext } from 'electron-message-bridge/plugins';
+import { PROTOCOL_VERSION } from 'electron-message-bridge/plugins';
 import { GrpcServer } from './server.js';
 import { GrpcClient } from './client.js';
 
@@ -54,7 +54,7 @@ export type { InvokeRequest, InvokeResponse } from './service.js';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ADAPTER_NAME = '@electron-ipc-helper/adapter-grpc';
+const ADAPTER_NAME = '@electron-message-bridge/adapter-grpc';
 const ADAPTER_VERSION = '0.1.0';
 
 // ─── Server transport ─────────────────────────────────────────────────────────

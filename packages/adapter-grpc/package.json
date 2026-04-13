@@ -1,14 +1,14 @@
 {
-  "name": "@electron-ipc-helper/adapter-grpc",
+  "name": "@electron-message-bridge/adapter-grpc",
   "version": "0.1.0",
-  "description": "gRPC transport adapter for electron-ipc-helper. Exposes typed IPC handlers over a gRPC channel for language-agnostic client access.",
+  "description": "gRPC transport adapter for electron-message-bridge. Exposes typed IPC handlers over a gRPC channel for language-agnostic client access.",
   "keywords": [
     "electron",
     "ipc",
     "grpc",
     "transport",
     "typescript",
-    "electron-ipc-helper"
+    "electron-message-bridge"
   ],
   "license": "MIT",
   "type": "module",

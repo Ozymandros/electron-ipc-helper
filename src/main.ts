@@ -62,7 +62,7 @@ const ipcMain = (electron as { ipcMain?: typeof electron.ipcMain; default?: { ip
  * });
  *
  * // Alternative: Named Pipe transport
- * import { createNamedPipeServerTransport } from '@electron-ipc-helper/adapter-named-pipe';
+ * import { createNamedPipeServerTransport } from '@electron-message-bridge/adapter-named-pipe';
  * export const api = defineIpcApi(
  *   { getUser: async (id: string) => db.users.findById(id) },
  *   { transport: createNamedPipeServerTransport('/tmp/my-app.sock') },

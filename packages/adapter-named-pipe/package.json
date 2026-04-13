@@ -1,7 +1,7 @@
 {
-  "name": "@electron-ipc-helper/adapter-named-pipe",
+  "name": "@electron-message-bridge/adapter-named-pipe",
   "version": "0.1.0",
-  "description": "Named Pipe / Unix socket transport adapter for electron-ipc-helper. Exposes typed IPC handlers over a local socket without Electron's built-in IPC.",
+  "description": "Named Pipe / Unix socket transport adapter for electron-message-bridge. Exposes typed IPC handlers over a local socket without Electron's built-in IPC.",
   "keywords": [
     "electron",
     "ipc",
@@ -9,7 +9,7 @@
     "unix-socket",
     "transport",
     "typescript",
-    "electron-ipc-helper"
+    "electron-message-bridge"
   ],
   "license": "MIT",
   "type": "module",

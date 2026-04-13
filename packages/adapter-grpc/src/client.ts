@@ -10,8 +10,8 @@
 
 import { makeBridgeClientConstructor } from './service.js';
 import type { InvokeRequest, InvokeResponse } from './service.js';
-import type { BridgePayload } from 'electron-ipc-helper/boundary';
-import { TransportError } from 'electron-ipc-helper';
+import type { BridgePayload } from 'electron-message-bridge/boundary';
+import { TransportError } from 'electron-message-bridge';
 
 // ─── GrpcClient ───────────────────────────────────────────────────────────────
 

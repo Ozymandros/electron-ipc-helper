@@ -1,5 +1,5 @@
 {
-  "name": "@ozymandros/electron-message-bridge-adapter-assemblyscript",
+  "name": "@electron-message-bridge/adapter-assemblyscript",
   "version": "0.3.0",
   "description": "Optional AssemblyScript / WebAssembly adapter for electron-message-bridge. Bridges WASM exports into typed IPC handlers.",
   "keywords": [

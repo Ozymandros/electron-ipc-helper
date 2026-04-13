@@ -9,8 +9,8 @@ import net from 'node:net';
 import { randomUUID } from 'node:crypto';
 import { encodeFrame, attachDecoder } from './framing.js';
 import type { FrameRequest, FrameResponse } from './framing.js';
-import type { BridgePayload } from 'electron-ipc-helper/boundary';
-import { TransportError } from 'electron-ipc-helper';
+import type { BridgePayload } from 'electron-message-bridge/boundary';
+import { TransportError } from 'electron-message-bridge';
 
 // ─── NamedPipeClient ──────────────────────────────────────────────────────────
 

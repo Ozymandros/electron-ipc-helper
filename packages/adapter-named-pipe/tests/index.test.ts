@@ -1,5 +1,5 @@
 /**
- * Tests for @electron-ipc-helper/adapter-named-pipe
+ * Tests for @electron-message-bridge/adapter-named-pipe
  *
  * Covers:
  *  - FrameDecoder / encodeFrame round-trip
@@ -171,7 +171,7 @@ describe('NamedPipePlugin', () => {
     const plugin = new NamedPipePlugin({ path: '/tmp/plugin.sock' });
     const manifest = plugin.getManifest();
 
-    expect(manifest.name).toBe('@electron-ipc-helper/adapter-named-pipe');
+    expect(manifest.name).toBe('@electron-message-bridge/adapter-named-pipe');
     expect(typeof manifest.version).toBe('string');
     expect(manifest.protocolVersion).toBeGreaterThanOrEqual(1);
     expect(manifest.supportsBinary).toBe(true);

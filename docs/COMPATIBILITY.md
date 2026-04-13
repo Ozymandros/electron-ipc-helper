@@ -80,7 +80,7 @@ The following are **not** breaking changes:
 | **0.x** (current) | ≥ 20.0 | ≥ 18 LTS | ≥ 5.0 | Active |
 | **1.x** (planned) | ≥ 28.0 | ≥ 20 LTS | ≥ 5.4 | Planned |
 
-### Adapter: `@ozymandros/electron-message-bridge-adapter-assemblyscript`
+### Adapter: `@electron-message-bridge/adapter-assemblyscript`
 
 | adapter version | core peer | Node.js | AssemblyScript | AS Loader | Status |
 |---|---|---|---|---|---|
@@ -156,7 +156,7 @@ We test against all Node.js **Active LTS** and **Current** releases in CI.
 
 ---
 
-### Adapter: `@electron-ipc-helper/adapter-grpc`
+### Adapter: `@electron-message-bridge/adapter-grpc`
 
 | adapter version | core peer | Node.js | Notes | Status |
 |---|---|---|---|---|
@@ -165,10 +165,10 @@ We test against all Node.js **Active LTS** and **Current** releases in CI.
 Installation:
 
 ```bash
-pnpm add @electron-ipc-helper/adapter-grpc @grpc/grpc-js
+pnpm add @electron-message-bridge/adapter-grpc @grpc/grpc-js
 ```
 
-### Adapter: `@electron-ipc-helper/adapter-named-pipe`
+### Adapter: `@electron-message-bridge/adapter-named-pipe`
 
 | adapter version | core peer | Node.js | Notes | Status |
 |---|---|---|---|---|
@@ -177,10 +177,10 @@ pnpm add @electron-ipc-helper/adapter-grpc @grpc/grpc-js
 Installation:
 
 ```bash
-pnpm add @electron-ipc-helper/adapter-named-pipe
+pnpm add @electron-message-bridge/adapter-named-pipe
 ```
 
-### Adapter: `@electron-ipc-helper/adapter-stdio`
+### Adapter: `@electron-message-bridge/adapter-stdio`
 
 | adapter version | core peer | Node.js | Notes | Status |
 |---|---|---|---|---|
@@ -189,5 +189,5 @@ pnpm add @electron-ipc-helper/adapter-named-pipe
 Installation:
 
 ```bash
-pnpm add @electron-ipc-helper/adapter-stdio
+pnpm add @electron-message-bridge/adapter-stdio
 ```

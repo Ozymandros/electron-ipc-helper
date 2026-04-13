@@ -1,5 +1,5 @@
 /**
- * Lazy-loader shim for `@electron-ipc-helper/adapter-grpc`.
+ * Lazy-loader shim for `@electron-message-bridge/adapter-grpc`.
  *
  * Importing this file from the main package does **not** load the adapter
  * package eagerly. Call `loadGrpcAdapter()` at runtime to import it.
@@ -7,7 +7,7 @@
  *
  * @example
  * ```ts
- * import { loadGrpcAdapter } from 'electron-ipc-helper/adapters/grpc';
+ * import { loadGrpcAdapter } from 'electron-message-bridge/adapters/grpc';
  *
  * const adapter = await loadGrpcAdapter();
  * const transport = adapter.createGrpcServerTransport({ address: '127.0.0.1:50051' });
@@ -15,7 +15,7 @@
  */
 
 import { requireAdapter } from './loader.js';
-import type * as GrpcAdapterModule from '@electron-ipc-helper/adapter-grpc';
+import type * as GrpcAdapterModule from '@electron-message-bridge/adapter-grpc';
 
 // Static type-only re-exports (erased at runtime — no side effects).
 export type {
@@ -27,14 +27,14 @@ export type {
   GrpcCapabilities,
   InvokeRequest,
   InvokeResponse,
-} from '@electron-ipc-helper/adapter-grpc';
+} from '@electron-message-bridge/adapter-grpc';
 
 // ─── Lazy loader ──────────────────────────────────────────────────────────────
 
 /**
  * Dynamically import the gRPC adapter package.
  *
- * Throws `AdapterMissingError` if `@electron-ipc-helper/adapter-grpc` is not
+ * Throws `AdapterMissingError` if `@electron-message-bridge/adapter-grpc` is not
  * installed in the consuming project. This adapter also requires `@grpc/grpc-js`
  * as a peer dependency.
  *
@@ -42,7 +42,7 @@ export type {
  */
 export function loadGrpcAdapter(): Promise<typeof GrpcAdapterModule> {
   return requireAdapter(
-    '@electron-ipc-helper/adapter-grpc',
-    () => import('@electron-ipc-helper/adapter-grpc'),
+    '@electron-message-bridge/adapter-grpc',
+    () => import('@electron-message-bridge/adapter-grpc'),
   );
 }

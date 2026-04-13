@@ -49,13 +49,13 @@ For optional adapters, install the adapter package directly. The library ships t
 
 This project provides several optional transport adapters you can install when you need to expose handlers over different IPC mechanisms.
 
-- AssemblyScript / WebAssembly adapter — `@ozymandros/electron-message-bridge-adapter-assemblyscript`
+- AssemblyScript / WebAssembly adapter — `@electron-message-bridge/adapter-assemblyscript`
 
   Install:
 
   ```bash
-  pnpm add @ozymandros/electron-message-bridge-adapter-assemblyscript
-  # or: npm install @ozymandros/electron-message-bridge-adapter-assemblyscript
+  pnpm add @electron-message-bridge/adapter-assemblyscript
+  # or: npm install @electron-message-bridge/adapter-assemblyscript
   ```
 
   Usage (shim import):
@@ -63,15 +63,15 @@ This project provides several optional transport adapters you can install when y
   ```ts
   const { createAssemblyScriptAdapter } = await import('electron-message-bridge/adapters/assemblyscript');
   // or import directly from the adapter package:
-  // import { createAssemblyScriptAdapter } from '@ozymandros/electron-message-bridge-adapter-assemblyscript';
+  // import { createAssemblyScriptAdapter } from '@electron-message-bridge/adapter-assemblyscript';
   ```
 
-- gRPC adapter — `@electron-ipc-helper/adapter-grpc` (requires `@grpc/grpc-js`)
+- gRPC adapter — `@electron-message-bridge/adapter-grpc` (requires `@grpc/grpc-js`)
 
   Install:
 
   ```bash
-  pnpm add @electron-ipc-helper/adapter-grpc @grpc/grpc-js
+  pnpm add @electron-message-bridge/adapter-grpc @grpc/grpc-js
   ```
 
   Usage:
@@ -79,15 +79,15 @@ This project provides several optional transport adapters you can install when y
   ```ts
   const { createGrpcServerTransport } = await import('electron-message-bridge/adapters/grpc');
   // or import from the adapter package directly:
-  // import { createGrpcServerTransport } from '@electron-ipc-helper/adapter-grpc';
+  // import { createGrpcServerTransport } from '@electron-message-bridge/adapter-grpc';
   ```
 
-- Named Pipe / Unix socket adapter — `@electron-ipc-helper/adapter-named-pipe`
+- Named Pipe / Unix socket adapter — `@electron-message-bridge/adapter-named-pipe`
 
   Install:
 
   ```bash
-  pnpm add @electron-ipc-helper/adapter-named-pipe
+  pnpm add @electron-message-bridge/adapter-named-pipe
   ```
 
   Usage:
@@ -95,15 +95,15 @@ This project provides several optional transport adapters you can install when y
   ```ts
   const { createNamedPipeServerTransport } = await import('electron-message-bridge/adapters/named-pipe');
   // or import directly from the adapter package:
-  // import { createNamedPipeServerTransport } from '@electron-ipc-helper/adapter-named-pipe';
+  // import { createNamedPipeServerTransport } from '@electron-message-bridge/adapter-named-pipe';
   ```
 
-- stdio (stdin/stdout) adapter — `@electron-ipc-helper/adapter-stdio`
+- stdio (stdin/stdout) adapter — `@electron-message-bridge/adapter-stdio`
 
   Install:
 
   ```bash
-  pnpm add @electron-ipc-helper/adapter-stdio
+  pnpm add @electron-message-bridge/adapter-stdio
   ```
 
   Usage:
@@ -111,7 +111,7 @@ This project provides several optional transport adapters you can install when y
   ```ts
   const { createStdioServerTransport } = await import('electron-message-bridge/adapters/stdio');
   // or import directly from the adapter package:
-  // import { createStdioServerTransport } from '@electron-ipc-helper/adapter-stdio';
+  // import { createStdioServerTransport } from '@electron-message-bridge/adapter-stdio';
   ```
 
 Notes:

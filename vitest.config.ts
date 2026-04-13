@@ -1,5 +1,4 @@
 import { defineConfig } from 'vitest/config';
-import { fileURLToPath } from 'node:url';
 
 const bridgeRoot = import.meta.url;
 
@@ -19,27 +18,20 @@ export default defineConfig({
     exclude: ['**/node_modules/**', '**/dist/**', '**/__mocks__/**'],
     alias: {
       electron: new URL('./tests/__mocks__/electron.ts', bridgeRoot).pathname,
-      '@electron-ipc-helper/adapter-assemblyscript': new URL(
+      '@electron-message-bridge/adapter-assemblyscript': new URL(
         './packages/adapter-assemblyscript/src/index.ts',
         bridgeRoot,
       ).pathname,
-      '@electron-ipc-helper/adapter-named-pipe': new URL(
+      '@electron-message-bridge/adapter-named-pipe': new URL(
         './packages/adapter-named-pipe/src/index.ts',
         bridgeRoot,
       ).pathname,
-      '@electron-ipc-helper/adapter-grpc': new URL('./packages/adapter-grpc/src/index.ts', bridgeRoot).pathname,
-      '@electron-ipc-helper/adapter-stdio': new URL('./packages/adapter-stdio/src/index.ts', bridgeRoot).pathname,
-      'electron-ipc-helper/plugins': new URL('./src/plugins.ts', bridgeRoot).pathname,
-      'electron-ipc-helper/transport': new URL('./src/transport.ts', bridgeRoot).pathname,
-      'electron-ipc-helper/boundary': new URL('./src/boundary.ts', bridgeRoot).pathname,
-      'electron-ipc-helper': new URL('./src/index.ts', bridgeRoot).pathname,
-      '@ozymandros/electron-message-bridge-adapter-assemblyscript': fileURLToPath(
-        new URL('./packages/adapter-assemblyscript/src/index.ts', bridgeRoot),
-      ),
-      'electron-message-bridge/plugins': fileURLToPath(new URL('./src/plugins.ts', bridgeRoot)),
-      'electron-message-bridge/transport': fileURLToPath(new URL('./src/transport.ts', bridgeRoot)),
-      'electron-message-bridge/boundary': fileURLToPath(new URL('./src/boundary.ts', bridgeRoot)),
-      'electron-message-bridge': fileURLToPath(new URL('./src/index.ts', bridgeRoot)),
+      '@electron-message-bridge/adapter-grpc': new URL('./packages/adapter-grpc/src/index.ts', bridgeRoot).pathname,
+      '@electron-message-bridge/adapter-stdio': new URL('./packages/adapter-stdio/src/index.ts', bridgeRoot).pathname,
+      'electron-message-bridge/plugins': new URL('./src/plugins.ts', bridgeRoot).pathname,
+      'electron-message-bridge/transport': new URL('./src/transport.ts', bridgeRoot).pathname,
+      'electron-message-bridge/boundary': new URL('./src/boundary.ts', bridgeRoot).pathname,
+      'electron-message-bridge': new URL('./src/index.ts', bridgeRoot).pathname,
     },
     typecheck: {
       tsconfig: './tsconfig.typecheck.json',

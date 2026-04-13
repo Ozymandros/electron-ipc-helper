@@ -11,14 +11,14 @@
 import net from 'node:net';
 import { encodeFrame, attachDecoder } from './framing.js';
 import type { FrameRequest, FrameResponse } from './framing.js';
-import type { TransportHandler } from 'electron-ipc-helper/transport';
+import type { TransportHandler } from 'electron-message-bridge/transport';
 
 // ─── NamedPipeServer ──────────────────────────────────────────────────────────
 
 export interface NamedPipeServerOptions {
   /**
    * Path for the Unix socket or Windows named pipe.
-   * Defaults to `/tmp/electron-ipc-helper.sock` (or the Windows equivalent).
+   * Defaults to `/tmp/electron-message-bridge.sock` (or the Windows equivalent).
    */
   readonly path: string;
   /** Logger for diagnostics. Defaults to `console`. */
