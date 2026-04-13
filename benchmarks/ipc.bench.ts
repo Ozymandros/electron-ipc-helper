@@ -1,7 +1,7 @@
 /**
  * IPC throughput and latency benchmarks.
  *
- * These benchmarks measure the overhead introduced by electron-message-bridge's
+ * These benchmarks measure the overhead introduced by @ozymandros/electron-message-bridge's
  * handler registration and dispatch path — not the full Electron IPC round-trip
  * (which requires a live Electron process and is measured separately).
  *

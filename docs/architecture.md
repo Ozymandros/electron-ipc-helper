@@ -1,6 +1,6 @@
 # Architecture
 
-A technical overview of how electron-message-bridge is structured, how data flows between processes, and how the layered model is designed for safe evolution.
+A technical overview of how ozymandros/electron-message-bridge is structured, how data flows between processes, and how the layered model is designed for safe evolution.
 
 ---
 
@@ -27,7 +27,7 @@ Electron apps run across three distinct JavaScript contexts with hard boundaries
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-electron-message-bridge provides the typed glue for each boundary.
+ozymandros/electron-message-bridge provides the typed glue for each boundary.
 
 ---
 
@@ -118,16 +118,16 @@ No `as`, no type assertions, no manual annotations.
 
 | Entry point | Process | Key exports |
 |---|---|---|
-| `electron-message-bridge` | Main | `defineIpcApi`, `defineIpcEvents`, `ChildProcessLifecycle` |
-| `electron-message-bridge/preload` | Preload | `exposeApiToRenderer`, `exposeEventsToRenderer`, `exposeValues` |
-| `electron-message-bridge/integrations` | Main | `registerDialogHandlers`, `registerShellHandlers` |
-| `electron-message-bridge/menus` | Main | `buildMenuTemplate`, `applyApplicationMenuFromFile`, action factories |
-| `electron-message-bridge/appkit` | Main | `createMainAppKit` |
-| `electron-message-bridge/lifecycle` | Main | `ChildProcessLifecycle` |
-| `electron-message-bridge/plugins` | Main | `PluginHost`, `Plugin`, `PluginConflictError` |
-| `electron-message-bridge/plugins/window-state` | Main | `WindowStatePlugin` |
-| `electron-message-bridge/plugins/diagnostics` | Main | `DiagnosticsPlugin` |
-| `electron-message-bridge/plugins/updater` | Main | `UpdaterPlugin` |
+| `ozymandros/electron-message-bridge` | Main | `defineIpcApi`, `defineIpcEvents`, `ChildProcessLifecycle` |
+| `ozymandros/electron-message-bridge/preload` | Preload | `exposeApiToRenderer`, `exposeEventsToRenderer`, `exposeValues` |
+| `ozymandros/electron-message-bridge/integrations` | Main | `registerDialogHandlers`, `registerShellHandlers` |
+| `ozymandros/electron-message-bridge/menus` | Main | `buildMenuTemplate`, `applyApplicationMenuFromFile`, action factories |
+| `ozymandros/electron-message-bridge/appkit` | Main | `createMainAppKit` |
+| `ozymandros/electron-message-bridge/lifecycle` | Main | `ChildProcessLifecycle` |
+| `ozymandros/electron-message-bridge/plugins` | Main | `PluginHost`, `Plugin`, `PluginConflictError` |
+| `ozymandros/electron-message-bridge/plugins/window-state` | Main | `WindowStatePlugin` |
+| `ozymandros/electron-message-bridge/plugins/diagnostics` | Main | `DiagnosticsPlugin` |
+| `ozymandros/electron-message-bridge/plugins/updater` | Main | `UpdaterPlugin` |
 
 Each entry point compiles to a separate `.mjs`/`.cjs` bundle. Renderer bundles never receive main-process code.
 

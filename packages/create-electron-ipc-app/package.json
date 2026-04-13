@@ -1,7 +1,7 @@
 {
   "name": "create-electron-ipc-app",
   "version": "0.1.0",
-  "description": "Scaffold a new Electron app powered by electron-message-bridge",
+  "description": "Scaffold a new Electron app powered by @ozymandros/electron-message-bridge",
   "keywords": [
     "electron",
     "scaffold",

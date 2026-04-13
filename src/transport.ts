@@ -1,7 +1,7 @@
 /**
  * @module transport
  *
- * Transport abstraction for electron-message-bridge.
+ * Transport abstraction for @ozymandros/electron-message-bridge.
  *
  * The `TransportAdapter` interface decouples the request/response handler
  * mechanism from Electron's built-in IPC channel. Alternative implementations
@@ -45,7 +45,7 @@ export type TransportHandler = (payload: BridgePayload) => Promise<BridgePayload
 // ─── TransportAdapter ─────────────────────────────────────────────────────────
 
 /**
- * Pluggable transport for electron-message-bridge.
+ * Pluggable transport for @ozymandros/electron-message-bridge.
  *
  * Implement this interface to expose your `defineIpcApi` handlers over any
  * protocol — Named Pipes, gRPC, WebSockets, stdio, etc. — without changing
@@ -54,8 +54,8 @@ export type TransportHandler = (payload: BridgePayload) => Promise<BridgePayload
  * @example
  * ```ts
  * // main.ts
- * import { defineIpcApi } from 'electron-message-bridge';
- * import { createNamedPipeServerTransport } from '@electron-message-bridge/adapter-named-pipe';
+ * import { defineIpcApi } from '@ozymandros/electron-message-bridge';
+ * import { createNamedPipeServerTransport } from '@ozymandros/electron-message-bridge-adapter-named-pipe';
  *
  * const transport = createNamedPipeServerTransport('/tmp/my-app.sock');
  *
@@ -134,7 +134,7 @@ export class IpcTransport implements TransportAdapter {
 
   handle(channel: string, handler: TransportHandler): void {
     if (!ipcMain) {
-      throw new Error('[electron-message-bridge] ipcMain is not available in this runtime');
+      throw new Error('[@ozymandros/electron-message-bridge] ipcMain is not available in this runtime');
     }
 
     ipcMain.handle(channel, (_event: unknown, ...args: unknown[]) =>
@@ -146,7 +146,7 @@ export class IpcTransport implements TransportAdapter {
 
   invoke(_channel: string, _payload: BridgePayload): Promise<BridgePayload> {
     throw new Error(
-      '[electron-message-bridge] IpcTransport.invoke() is not supported — ' +
+      '[@ozymandros/electron-message-bridge] IpcTransport.invoke() is not supported — ' +
         'use ipcRenderer.invoke() in your preload script instead.',
     );
   }

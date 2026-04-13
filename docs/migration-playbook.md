@@ -1,6 +1,6 @@
 # Typical Electron Migration Playbook
 
-An opinionated, step-by-step migration runbook for moving from manual Electron IPC wiring to `electron-message-bridge` with minimal risk.
+An opinionated, step-by-step migration runbook for moving from manual Electron IPC wiring to `ozymandros/electron-message-bridge` with minimal risk.
 
 Use this when you want a predictable rollout that an AI coding assistant can execute in small, verifiable phases.
 
@@ -118,7 +118,7 @@ Move invoke handlers to typed API definitions without touching push events yet.
 
 1. Create `api.ts` in the main-process area.
 2. Move handler functions into `defineIpcApi({ ... })`.
-3. In preload, switch to `exposeApiToRenderer(api)` from `electron-message-bridge/preload`.
+3. In preload, switch to `exposeApiToRenderer(api)` from `ozymandros/electron-message-bridge/preload`.
 4. Add renderer type augmentation using `ExtractRendererApi<typeof api>`.
 5. Keep old channel aliases temporarily if external callers still depend on them.
 
@@ -233,7 +233,7 @@ Run this matrix after each phase, not only at the end.
 Use this prompt in a dependent app to keep migrations controlled and incremental:
 
 ```text
-You are migrating an existing Electron app from manual IPC wiring to electron-message-bridge.
+You are migrating an existing Electron app from manual IPC wiring to ozymandros/electron-message-bridge.
 
 Rules:
 1) Do the migration in phases. Stop after each phase and summarize file-by-file diffs.
@@ -278,7 +278,7 @@ Constraints:
 
 - [ ] All request channels migrated to `defineIpcApi`.
 - [ ] All push channels migrated to `defineIpcEvents`.
-- [ ] Preload uses `electron-message-bridge/preload` only.
+- [ ] Preload uses `ozymandros/electron-message-bridge/preload` only.
 - [ ] Renderer uses typed `window` augmentation.
 - [ ] Dead manual IPC wiring removed.
 - [ ] Test matrix passes.

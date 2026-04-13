@@ -1,6 +1,6 @@
-# electron-message-bridge-adapter-assemblyscript
+# @ozymandros/electron-message-bridge-adapter-assemblyscript
 
-Optional AssemblyScript / WebAssembly adapter for [`electron-message-bridge`](https://github.com/your-org/electron-message-bridge).
+Optional AssemblyScript / WebAssembly adapter for [`@ozymandros/electron-message-bridge`](https://github.com/your-org/@ozymandros/electron-message-bridge).
 
 Bridges AssemblyScript WASM module exports into typed IPC handlers that slot directly into the existing `defineIpcApi` / `exposeApiToRenderer` pipeline — with **zero mandatory runtime dependencies**.
 
@@ -8,13 +8,13 @@ Bridges AssemblyScript WASM module exports into typed IPC handlers that slot dir
 
 ## Why a separate package?
 
-The core `electron-message-bridge` is intentionally lean. AssemblyScript support is an advanced, optional use-case; keeping it separate:
+The core `@ozymandros/electron-message-bridge` is intentionally lean. AssemblyScript support is an advanced, optional use-case; keeping it separate:
 
 - Keeps the core bundle small for users who don't need WASM.
 - Allows the adapter to evolve independently.
 - Makes the optional dependency on `@assemblyscript/loader` explicit.
 
-This package depends on `electron-message-bridge` as a peer dependency, so your
+This package depends on `@ozymandros/electron-message-bridge` as a peer dependency, so your
 application owns the core version and can keep `core` and `adapter` aligned.
 
 ---
@@ -22,9 +22,9 @@ application owns the core version and can keep `core` and `adapter` aligned.
 ## Installation
 
 ```bash
-npm install electron-message-bridge-adapter-assemblyscript
+npm install @ozymandros/electron-message-bridge-adapter-assemblyscript
 # peer deps (if not already installed)
-npm install electron-message-bridge electron
+npm install @ozymandros/electron-message-bridge electron
 ```
 
 ---
@@ -33,9 +33,9 @@ npm install electron-message-bridge electron
 
 ```ts
 // main.ts
-import { createAssemblyScriptAdapter, asc } from 'electron-message-bridge-adapter-assemblyscript';
-import { defineIpcApi } from 'electron-message-bridge';
-import { exposeApiToRenderer } from 'electron-message-bridge/preload';
+import { createAssemblyScriptAdapter, asc } from '@ozymandros/electron-message-bridge-adapter-assemblyscript';
+import { defineIpcApi } from '@ozymandros/electron-message-bridge';
+import { exposeApiToRenderer } from '@ozymandros/electron-message-bridge/preload';
 
 // 1. Define the schema (mirrors your AssemblyScript exports)
 const schema = {
@@ -91,8 +91,8 @@ interface AssemblyScriptAdapter<S> {
 Lifecycle-managed plugin for use with `PluginHost`:
 
 ```ts
-import { PluginHost } from 'electron-message-bridge/plugins';
-import { AssemblyScriptPlugin } from 'electron-message-bridge-adapter-assemblyscript';
+import { PluginHost } from '@ozymandros/electron-message-bridge/plugins';
+import { AssemblyScriptPlugin } from '@ozymandros/electron-message-bridge-adapter-assemblyscript';
 
 const host = new PluginHost();
 host.register(new AssemblyScriptPlugin({
@@ -117,7 +117,7 @@ Compatibility shim for [`@assemblyscript/loader`](https://www.assemblyscript.org
 
 ```ts
 import { instantiate } from '@assemblyscript/loader';
-import { wrapLoaderInstance, createAssemblyScriptAdapter } from 'electron-message-bridge-adapter-assemblyscript';
+import { wrapLoaderInstance, createAssemblyScriptAdapter } from '@ozymandros/electron-message-bridge-adapter-assemblyscript';
 
 const { exports } = await instantiate(fs.readFileSync('./math.wasm'));
 const adapter = await createAssemblyScriptAdapter(
@@ -144,16 +144,16 @@ const adapter = await createAssemblyScriptAdapter(
 
 ## Migrating from the old import path
 
-In `electron-message-bridge@0.1.x` a compatibility shim re-exports this package from `electron-message-bridge/adapters/assemblyscript`. That shim is **deprecated** and will be removed in the next major release.
+In `@ozymandros/electron-message-bridge@0.1.x` a compatibility shim re-exports this package from `@ozymandros/electron-message-bridge/adapters/assemblyscript`. That shim is **deprecated** and will be removed in the next major release.
 
 **Update your imports:**
 
 ```ts
 // ❌ Old (deprecated)
-import { createAssemblyScriptAdapter } from 'electron-message-bridge/adapters/assemblyscript';
+import { createAssemblyScriptAdapter } from '@ozymandros/electron-message-bridge/adapters/assemblyscript';
 
 // ✅ New
-import { createAssemblyScriptAdapter } from '@electron-message-bridge/adapter-assemblyscript';
+import { createAssemblyScriptAdapter } from '@ozymandros/electron-message-bridge-adapter-assemblyscript';
 ```
 
 ---

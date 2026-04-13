@@ -1,7 +1,7 @@
 /**
  * @module negotiation
  *
- * Capability negotiation ("handshake") system for electron-message-bridge adapters.
+ * Capability negotiation ("handshake") system for @ozymandros/electron-message-bridge adapters.
  *
  * When an adapter plugin is initialised, the host calls `plugin.getManifest()`
  * to retrieve its self-declared capability manifest, then runs `negotiate()` to
@@ -79,7 +79,7 @@ export const PROTOCOL_VERSION = 1 as const;
 export interface AdapterManifest {
   /**
    * Fully-qualified adapter package name.
-   * @example `'electron-message-bridge-adapter-assemblyscript'`
+   * @example `'@ozymandros/electron-message-bridge-adapter-assemblyscript'`
    */
   readonly name: string;
 

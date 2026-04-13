@@ -1,5 +1,5 @@
 /**
- * Type-level tests for electron-message-bridge.
+ * Type-level tests for @ozymandros/electron-message-bridge.
  *
  * These tests run via `vitest --typecheck` and verify that the type utilities
  * produce the correct TypeScript types — no runtime assertions needed.

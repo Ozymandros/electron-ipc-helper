@@ -11,8 +11,8 @@
  *
  * ```ts
  * import { autoUpdater } from 'electron-updater';
- * import { PluginHost } from 'electron-message-bridge/plugins';
- * import { UpdaterPlugin } from 'electron-message-bridge/plugins/updater';
+ * import { PluginHost } from '@ozymandros/electron-message-bridge/plugins';
+ * import { UpdaterPlugin } from '@ozymandros/electron-message-bridge/plugins/updater';
  *
  * const host = new PluginHost();
  * host.register(new UpdaterPlugin({

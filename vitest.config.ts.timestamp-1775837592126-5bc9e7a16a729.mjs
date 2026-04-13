@@ -1,6 +1,6 @@
 // vitest.config.ts
 import { defineConfig } from "vitest/config";
-var __vite_injected_original_import_meta_url = "file:///sessions/beautiful-clever-johnson/mnt/electron-message-bridge/vitest.config.ts";
+var __vite_injected_original_import_meta_url = "file:///sessions/beautiful-clever-johnson/mnt/ozymandros/electron-message-bridge/vitest.config.ts";
 var vitest_config_default = defineConfig({
   test: {
     environment: "node",
@@ -9,28 +9,28 @@ var vitest_config_default = defineConfig({
     // sources so both core shim tests and adapter package tests resolve correctly.
     alias: {
       electron: new URL("./tests/__mocks__/electron.ts", __vite_injected_original_import_meta_url).pathname,
-      "@electron-message-bridge/adapter-assemblyscript": new URL(
+      "@ozymandros/electron-message-bridge/adapter-assemblyscript": new URL(
         "./packages/adapter-assemblyscript/src/index.ts",
         __vite_injected_original_import_meta_url
       ).pathname,
-      "@electron-message-bridge/adapter-named-pipe": new URL(
+      "@ozymandros/electron-message-bridge/adapter-named-pipe": new URL(
         "./packages/adapter-named-pipe/src/index.ts",
         __vite_injected_original_import_meta_url
       ).pathname,
-      "@electron-message-bridge/adapter-grpc": new URL(
+      "@ozymandros/electron-message-bridge/adapter-grpc": new URL(
         "./packages/adapter-grpc/src/index.ts",
         __vite_injected_original_import_meta_url
       ).pathname,
-      "@electron-message-bridge/adapter-stdio": new URL(
+      "@ozymandros/electron-message-bridge/adapter-stdio": new URL(
         "./packages/adapter-stdio/src/index.ts",
         __vite_injected_original_import_meta_url
       ).pathname,
-      // When the adapter package tests import peer deps (electron-message-bridge,
-      // electron-message-bridge/plugins) resolve to workspace source directly.
-      "electron-message-bridge/plugins": new URL("./src/plugins.ts", __vite_injected_original_import_meta_url).pathname,
-      "electron-message-bridge/transport": new URL("./src/transport.ts", __vite_injected_original_import_meta_url).pathname,
-      "electron-message-bridge/boundary": new URL("./src/boundary.ts", __vite_injected_original_import_meta_url).pathname,
-      "electron-message-bridge": new URL("./src/index.ts", __vite_injected_original_import_meta_url).pathname
+      // When the adapter package tests import peer deps (ozymandros/electron-message-bridge,
+      // ozymandros/electron-message-bridge/plugins) resolve to workspace source directly.
+      "ozymandros/electron-message-bridge/plugins": new URL("./src/plugins.ts", __vite_injected_original_import_meta_url).pathname,
+      "ozymandros/electron-message-bridge/transport": new URL("./src/transport.ts", __vite_injected_original_import_meta_url).pathname,
+      "ozymandros/electron-message-bridge/boundary": new URL("./src/boundary.ts", __vite_injected_original_import_meta_url).pathname,
+      "ozymandros/electron-message-bridge": new URL("./src/index.ts", __vite_injected_original_import_meta_url).pathname
     },
     typecheck: {
       tsconfig: "./tsconfig.typecheck.json"

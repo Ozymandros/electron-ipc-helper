@@ -1,7 +1,7 @@
 /**
  * @module plugins
  *
- * Plugin system for electron-message-bridge.
+ * Plugin system for @ozymandros/electron-message-bridge.
  *
  * Plugins are self-contained, lifecycle-managed units that extend an Electron
  * app's main-process capabilities. Each plugin:
@@ -13,8 +13,8 @@
  * ## Quick start
  *
  * ```ts
- * import { PluginHost } from 'electron-message-bridge/plugins';
- * import { WindowStatePlugin } from 'electron-message-bridge/plugins/window-state';
+ * import { PluginHost } from '@ozymandros/electron-message-bridge/plugins';
+ * import { WindowStatePlugin } from '@ozymandros/electron-message-bridge/plugins/window-state';
  *
  * const host = new PluginHost();
  * host.register(new WindowStatePlugin({ key: 'mainWindow' }));
@@ -31,7 +31,7 @@
  * ## Writing a plugin
  *
  * ```ts
- * import type { Plugin, PluginContext } from 'electron-message-bridge/plugins';
+ * import type { Plugin, PluginContext } from '@ozymandros/electron-message-bridge/plugins';
  *
  * export class MyPlugin implements Plugin<{ myFeature: true }> {
  *   readonly name = 'my-plugin';
@@ -226,7 +226,7 @@ export class PluginHost {
     this.requirements = options.requirements ?? {};
     this.onError = options.onError ?? ((error, plugin, hook) => {
       this.logger.error(
-        `[electron-message-bridge] Plugin "${plugin}" threw during "${hook}": ${error.message}`,
+        `[@ozymandros/electron-message-bridge] Plugin "${plugin}" threw during "${hook}": ${error.message}`,
         error,
       );
     });
@@ -256,7 +256,7 @@ export class PluginHost {
     }
 
     this.plugins.push(plugin);
-    this.logger.log(`[electron-message-bridge] Plugin registered: "${plugin.name}"`);
+    this.logger.log(`[@ozymandros/electron-message-bridge] Plugin registered: "${plugin.name}"`);
     return this;
   }
 
@@ -359,7 +359,7 @@ export class PluginHost {
       } catch (err: unknown) {
         const e = err instanceof Error ? err : new Error(String(err));
         this.logger.warn(
-          `[electron-message-bridge] Plugin "${plugin.name}" getManifest() threw: ${e.message}`,
+          `[@ozymandros/electron-message-bridge] Plugin "${plugin.name}" getManifest() threw: ${e.message}`,
         );
         continue;
       }
@@ -369,18 +369,18 @@ export class PluginHost {
 
       if (!result.accepted) {
         this.logger.warn(
-          `[electron-message-bridge] Plugin "${plugin.name}" failed capability negotiation:`,
+          `[@ozymandros/electron-message-bridge] Plugin "${plugin.name}" failed capability negotiation:`,
           result.rejections.join(' | '),
         );
       }
 
       for (const warning of result.warnings) {
-        this.logger.warn(`[electron-message-bridge] [negotiate:${plugin.name}] ${warning}`);
+        this.logger.warn(`[@ozymandros/electron-message-bridge] [negotiate:${plugin.name}] ${warning}`);
       }
 
       if (result.accepted && result.warnings.length === 0) {
         this.logger.log(
-          `[electron-message-bridge] Plugin "${plugin.name}" negotiation accepted ` +
+          `[@ozymandros/electron-message-bridge] Plugin "${plugin.name}" negotiation accepted ` +
           `(protocol v${result.effectiveCapabilities.protocolVersion}).`,
         );
       }

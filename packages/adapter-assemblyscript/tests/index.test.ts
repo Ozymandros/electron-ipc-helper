@@ -1,5 +1,5 @@
 /**
- * Unit tests for @electron-message-bridge/adapter-assemblyscript.
+ * Unit tests for @ozymandros/electron-message-bridge-adapter-assemblyscript.
  *
  * No real `.wasm` file is needed. Tests inject a fake `WebAssembly.Instance`
  * whose exports are plain JavaScript functions. This isolates the adapter's
@@ -25,7 +25,7 @@ import {
   asc,
 } from '../src/index.js';
 import type { AscRuntimeExports, AscSchema } from '../src/index.js';
-import { PluginHost, PluginConflictError } from 'electron-message-bridge/plugins';
+import { PluginHost, PluginConflictError } from '@ozymandros/electron-message-bridge/plugins';
 // The vitest alias maps 'electron' → tests/__mocks__/electron.ts
 import { resetMocks } from 'electron';
 

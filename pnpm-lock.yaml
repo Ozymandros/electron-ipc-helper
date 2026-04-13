@@ -55,6 +55,9 @@ importers:
 
   packages/adapter-assemblyscript:
     devDependencies:
+      '@ozymandros/electron-message-bridge':
+        specifier: workspace:*
+        version: link:../..
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.39
@@ -64,9 +67,6 @@ importers:
       electron:
         specifier: '>=39.8.5'
         version: 41.2.0
-      electron-message-bridge:
-        specifier: workspace:*
-        version: link:../..
       rimraf:
         specifier: ^5.0.0
         version: 5.0.10
@@ -89,15 +89,15 @@ importers:
       '@grpc/grpc-js':
         specifier: ^1.9.0
         version: 1.14.3
+      '@ozymandros/electron-message-bridge':
+        specifier: workspace:*
+        version: link:../..
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.39
       '@vitest/coverage-v8':
         specifier: ^1.6.0
         version: 1.6.1(vitest@1.6.1(@types/node@20.19.39)(lightningcss@1.32.0))
-      electron-message-bridge:
-        specifier: workspace:*
-        version: link:../..
       rimraf:
         specifier: ^5.0.0
         version: 5.0.10
@@ -117,15 +117,15 @@ importers:
         specifier: '>=39.8.5'
         version: 41.2.0
     devDependencies:
+      '@ozymandros/electron-message-bridge':
+        specifier: workspace:*
+        version: link:../..
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.39
       '@vitest/coverage-v8':
         specifier: ^1.6.0
         version: 1.6.1(vitest@1.6.1(@types/node@20.19.39)(lightningcss@1.32.0))
-      electron-message-bridge:
-        specifier: workspace:*
-        version: link:../..
       rimraf:
         specifier: ^5.0.0
         version: 5.0.10
@@ -145,15 +145,15 @@ importers:
         specifier: '>=39.8.5'
         version: 41.2.0
     devDependencies:
+      '@ozymandros/electron-message-bridge':
+        specifier: workspace:*
+        version: link:../..
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.39
       '@vitest/coverage-v8':
         specifier: ^1.6.0
         version: 1.6.1(vitest@1.6.1(@types/node@20.19.39)(lightningcss@1.32.0))
-      electron-message-bridge:
-        specifier: workspace:*
-        version: link:../..
       rimraf:
         specifier: ^5.0.0
         version: 5.0.10
@@ -195,6 +195,9 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
     devDependencies:
+      '@ozymandros/electron-message-bridge':
+        specifier: workspace:*
+        version: link:../..
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.39
@@ -204,9 +207,6 @@ importers:
       electron:
         specifier: '>=39.8.5'
         version: 41.2.0
-      electron-message-bridge:
-        specifier: workspace:*
-        version: link:../..
       rimraf:
         specifier: ^5.0.0
         version: 5.0.10

@@ -1,5 +1,5 @@
 {
-  "name": "electron-message-bridge",
+  "name": "@ozymandros/electron-message-bridge",
   "version": "0.4.5",
   "description": "A small, typed, zero-boilerplate Electron IPC helper. Full end-to-end type inference across main, preload, and renderer.",
   "keywords": [
@@ -115,7 +115,7 @@
     "build": "tsup",
     "build:all": "pnpm run build && pnpm -r --filter \"./packages/*\" run build",
     "dev": "tsup --watch",
-    "docker:mock:build": "docker build -t electron-message-bridge/mock-backend:local docker/mock-backend",
+    "docker:mock:build": "docker build -t ozymandros/electron-message-bridge/mock-backend:local docker/mock-backend",
     "docker:mock:up": "docker compose -f docker-compose.integration.yml up -d --build",
     "docker:mock:down": "docker compose -f docker-compose.integration.yml down -v",
     "docker:mock:logs": "docker compose -f docker-compose.integration.yml logs -f mock-backend",
@@ -135,7 +135,13 @@
     "typecheck": "tsc --noEmit -p tsconfig.typecheck.json",
     "typecheck:refs": "tsc -b --pretty false",
     "clean": "rimraf dist",
-    "pack:all": "pnpm run build && pnpm --dir packages/adapter-assemblyscript run build && pnpm pack && pnpm --dir packages/adapter-assemblyscript pack --pack-destination ../.."
+    "pack:all": "pnpm run build && pnpm --dir packages/adapter-assemblyscript run build && pnpm pack && pnpm --dir packages/adapter-assemblyscript pack --pack-destination ../..",
+    "publish:adapters": "pnpm -r --filter \"./packages/adapter-*\" publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
+    "publish:core": "pnpm publish --access public --no-git-checks --provenance --registry=https://registry.npmjs.org",
+    "publish:all": "pnpm install --no-frozen-lockfile && pnpm run build:all && pnpm run publish:adapters && pnpm run publish:core",
+    "publish:adapters:dry-run": "pnpm -r --filter \"./packages/adapter-*\" publish --dry-run --access public --no-git-checks --registry=https://registry.npmjs.org",
+    "publish:core:dry-run": "pnpm publish --dry-run --access public --no-git-checks --registry=https://registry.npmjs.org",
+    "publish:all:dry-run": "pnpm install --no-frozen-lockfile && pnpm run build:all && pnpm run publish:adapters:dry-run && pnpm run publish:core:dry-run"
   },
   "peerDependencies": {
     "electron": ">=20.0.0"

@@ -1,5 +1,5 @@
 /**
- * Tests for @electron-message-bridge/adapter-grpc
+ * Tests for @ozymandros/electron-message-bridge-adapter-grpc
  *
  * Covers:
  *  - BridgeServiceDefinition: serialize/deserialize round-trip
@@ -170,7 +170,7 @@ describe('GrpcPlugin', () => {
     const plugin = new GrpcPlugin({ address: '127.0.0.1:50051' });
     const manifest = plugin.getManifest();
 
-    expect(manifest.name).toBe('@electron-message-bridge/adapter-grpc');
+    expect(manifest.name).toBe('@ozymandros/electron-message-bridge-adapter-grpc');
     expect(typeof manifest.version).toBe('string');
     expect(manifest.protocolVersion).toBeGreaterThanOrEqual(1);
     expect(manifest.supportsBinary).toBe(false);

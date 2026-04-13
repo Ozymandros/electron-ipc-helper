@@ -50,7 +50,7 @@ describe('scaffold: minimal template', () => {
 
     const pkg = JSON.parse(readFileSync(join(outputDir, 'package.json'), 'utf-8'));
     expect(pkg.name).toBe('my-minimal');
-    expect(pkg.dependencies?.['electron-message-bridge']).toBeDefined();
+    expect(pkg.dependencies?.['@ozymandros/electron-message-bridge']).toBeDefined();
     expect(pkg.scripts?.test).toBeDefined();
     expect(pkg.scripts?.build).toBeDefined();
   });
@@ -90,7 +90,7 @@ describe('scaffold: minimal template', () => {
 
     const api = readFileSync(join(outputDir, 'src', 'api.ts'), 'utf-8');
     expect(api).toContain('defineIpcApi');
-    expect(api).toContain('electron-message-bridge');
+    expect(api).toContain('@ozymandros/electron-message-bridge');
   });
 
   it('creates preload.ts in src/', async () => {
@@ -103,7 +103,7 @@ describe('scaffold: minimal template', () => {
 
     const preload = readFileSync(join(outputDir, 'src', 'preload.ts'), 'utf-8');
     expect(preload).toContain('exposeApiToRenderer');
-    expect(preload).toContain('electron-message-bridge/preload');
+    expect(preload).toContain('@ozymandros/electron-message-bridge/preload');
   });
 
   it('creates renderer.d.ts with Window augmentation', async () => {
@@ -147,7 +147,7 @@ describe('scaffold: full template', () => {
 
     const lc = readFileSync(join(outputDir, 'src', 'lifecycle.ts'), 'utf-8');
     expect(lc).toContain('ChildProcessLifecycle');
-    expect(lc).toContain('electron-message-bridge/lifecycle');
+    expect(lc).toContain('@ozymandros/electron-message-bridge/lifecycle');
   });
 
   it('plugins.ts uses PluginHost', async () => {

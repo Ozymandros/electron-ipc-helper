@@ -1,7 +1,7 @@
 {
-  "name": "@electron-message-bridge/adapter-stdio",
+  "name": "@ozymandros/electron-message-bridge-adapter-stdio",
   "version": "0.1.0",
-  "description": "stdio (stdin/stdout) transport adapter for electron-message-bridge. Exposes typed IPC handlers over newline-delimited JSON for child-process and CLI integration.",
+  "description": "stdio (stdin/stdout) transport adapter for @ozymandros/electron-message-bridge. Exposes typed IPC handlers over newline-delimited JSON for child-process and CLI integration.",
   "keywords": [
     "electron",
     "ipc",
@@ -11,7 +11,7 @@
     "ndjson",
     "transport",
     "typescript",
-    "electron-message-bridge"
+    "@ozymandros/electron-message-bridge"
   ],
   "license": "MIT",
   "type": "module",
@@ -45,12 +45,12 @@
   },
   "peerDependencies": {
     "electron": ">=20.0.0",
-    "electron-message-bridge": "workspace:*"
+    "@ozymandros/electron-message-bridge": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@vitest/coverage-v8": "^1.6.0",
-    "electron-message-bridge": "workspace:*",
+    "@ozymandros/electron-message-bridge": "workspace:*",
     "rimraf": "^5.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0",

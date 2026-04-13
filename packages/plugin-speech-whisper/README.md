@@ -1,14 +1,14 @@
-# electron-message-bridge-plugin-speech-whisper
+# @ozymandros/electron-message-bridge-plugin-speech-whisper
 
-Optional **local speech-to-text** for [electron-message-bridge](https://www.npmjs.com/package/electron-message-bridge): captures **16 kHz mono 16-bit WAV** via [`node-record-lpcm16`](https://www.npmjs.com/package/node-record-lpcm16) (SoX-backed) and runs **[Whisper.cpp](https://github.com/ggerganov/whisper.cpp)** as a **subprocess** (no .NET, no bundled binaries).
+Optional **local speech-to-text** for [@ozymandros/electron-message-bridge](https://www.npmjs.com/package/@ozymandros/electron-message-bridge): captures **16 kHz mono 16-bit WAV** via [`node-record-lpcm16`](https://www.npmjs.com/package/node-record-lpcm16) (SoX-backed) and runs **[Whisper.cpp](https://github.com/ggerganov/whisper.cpp)** as a **subprocess** (no .NET, no bundled binaries).
 
 ## Install
 
 ```bash
-pnpm add electron-message-bridge-plugin-speech-whisper
+pnpm add @ozymandros/electron-message-bridge-plugin-speech-whisper
 ```
 
-**Peer dependencies:** `electron` (≥20) and `electron-message-bridge` (same major as your app). This package does not ship Whisper or SoX.
+**Peer dependencies:** `electron` (≥20) and `@ozymandros/electron-message-bridge` (same major as your app). This package does not ship Whisper or SoX.
 
 The main-process `STTManager` loads [`node-record-lpcm16`](https://www.npmjs.com/package/node-record-lpcm16) with a dynamic `import()` and calls its **`record()`** export (the package ships `module.exports = { record }`; ESM interop is handled for you).
 
@@ -30,7 +30,7 @@ Microphone permission:
 
 ```ts
 import { app } from 'electron';
-import { registerSpeechWhisperMain } from 'electron-message-bridge-plugin-speech-whisper';
+import { registerSpeechWhisperMain } from '@ozymandros/electron-message-bridge-plugin-speech-whisper';
 
 const stt = registerSpeechWhisperMain({
   whisperBin: '/absolute/path/to/whisper.cpp/build/bin/whisper-cli',
@@ -49,7 +49,7 @@ app.on('before-quit', () => {
 ## Preload
 
 ```ts
-import { exposeSpeechWhisperToRenderer } from 'electron-message-bridge-plugin-speech-whisper/preload';
+import { exposeSpeechWhisperToRenderer } from '@ozymandros/electron-message-bridge-plugin-speech-whisper/preload';
 
 exposeSpeechWhisperToRenderer('speech');
 ```
@@ -81,7 +81,7 @@ Optional second argument: custom channel names (must match main). Defaults are i
 
 ## IPC channels (defaults)
 
-Export **`DEFAULT_STT_CHANNELS`** from `electron-message-bridge-plugin-speech-whisper` if you need the same keys in main and preload.
+Export **`DEFAULT_STT_CHANNELS`** from `@ozymandros/electron-message-bridge-plugin-speech-whisper` if you need the same keys in main and preload.
 
 | Channel | Direction | Payload |
 |---------|------------|---------|
@@ -93,7 +93,7 @@ Export **`DEFAULT_STT_CHANNELS`** from `electron-message-bridge-plugin-speech-wh
 Custom prefix example (both sides must agree):
 
 ```ts
-import { registerSpeechWhisperMain, DEFAULT_STT_CHANNELS } from 'electron-message-bridge-plugin-speech-whisper';
+import { registerSpeechWhisperMain, DEFAULT_STT_CHANNELS } from '@ozymandros/electron-message-bridge-plugin-speech-whisper';
 
 const channels = {
   ...DEFAULT_STT_CHANNELS,
@@ -146,8 +146,8 @@ If your build uses different flags, adjust `whisperArgsPrefix` or fork `STTManag
 From the repo root:
 
 ```bash
-pnpm --filter electron-message-bridge-plugin-speech-whisper run build
-pnpm --filter electron-message-bridge-plugin-speech-whisper run test
+pnpm --filter @ozymandros/electron-message-bridge-plugin-speech-whisper run build
+pnpm --filter @ozymandros/electron-message-bridge-plugin-speech-whisper run test
 ```
 
 ## License

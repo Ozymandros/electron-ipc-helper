@@ -31,10 +31,10 @@ export default defineConfig({
   // electron and optional adapter packages are always externals — never bundle them
   external: [
     'electron',
-    '@electron-message-bridge/adapter-assemblyscript',
-    '@electron-message-bridge/adapter-named-pipe',
-    '@electron-message-bridge/adapter-grpc',
-    '@electron-message-bridge/adapter-stdio',
+    '@ozymandros/electron-message-bridge-adapter-assemblyscript',
+    '@ozymandros/electron-message-bridge-adapter-named-pipe',
+    '@ozymandros/electron-message-bridge-adapter-grpc',
+    '@ozymandros/electron-message-bridge-adapter-stdio',
     '@grpc/grpc-js',
   ],
   });

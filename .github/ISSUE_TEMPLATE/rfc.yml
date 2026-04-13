@@ -1,5 +1,5 @@
 name: RFC — Request for Comments
-description: Propose a significant change to electron-message-bridge
+description: Propose a significant change to ozymandros/electron-message-bridge
 labels: ["rfc", "needs-review"]
 body:
   - type: markdown
@@ -35,7 +35,7 @@ body:
         Include TypeScript signatures, usage examples, and architecture notes.
       placeholder: |
         ```ts
-        // New export from 'electron-message-bridge'
+        // New export from 'ozymandros/electron-message-bridge'
         export function defineStreamingApi<T extends ApiHandlers>(handlers: T): StreamingApi<T>;
         ```
     validations:

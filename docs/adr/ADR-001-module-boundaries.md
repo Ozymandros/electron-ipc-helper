@@ -14,7 +14,7 @@ Electron apps require code to run in three separate contexts with strict boundar
 2. **Preload script** — Node.js + limited DOM, runs in isolated context before renderer.
 3. **Renderer process** — Chromium, sandboxed, no direct Node.js access.
 
-Sharing a single entry point (`import 'electron-message-bridge'`) for all three contexts is dangerous: importing `ipcMain` in the renderer crashes; importing `contextBridge` in the main process has no effect; bundling all code together bloats renderer bundles.
+Sharing a single entry point (`import 'ozymandros/electron-message-bridge'`) for all three contexts is dangerous: importing `ipcMain` in the renderer crashes; importing `contextBridge` in the main process has no effect; bundling all code together bloats renderer bundles.
 
 ---
 
@@ -24,14 +24,14 @@ Expose separate entry points per context, enforced via `package.json` `"exports"
 
 | Entry point | Context | Key exports |
 |---|---|---|
-| `electron-message-bridge` | Main process | `defineIpcApi`, `defineIpcEvents`, `ChildProcessLifecycle` |
-| `electron-message-bridge/preload` | Preload script | `exposeApiToRenderer`, `exposeEventsToRenderer`, `exposeValues` |
-| `electron-message-bridge/integrations` | Main process | `registerDialogHandlers`, `registerShellHandlers` |
-| `electron-message-bridge/menus` | Main process | `buildMenuTemplate`, `applyApplicationMenuFromFile` |
-| `electron-message-bridge/appkit` | Main process | `createMainAppKit` |
-| `electron-message-bridge/lifecycle` | Main process | `ChildProcessLifecycle` |
+| `ozymandros/electron-message-bridge` | Main process | `defineIpcApi`, `defineIpcEvents`, `ChildProcessLifecycle` |
+| `ozymandros/electron-message-bridge/preload` | Preload script | `exposeApiToRenderer`, `exposeEventsToRenderer`, `exposeValues` |
+| `ozymandros/electron-message-bridge/integrations` | Main process | `registerDialogHandlers`, `registerShellHandlers` |
+| `ozymandros/electron-message-bridge/menus` | Main process | `buildMenuTemplate`, `applyApplicationMenuFromFile` |
+| `ozymandros/electron-message-bridge/appkit` | Main process | `createMainAppKit` |
+| `ozymandros/electron-message-bridge/lifecycle` | Main process | `ChildProcessLifecycle` |
 
-Type definitions are co-located in each entry's `.d.ts` file. Shared types (`ApiHandlers`, `IpcApi`, etc.) are exported from the main entry and re-exported from `electron-message-bridge/preload` for convenience.
+Type definitions are co-located in each entry's `.d.ts` file. Shared types (`ApiHandlers`, `IpcApi`, etc.) are exported from the main entry and re-exported from `ozymandros/electron-message-bridge/preload` for convenience.
 
 ---
 

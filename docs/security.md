@@ -1,6 +1,6 @@
 # Security Guide
 
-electron-message-bridge is designed to be **secure by default**. This guide explains the security model, what protections are built in, and what you must configure correctly in your application.
+ozymandros/electron-message-bridge is designed to be **secure by default**. This guide explains the security model, what protections are built in, and what you must configure correctly in your application.
 
 ---
 
@@ -52,7 +52,7 @@ If you set `contextIsolation: false`, the security guarantees of this library **
 
 ## Preload script hardening checklist
 
-- [ ] Import only from `electron-message-bridge/preload` (not the root package) in preload scripts.
+- [ ] Import only from `ozymandros/electron-message-bridge/preload` (not the root package) in preload scripts.
 - [ ] Do not import `ipcRenderer` directly in preload — use `exposeApiToRenderer` and `exposeEventsToRenderer`.
 - [ ] Do not expose Node.js built-in modules (`fs`, `path`, etc.) via `exposeValues` unless absolutely necessary. If you must, expose the minimum surface needed.
 - [ ] Validate all inputs in `defineIpcApi` handlers before acting on them. The renderer is a potential attacker surface.

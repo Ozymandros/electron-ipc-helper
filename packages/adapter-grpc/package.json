@@ -1,14 +1,14 @@
 {
-  "name": "@electron-message-bridge/adapter-grpc",
+  "name": "@ozymandros/electron-message-bridge-adapter-grpc",
   "version": "0.1.0",
-  "description": "gRPC transport adapter for electron-message-bridge. Exposes typed IPC handlers over a gRPC channel for language-agnostic client access.",
+  "description": "gRPC transport adapter for @ozymandros/electron-message-bridge. Exposes typed IPC handlers over a gRPC channel for language-agnostic client access.",
   "keywords": [
     "electron",
     "ipc",
     "grpc",
     "transport",
     "typescript",
-    "electron-message-bridge"
+    "@ozymandros/electron-message-bridge"
   ],
   "license": "MIT",
   "type": "module",
@@ -43,7 +43,7 @@
   "peerDependencies": {
     "@grpc/grpc-js": "^1.9.0",
     "electron": ">=20.0.0",
-    "electron-message-bridge": "workspace:*"
+    "@ozymandros/electron-message-bridge": "workspace:*"
   },
   "peerDependenciesMeta": {
     "@grpc/grpc-js": {
@@ -54,7 +54,7 @@
     "@grpc/grpc-js": "^1.9.0",
     "@types/node": "^20.0.0",
     "@vitest/coverage-v8": "^1.6.0",
-    "electron-message-bridge": "workspace:*",
+    "@ozymandros/electron-message-bridge": "workspace:*",
     "rimraf": "^5.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0",

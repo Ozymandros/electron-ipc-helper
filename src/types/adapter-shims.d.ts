@@ -3,7 +3,7 @@
 // These declarations allow the main package to typecheck when adapters
 // are not installed (CI or consumers who don't use adapters).
 
-declare module '@electron-message-bridge/adapter-stdio' {
+declare module '@ozymandros/electron-message-bridge-adapter-stdio' {
   export function createStdioServerTransport(...args: any[]): any;
   export function createStdioClientTransport(...args: any[]): any;
   export class StdioPlugin { constructor(...args: any[]); name: string; getManifest(): any; init?(): any; dispose?(): any }
@@ -17,7 +17,7 @@ declare module '@electron-message-bridge/adapter-stdio' {
   export type StdioFrame = any;
 }
 
-declare module '@electron-message-bridge/adapter-grpc' {
+declare module '@ozymandros/electron-message-bridge-adapter-grpc' {
   export function createGrpcServerTransport(...args: any[]): any;
   export function createGrpcClientTransport(...args: any[]): any;
   export class GrpcPlugin { constructor(...args: any[]); name: string; getManifest(): any }
@@ -31,7 +31,7 @@ declare module '@electron-message-bridge/adapter-grpc' {
   export type InvokeResponse = any;
 }
 
-declare module '@electron-message-bridge/adapter-named-pipe' {
+declare module '@ozymandros/electron-message-bridge-adapter-named-pipe' {
   export function createNamedPipeServerTransport(...args: any[]): any;
   export function createNamedPipeClientTransport(...args: any[]): any;
   export class NamedPipePlugin { constructor(...args: any[]); name: string; getManifest(): any }
@@ -42,7 +42,7 @@ declare module '@electron-message-bridge/adapter-named-pipe' {
   export type NamedPipeCapabilities = any;
 }
 
-declare module '@electron-message-bridge/adapter-assemblyscript' {
+declare module '@ozymandros/electron-message-bridge-adapter-assemblyscript' {
   export type AscFnDescriptor = any;
   export type AscSchema = any;
   export type AscRuntimeExports = any;
@@ -58,10 +58,10 @@ declare module '@electron-message-bridge/adapter-assemblyscript' {
   export class AssemblyScriptPlugin { constructor(...args: any[]); name: string; capabilities: any; getManifest?(): any }
 }
 
-// Generic catch-all so other optional adapters in the '@electron-message-bridge'
+// Generic catch-all so other optional adapters in the '@ozymandros/electron-message-bridge'
 // scope don't block typechecking. Keep this conservative to avoid masking real
 // missing types in other places.
-declare module '@electron-message-bridge/*' {
+declare module '@ozymandros/electron-message-bridge/*' {
   const ns: any;
   export = ns;
 }

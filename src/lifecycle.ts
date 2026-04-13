@@ -268,7 +268,7 @@ export class ChildProcessLifecycle {
     } catch (error) {
       const reason = error instanceof Error ? error : new Error(String(error));
       this.options.logger?.warn?.(
-        `[electron-message-bridge] Restart attempt failed: ${reason.message}`,
+        `[@ozymandros/electron-message-bridge] Restart attempt failed: ${reason.message}`,
       );
       this.scheduleRestart();
     }

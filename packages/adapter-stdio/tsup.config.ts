@@ -11,5 +11,5 @@ export default defineConfig({
   sourcemap: true,
   splitting: false,
   treeshake: true,
-  external: ['electron', 'electron-message-bridge'],
+  external: ['electron', '@ozymandros/electron-message-bridge'],
 });

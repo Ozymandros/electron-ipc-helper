@@ -13,7 +13,7 @@ import type { events } from './events';
 import type {
   ExtractRendererApi,
   ExtractRendererEvents,
-} from 'electron-message-bridge';
+} from '@ozymandros/electron-message-bridge';
 
 declare global {
   interface Window {

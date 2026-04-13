@@ -1,7 +1,7 @@
 /**
- * @package @electron-message-bridge/adapter-stdio
+ * @package @ozymandros/electron-message-bridge-adapter-stdio
  *
- * stdio (stdin/stdout) transport adapter for electron-message-bridge.
+ * stdio (stdin/stdout) transport adapter for @ozymandros/electron-message-bridge.
  *
  * Exposes the same typed `defineIpcApi` handlers over newline-delimited JSON
  * (NDJSON) written to a pair of `Readable`/`Writable` streams — by default
@@ -31,8 +31,8 @@
  *
  * ```ts
  * // main.ts (server — reads from child's stdout, writes to child's stdin)
- * import { defineIpcApi } from 'electron-message-bridge';
- * import { createStdioServerTransport } from '@electron-message-bridge/adapter-stdio';
+ * import { defineIpcApi } from '@ozymandros/electron-message-bridge';
+ * import { createStdioServerTransport } from '@ozymandros/electron-message-bridge-adapter-stdio';
  * import { spawn } from 'node:child_process';
  *
  * const child = spawn('node', ['worker.js']);
@@ -43,7 +43,7 @@
  * export const api = defineIpcApi({ getUser }, { transport });
  *
  * // worker.js (client — uses process.stdin / process.stdout)
- * import { createStdioClientTransport } from '@electron-message-bridge/adapter-stdio';
+ * import { createStdioClientTransport } from '@ozymandros/electron-message-bridge-adapter-stdio';
  *
  * const transport = createStdioClientTransport();   // defaults to stdin/stdout
  * await transport.start();
@@ -55,12 +55,12 @@
 
 import { randomUUID } from 'node:crypto';
 import type { Readable, Writable } from 'node:stream';
-import type { TransportAdapter, TransportHandler } from 'electron-message-bridge/transport';
-import type { BridgePayload } from 'electron-message-bridge/boundary';
-import type { NegotiablePlugin, AdapterManifest } from 'electron-message-bridge/plugins';
-import type { Plugin, PluginContext } from 'electron-message-bridge/plugins';
-import { PROTOCOL_VERSION } from 'electron-message-bridge/plugins';
-import { TransportError } from 'electron-message-bridge';
+import type { TransportAdapter, TransportHandler } from '@ozymandros/electron-message-bridge/transport';
+import type { BridgePayload } from '@ozymandros/electron-message-bridge/boundary';
+import type { NegotiablePlugin, AdapterManifest } from '@ozymandros/electron-message-bridge/plugins';
+import type { Plugin, PluginContext } from '@ozymandros/electron-message-bridge/plugins';
+import { PROTOCOL_VERSION } from '@ozymandros/electron-message-bridge/plugins';
+import { TransportError } from '@ozymandros/electron-message-bridge';
 import {
   encodeStdioFrame,
   attachStdioDecoder,
@@ -72,7 +72,7 @@ export { encodeStdioFrame, attachStdioDecoder, LineSplitter } from './framing.js
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ADAPTER_NAME = '@electron-message-bridge/adapter-stdio';
+const ADAPTER_NAME = '@ozymandros/electron-message-bridge-adapter-stdio';
 const ADAPTER_VERSION = '0.1.0';
 
 // ─── Server transport ─────────────────────────────────────────────────────────

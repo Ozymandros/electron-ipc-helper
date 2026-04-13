@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "paths": {
-      "electron-message-bridge": ["../../src/index.ts"],
-      "electron-message-bridge/plugins": ["../../src/plugins.ts"],
-      "electron-message-bridge/transport": ["../../src/transport.ts"],
-      "electron-message-bridge/boundary": ["../../src/boundary.ts"]
+      "@ozymandros/electron-message-bridge": ["../../src/index.ts"],
+      "@ozymandros/electron-message-bridge/plugins": ["../../src/plugins.ts"],
+      "@ozymandros/electron-message-bridge/transport": ["../../src/transport.ts"],
+      "@ozymandros/electron-message-bridge/boundary": ["../../src/boundary.ts"]
     },
     "target": "ES2020",
     "module": "ESNext",

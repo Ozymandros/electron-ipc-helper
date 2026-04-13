@@ -11,5 +11,5 @@ export default defineConfig({
   sourcemap: true,
   splitting: false,
   treeshake: true,
-  external: ['electron', '@grpc/grpc-js', 'electron-message-bridge'],
+  external: ['electron', '@grpc/grpc-js', '@ozymandros/electron-message-bridge'],
 });

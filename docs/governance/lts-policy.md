@@ -6,7 +6,7 @@
 
 ## Overview
 
-Selected major releases of electron-message-bridge receive Long-Term Support (LTS). LTS releases are maintained with security patches and critical bug fixes for an extended window, giving production users a stable upgrade path.
+Selected major releases of ozymandros/electron-message-bridge receive Long-Term Support (LTS). LTS releases are maintained with security patches and critical bug fixes for an extended window, giving production users a stable upgrade path.
 
 ---
 
@@ -58,5 +58,5 @@ When a version reaches its Maintenance end date:
 For each LTS → next-LTS migration, we publish:
 
 - A migration guide in `docs/migration.md`.
-- A compatibility shim package (`electron-message-bridge-compat`) if breaking changes are significant.
+- A compatibility shim package (`ozymandros/electron-message-bridge-compat`) if breaking changes are significant.
 - A minimum 3-month overlap window where both versions are actively maintained.

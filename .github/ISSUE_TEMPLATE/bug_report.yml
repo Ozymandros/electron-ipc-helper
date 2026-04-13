@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report a bug in electron-message-bridge
+description: Report a bug in ozymandros/electron-message-bridge
 labels: ["bug", "needs-triage"]
 body:
   - type: markdown
@@ -10,7 +10,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: electron-message-bridge version
+      label: ozymandros/electron-message-bridge version
       placeholder: e.g. 0.1.0
     validations:
       required: true

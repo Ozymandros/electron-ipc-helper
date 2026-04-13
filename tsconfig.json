@@ -5,14 +5,14 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "electron-message-bridge": ["./src/index.ts"],
-      "electron-message-bridge/plugins": ["./src/plugins.ts"],
-      "electron-message-bridge/transport": ["./src/transport.ts"],
-      "electron-message-bridge/boundary": ["./src/boundary.ts"],
-      "@electron-message-bridge/adapter-grpc": ["./packages/adapter-grpc/src/index.ts"],
-      "@electron-message-bridge/adapter-stdio": ["./packages/adapter-stdio/src/index.ts"],
-      "@electron-message-bridge/adapter-named-pipe": ["./packages/adapter-named-pipe/src/index.ts"],
-      "@electron-message-bridge/adapter-assemblyscript": ["./packages/adapter-assemblyscript/src/index.ts"]
+      "@ozymandros/electron-message-bridge": ["./src/index.ts"],
+      "@ozymandros/electron-message-bridge/plugins": ["./src/plugins.ts"],
+      "@ozymandros/electron-message-bridge/transport": ["./src/transport.ts"],
+      "@ozymandros/electron-message-bridge/boundary": ["./src/boundary.ts"],
+      "@ozymandros/electron-message-bridge-adapter-grpc": ["./packages/adapter-grpc/src/index.ts"],
+      "@ozymandros/electron-message-bridge-adapter-stdio": ["./packages/adapter-stdio/src/index.ts"],
+      "@ozymandros/electron-message-bridge-adapter-named-pipe": ["./packages/adapter-named-pipe/src/index.ts"],
+      "@ozymandros/electron-message-bridge-adapter-assemblyscript": ["./packages/adapter-assemblyscript/src/index.ts"]
     },
     "lib": ["ES2020", "DOM"],
     "forceConsistentCasingInFileNames": true,

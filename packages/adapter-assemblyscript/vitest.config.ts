@@ -9,8 +9,8 @@ export default defineConfig({
       // Maps bare 'electron' imports to our mock during tests
       electron: fileURLToPath(new URL('./tests/__mocks__/electron.ts', import.meta.url)),
       // Maps the peer dep to the workspace root's source during tests
-      'electron-message-bridge/plugins': fileURLToPath(new URL('../../src/plugins.ts', import.meta.url)),
-      'electron-message-bridge': fileURLToPath(new URL('../../src/index.ts', import.meta.url)),
+      '@ozymandros/electron-message-bridge/plugins': fileURLToPath(new URL('../../src/plugins.ts', import.meta.url)),
+      '@ozymandros/electron-message-bridge': fileURLToPath(new URL('../../src/index.ts', import.meta.url)),
     },
     typecheck: {
       tsconfig: './tsconfig.json',

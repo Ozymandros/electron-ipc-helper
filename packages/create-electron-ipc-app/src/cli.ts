@@ -20,7 +20,7 @@ const program = new Command();
 
 program
   .name('create-electron-ipc-app')
-  .description('Scaffold a new Electron app powered by electron-message-bridge')
+  .description('Scaffold a new Electron app powered by @ozymandros/electron-message-bridge')
   .version('0.1.0')
   .argument('[project-name]', 'Name of the project directory to create')
   .option('-t, --template <slug>', 'Template to use: minimal | full', 'minimal')
@@ -121,7 +121,7 @@ function printNextSteps(name: string, outputDir: string): void {
   console.log(`  ${pc.dim('$')} npm run build`);
   console.log(`  ${pc.dim('$')} npm start`);
   console.log('');
-  console.log(pc.dim(`Docs: https://github.com/your-org/electron-message-bridge/docs`));
+  console.log(pc.dim(`Docs: https://github.com/your-org/@ozymandros/electron-message-bridge/docs`));
   console.log('');
   void name;
 }

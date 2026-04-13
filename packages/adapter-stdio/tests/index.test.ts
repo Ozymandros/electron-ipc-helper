@@ -1,5 +1,5 @@
 /**
- * Tests for @electron-message-bridge/adapter-stdio
+ * Tests for @ozymandros/electron-message-bridge-adapter-stdio
  *
  * Covers:
  *  - LineSplitter / encodeStdioFrame / attachStdioDecoder (framing)
@@ -27,7 +27,7 @@ import {
   createStdioServerTransport,
   createStdioClientTransport,
 } from '../src/index.js';
-import type { BridgePayload } from 'electron-message-bridge/boundary';
+import type { BridgePayload } from '@ozymandros/electron-message-bridge/boundary';
 
 // ─── Framing ──────────────────────────────────────────────────────────────────
 
@@ -318,7 +318,7 @@ describe('StdioPlugin', () => {
   it('getManifest() returns a valid AdapterManifest', () => {
     const plugin = new StdioPlugin();
     const manifest = plugin.getManifest();
-    expect(manifest.name).toBe('@electron-message-bridge/adapter-stdio');
+    expect(manifest.name).toBe('@ozymandros/electron-message-bridge-adapter-stdio');
     expect(typeof manifest.version).toBe('string');
     expect(manifest.protocolVersion).toBeGreaterThanOrEqual(1);
     expect(manifest.supportsBinary).toBe(false);

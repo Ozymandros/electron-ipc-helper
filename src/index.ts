@@ -1,5 +1,5 @@
 /**
- * electron-message-bridge — main process entry point
+ * @ozymandros/electron-message-bridge — main process entry point
  *
  * A small, typed, zero-boilerplate Electron IPC helper.
  * Abstracts all IPC setup for the main process, preload, and renderer.
@@ -7,11 +7,11 @@
  * ┌──────────────────────────────────┬──────────────────────────────────────┐
  * │  Import path                     │  Use in                              │
  * ├──────────────────────────────────┼──────────────────────────────────────┤
- * │  'electron-message-bridge'           │  Main process                        │
- * │  'electron-message-bridge/preload'   │  Preload script                      │
+ * │  '@ozymandros/electron-message-bridge'           │  Main process                        │
+ * │  '@ozymandros/electron-message-bridge/preload'   │  Preload script                      │
  * └──────────────────────────────────┴──────────────────────────────────────┘
  *
- * @see https://github.com/your-org/electron-message-bridge
+ * @see https://github.com/your-org/@ozymandros/electron-message-bridge
  */
 
 export {

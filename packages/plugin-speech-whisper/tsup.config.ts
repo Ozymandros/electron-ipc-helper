@@ -12,5 +12,5 @@ export default defineConfig({
   sourcemap: true,
   splitting: false,
   treeshake: true,
-  external: ['electron', 'electron-message-bridge', 'node-record-lpcm16'],
+  external: ['electron', '@ozymandros/electron-message-bridge', 'node-record-lpcm16'],
 });

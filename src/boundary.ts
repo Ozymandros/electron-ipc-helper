@@ -23,8 +23,8 @@
  * ```ts
  * // main.ts
  * import { z }            from 'zod';
- * import { defineIpcApi } from 'electron-message-bridge';
- * import { withValidation } from 'electron-message-bridge/boundary';
+ * import { defineIpcApi } from '@ozymandros/electron-message-bridge';
+ * import { withValidation } from '@ozymandros/electron-message-bridge/boundary';
  *
  * const GetUserInput = z.object({ id: z.string().uuid() });
  *
@@ -224,8 +224,8 @@ export interface BridgeSchema<TOut> {
  *
  * ```ts
  * import { z }            from 'zod';
- * import { defineIpcApi } from 'electron-message-bridge';
- * import { withValidation } from 'electron-message-bridge/boundary';
+ * import { defineIpcApi } from '@ozymandros/electron-message-bridge';
+ * import { withValidation } from '@ozymandros/electron-message-bridge/boundary';
  *
  * const GetUserInput = z.object({ id: z.string().uuid() });
  * type GetUserInput  = z.infer<typeof GetUserInput>;
@@ -281,7 +281,7 @@ export function withValidation<TIn, TOut>(
  *
  * ```ts
  * import { z }                  from 'zod';
- * import { withOutputValidation } from 'electron-message-bridge/boundary';
+ * import { withOutputValidation } from '@ozymandros/electron-message-bridge/boundary';
  *
  * // Only the id, name, and email fields are sent to the renderer.
  * const PublicUser = z.object({
@@ -322,7 +322,7 @@ export function withOutputValidation<TIn extends unknown[], TOut>(
  *
  * ```ts
  * import { z }               from 'zod';
- * import { withBoundary }    from 'electron-message-bridge/boundary';
+ * import { withBoundary }    from '@ozymandros/electron-message-bridge/boundary';
  *
  * const UpdateInput  = z.object({ id: z.string(), name: z.string().min(1) });
  * const PublicUser   = z.object({ id: z.string(), name: z.string() });

@@ -11,6 +11,6 @@ export default defineConfig({
   sourcemap: true,
   splitting: false,
   treeshake: true,
-  // electron and electron-message-bridge are always externals — never bundle them
-  external: ['electron', 'electron-message-bridge'],
+  // electron and @ozymandros/electron-message-bridge are always externals — never bundle them
+  external: ['electron', '@ozymandros/electron-message-bridge'],
 });

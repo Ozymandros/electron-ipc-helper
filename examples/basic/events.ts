@@ -6,7 +6,7 @@
  * define the event payload types. The bodies are never executed.
  */
 
-import { defineIpcEvents } from 'electron-message-bridge';
+import { defineIpcEvents } from '@ozymandros/electron-message-bridge';
 
 export const events = defineIpcEvents({
   /**

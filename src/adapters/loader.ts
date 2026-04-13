@@ -1,9 +1,9 @@
 /**
  * @module adapters/loader
  *
- * Dynamic adapter loading utility for electron-message-bridge.
+ * Dynamic adapter loading utility for @ozymandros/electron-message-bridge.
  *
- * Optional adapter packages (e.g. `@electron-message-bridge/adapter-assemblyscript`)
+ * Optional adapter packages (e.g. `@ozymandros/electron-message-bridge-adapter-assemblyscript`)
  * are declared as `optionalDependencies`. If a consumer has not installed one,
  * a static `import` fails at module-load time with a cryptic `MODULE_NOT_FOUND`
  * error that carries no actionable install hint.
@@ -18,9 +18,9 @@
  *
  * ```ts
  * // packages/adapter-my-runtime/src/loader.ts
- * import { requireAdapter } from 'electron-message-bridge/adapters/loader';
+ * import { requireAdapter } from '@ozymandros/electron-message-bridge/adapters/loader';
  *
- * const PACKAGE = '@electron-message-bridge/adapter-my-runtime';
+ * const PACKAGE = '@ozymandros/electron-message-bridge-adapter-my-runtime';
  *
  * export function loadMyRuntimeAdapter() {
  *   return requireAdapter(PACKAGE, () => import(PACKAGE));
@@ -32,7 +32,7 @@
  * Use the loader when you want to conditionally load an adapter at runtime:
  *
  * ```ts
- * import { loadAssemblyScriptAdapter } from 'electron-message-bridge/adapters/assemblyscript';
+ * import { loadAssemblyScriptAdapter } from '@ozymandros/electron-message-bridge/adapters/assemblyscript';
  *
  * try {
  *   const { createAssemblyScriptAdapter } = await loadAssemblyScriptAdapter();
@@ -77,8 +77,8 @@ import { AdapterMissingError } from '../errors.js';
  * @example
  * ```ts
  * const mod = await requireAdapter(
- *   '@electron-message-bridge/adapter-assemblyscript',
- *   () => import('@electron-message-bridge/adapter-assemblyscript'),
+ *   '@ozymandros/electron-message-bridge-adapter-assemblyscript',
+ *   () => import('@ozymandros/electron-message-bridge-adapter-assemblyscript'),
  * );
  * return mod.createAssemblyScriptAdapter(source, schema);
  * ```

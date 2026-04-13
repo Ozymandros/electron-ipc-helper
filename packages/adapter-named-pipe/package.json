@@ -1,7 +1,7 @@
 {
-  "name": "@electron-message-bridge/adapter-named-pipe",
+  "name": "@ozymandros/electron-message-bridge-adapter-named-pipe",
   "version": "0.1.0",
-  "description": "Named Pipe / Unix socket transport adapter for electron-message-bridge. Exposes typed IPC handlers over a local socket without Electron's built-in IPC.",
+  "description": "Named Pipe / Unix socket transport adapter for @ozymandros/electron-message-bridge. Exposes typed IPC handlers over a local socket without Electron's built-in IPC.",
   "keywords": [
     "electron",
     "ipc",
@@ -9,7 +9,7 @@
     "unix-socket",
     "transport",
     "typescript",
-    "electron-message-bridge"
+    "@ozymandros/electron-message-bridge"
   ],
   "license": "MIT",
   "type": "module",
@@ -43,12 +43,12 @@
   },
   "peerDependencies": {
     "electron": ">=20.0.0",
-    "electron-message-bridge": "workspace:*"
+    "@ozymandros/electron-message-bridge": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@vitest/coverage-v8": "^1.6.0",
-    "electron-message-bridge": "workspace:*",
+    "@ozymandros/electron-message-bridge": "workspace:*",
     "rimraf": "^5.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0",

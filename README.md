@@ -1,11 +1,11 @@
-# electron-message-bridge
+# @ozymandros/electron-message-bridge
 
-[![CI](https://github.com/Ozymandros/electron-message-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/Ozymandros/electron-message-bridge/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/Ozymandros/electron-message-bridge/actions/workflows/codeql.yml/badge.svg)](https://github.com/Ozymandros/electron-message-bridge/actions/workflows/codeql.yml)
-[![GitHub Release](https://img.shields.io/github/v/release/Ozymandros/electron-message-bridge?label=release)](https://github.com/Ozymandros/electron-message-bridge/releases)
-[![npm](https://img.shields.io/npm/v/electron-message-bridge)](https://www.npmjs.com/package/electron-message-bridge)
-[![npm downloads](https://img.shields.io/npm/dm/electron-message-bridge)](https://www.npmjs.com/package/electron-message-bridge)
-[![license](https://img.shields.io/npm/l/electron-message-bridge)](LICENSE)
+[![CI](https://github.com/Ozymandros/@ozymandros/electron-message-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/Ozymandros/@ozymandros/electron-message-bridge/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/Ozymandros/@ozymandros/electron-message-bridge/actions/workflows/codeql.yml/badge.svg)](https://github.com/Ozymandros/@ozymandros/electron-message-bridge/actions/workflows/codeql.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/Ozymandros/@ozymandros/electron-message-bridge?label=release)](https://github.com/Ozymandros/@ozymandros/electron-message-bridge/releases)
+[![npm](https://img.shields.io/npm/v/@ozymandros/electron-message-bridge)](https://www.npmjs.com/package/@ozymandros/electron-message-bridge)
+[![npm downloads](https://img.shields.io/npm/dm/@ozymandros/electron-message-bridge)](https://www.npmjs.com/package/@ozymandros/electron-message-bridge)
+[![license](https://img.shields.io/npm/l/@ozymandros/electron-message-bridge)](LICENSE)
 
 ---
 
@@ -39,84 +39,84 @@ Use only what you need:
 
 Nothing outside the core is required.
 
-The core package (`electron-message-bridge`) is published from the repository root.
+The core package (`@ozymandros/electron-message-bridge`) is published from the repository root.
 Optional adapters and plugins are maintained as separate workspace packages under
 `packages/*` and can be installed independently.
 
-For optional adapters, install the adapter package directly. The library ships thin shims under `electron-message-bridge/adapters/*` that lazily import the adapter package and throw a helpful `AdapterMissingError` if the package is not installed.
+For optional adapters, install the adapter package directly. The library ships thin shims under `@ozymandros/electron-message-bridge/adapters/*` that lazily import the adapter package and throw a helpful `AdapterMissingError` if the package is not installed.
 
 ## Optional adapters
 
 This project provides several optional transport adapters you can install when you need to expose handlers over different IPC mechanisms.
 
-- AssemblyScript / WebAssembly adapter — `@electron-message-bridge/adapter-assemblyscript`
+- AssemblyScript / WebAssembly adapter — `@ozymandros/electron-message-bridge-adapter-assemblyscript`
 
   Install:
 
   ```bash
-  pnpm add @electron-message-bridge/adapter-assemblyscript
-  # or: npm install @electron-message-bridge/adapter-assemblyscript
+  pnpm add @ozymandros/electron-message-bridge-adapter-assemblyscript
+  # or: npm install @ozymandros/electron-message-bridge-adapter-assemblyscript
   ```
 
   Usage (shim import):
 
   ```ts
-  const { createAssemblyScriptAdapter } = await import('electron-message-bridge/adapters/assemblyscript');
+  const { createAssemblyScriptAdapter } = await import('@ozymandros/electron-message-bridge/adapters/assemblyscript');
   // or import directly from the adapter package:
-  // import { createAssemblyScriptAdapter } from '@electron-message-bridge/adapter-assemblyscript';
+  // import { createAssemblyScriptAdapter } from '@ozymandros/electron-message-bridge-adapter-assemblyscript';
   ```
 
-- gRPC adapter — `@electron-message-bridge/adapter-grpc` (requires `@grpc/grpc-js`)
+- gRPC adapter — `@ozymandros/electron-message-bridge-adapter-grpc` (requires `@grpc/grpc-js`)
 
   Install:
 
   ```bash
-  pnpm add @electron-message-bridge/adapter-grpc @grpc/grpc-js
+  pnpm add @ozymandros/electron-message-bridge-adapter-grpc @grpc/grpc-js
   ```
 
   Usage:
 
   ```ts
-  const { createGrpcServerTransport } = await import('electron-message-bridge/adapters/grpc');
+  const { createGrpcServerTransport } = await import('@ozymandros/electron-message-bridge/adapters/grpc');
   // or import from the adapter package directly:
-  // import { createGrpcServerTransport } from '@electron-message-bridge/adapter-grpc';
+  // import { createGrpcServerTransport } from '@ozymandros/electron-message-bridge-adapter-grpc';
   ```
 
-- Named Pipe / Unix socket adapter — `@electron-message-bridge/adapter-named-pipe`
+- Named Pipe / Unix socket adapter — `@ozymandros/electron-message-bridge-adapter-named-pipe`
 
   Install:
 
   ```bash
-  pnpm add @electron-message-bridge/adapter-named-pipe
+  pnpm add @ozymandros/electron-message-bridge-adapter-named-pipe
   ```
 
   Usage:
 
   ```ts
-  const { createNamedPipeServerTransport } = await import('electron-message-bridge/adapters/named-pipe');
+  const { createNamedPipeServerTransport } = await import('@ozymandros/electron-message-bridge/adapters/named-pipe');
   // or import directly from the adapter package:
-  // import { createNamedPipeServerTransport } from '@electron-message-bridge/adapter-named-pipe';
+  // import { createNamedPipeServerTransport } from '@ozymandros/electron-message-bridge-adapter-named-pipe';
   ```
 
-- stdio (stdin/stdout) adapter — `@electron-message-bridge/adapter-stdio`
+- stdio (stdin/stdout) adapter — `@ozymandros/electron-message-bridge-adapter-stdio`
 
   Install:
 
   ```bash
-  pnpm add @electron-message-bridge/adapter-stdio
+  pnpm add @ozymandros/electron-message-bridge-adapter-stdio
   ```
 
   Usage:
 
   ```ts
-  const { createStdioServerTransport } = await import('electron-message-bridge/adapters/stdio');
+  const { createStdioServerTransport } = await import('@ozymandros/electron-message-bridge/adapters/stdio');
   // or import directly from the adapter package:
-  // import { createStdioServerTransport } from '@electron-message-bridge/adapter-stdio';
+  // import { createStdioServerTransport } from '@ozymandros/electron-message-bridge-adapter-stdio';
   ```
 
 Notes:
 
-- The lightweight shims under `electron-message-bridge/adapters/*` keep bundlers and consumers happy by only dynamically importing the adapter package at runtime.
+- The lightweight shims under `@ozymandros/electron-message-bridge/adapters/*` keep bundlers and consumers happy by only dynamically importing the adapter package at runtime.
 - If you try to use a shim without installing the adapter package, you'll get an `AdapterMissingError` that tells you which package to install.
 
 
@@ -154,7 +154,7 @@ Notes:
 ## Installation
 
 ```bash
-pnpm add electron-message-bridge
+pnpm add @ozymandros/electron-message-bridge
 ```
 
 `electron` must be installed separately as a peer dependency.
@@ -193,7 +193,7 @@ pnpm run test:integration
 
 ```ts
 // src-electron/api.ts
-import { defineIpcApi } from 'electron-message-bridge';
+import { defineIpcApi } from '@ozymandros/electron-message-bridge';
 import { db } from './db';
 
 export const api = defineIpcApi({
@@ -207,7 +207,7 @@ export const api = defineIpcApi({
 
 ```ts
 // src-electron/events.ts
-import { defineIpcEvents } from 'electron-message-bridge';
+import { defineIpcEvents } from '@ozymandros/electron-message-bridge';
 
 export const events = defineIpcEvents({
   backendReady:   (_code: number)                            => {},
@@ -220,7 +220,7 @@ export const events = defineIpcEvents({
 
 ```ts
 // preload.ts
-import { exposeApiToRenderer, exposeEventsToRenderer, exposeValues } from 'electron-message-bridge/preload';
+import { exposeApiToRenderer, exposeEventsToRenderer, exposeValues } from '@ozymandros/electron-message-bridge/preload';
 import { api }    from './api';
 import { events } from './events';
 
@@ -243,7 +243,7 @@ import type { events } from '../src-electron/events';
 import type {
   ExtractRendererApi,
   ExtractRendererEvents,
-} from 'electron-message-bridge';
+} from '@ozymandros/electron-message-bridge';
 
 declare global {
   interface Window {
@@ -278,7 +278,7 @@ unsub();
 Registers each key of `handlers` as an `ipcMain.handle` channel.
 
 ```ts
-import { defineIpcApi } from 'electron-message-bridge';
+import { defineIpcApi } from '@ozymandros/electron-message-bridge';
 
 const api = defineIpcApi({
   myMethod: async (arg: string) => `hello ${arg}`,
@@ -318,7 +318,7 @@ if (import.meta.hot) {
 Declares a set of typed push events. Schema values are **descriptor functions** — they are never called; they exist only so TypeScript can infer parameter types.
 
 ```ts
-import { defineIpcEvents } from 'electron-message-bridge';
+import { defineIpcEvents } from '@ozymandros/electron-message-bridge';
 
 const events = defineIpcEvents({
   backendReady:   (_code: number)   => {},
@@ -435,7 +435,7 @@ import {
   applyApplicationMenuFromFile,
   buildMenuTemplate,
   loadMenuSpecFromFile,
-} from 'electron-message-bridge/menus';
+} from '@ozymandros/electron-message-bridge/menus';
 
 const spec = await loadMenuSpecFromFile('config/menu.yaml');
 
@@ -469,12 +469,12 @@ await applyApplicationMenuFromFile('config/menu.yaml', {
 
 ## AppKit (Optional Glue Layer)
 
-Use `electron-message-bridge/appkit` when you want one setup flow that composes
+Use `@ozymandros/electron-message-bridge/appkit` when you want one setup flow that composes
 core IPC, optional integrations, and optional menus.
 
 ```ts
 // main.ts
-import { setupMainAppKit } from 'electron-message-bridge/appkit';
+import { setupMainAppKit } from '@ozymandros/electron-message-bridge/appkit';
 
 const appkit = await setupMainAppKit({
   apiHandlers: {
@@ -501,7 +501,7 @@ appkit.dispose();
 
 ```ts
 // preload.ts
-import { setupPreloadAppKit } from 'electron-message-bridge/appkit';
+import { setupPreloadAppKit } from '@ozymandros/electron-message-bridge/appkit';
 
 setupPreloadAppKit({
   api: appkit.api,
@@ -516,11 +516,11 @@ setupPreloadAppKit({
 
 ## Child Process Lifecycle
 
-Use `electron-message-bridge/lifecycle` to supervise a backend process from the
+Use `@ozymandros/electron-message-bridge/lifecycle` to supervise a backend process from the
 main process with optional readiness checks and bounded auto-restarts.
 
 ```ts
-import { ChildProcessLifecycle } from 'electron-message-bridge/lifecycle';
+import { ChildProcessLifecycle } from '@ozymandros/electron-message-bridge/lifecycle';
 
 const lifecycle = new ChildProcessLifecycle({
   command: 'dotnet',
@@ -632,5 +632,5 @@ pnpm run build
 ## Note on impact
 
 In a typical setup with 3 request/response IPC methods and 3 push events,
-`electron-message-bridge` usually removes around 35 lines of IPC boilerplate
+`@ozymandros/electron-message-bridge` usually removes around 35 lines of IPC boilerplate
 and reduces IPC maintenance surface by roughly 70%.

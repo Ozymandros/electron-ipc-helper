@@ -1,12 +1,12 @@
 # Performance Guide
 
-Understanding and optimising the performance of electron-message-bridge in production Electron applications.
+Understanding and optimising the performance of ozymandros/electron-message-bridge in production Electron applications.
 
 ---
 
 ## Performance model
 
-electron-message-bridge's overhead is confined to three areas:
+ozymandros/electron-message-bridge's overhead is confined to three areas:
 
 | Area | Cost | Notes |
 |---|---|---|
@@ -100,7 +100,7 @@ Electron's IPC uses structured clone. Large objects, deeply nested trees, or lar
 
 ```ts
 // Eager (default) — handlers registered immediately on import
-import { defineIpcApi } from 'electron-message-bridge';
+import { defineIpcApi } from 'ozymandros/electron-message-bridge';
 import { heavyHandler } from './heavyModule.js'; // loaded immediately
 
 const api = defineIpcApi({ heavyHandler });

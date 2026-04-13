@@ -16,7 +16,7 @@ import { AdapterMissingError } from '../../src/errors.js';
 import { requireAdapter } from '../../src/adapters/loader.js';
 
 // Virtual adapter mocks keep this suite independent from optional package installs.
-vi.mock('@electron-message-bridge/adapter-stdio', () => ({
+vi.mock('@ozymandros/electron-message-bridge-adapter-stdio', () => ({
   createStdioServerTransport: () => ({ name: 'stdio-server' }),
   createStdioClientTransport: () => ({ name: 'stdio-client' }),
   StdioPlugin: class StdioPlugin {
@@ -24,7 +24,7 @@ vi.mock('@electron-message-bridge/adapter-stdio', () => ({
   },
 }));
 
-vi.mock('@electron-message-bridge/adapter-grpc', () => ({
+vi.mock('@ozymandros/electron-message-bridge-adapter-grpc', () => ({
   createGrpcServerTransport: () => ({ name: 'grpc-server' }),
   createGrpcClientTransport: () => ({ name: 'grpc-client' }),
   BridgeServiceDefinition: {
@@ -35,14 +35,14 @@ vi.mock('@electron-message-bridge/adapter-grpc', () => ({
   },
 }));
 
-vi.mock('@electron-message-bridge/adapter-named-pipe', () => ({
+vi.mock('@ozymandros/electron-message-bridge-adapter-named-pipe', () => ({
   createNamedPipeServerTransport: () => ({ name: 'named-pipe-server' }),
   createNamedPipeClientTransport: () => ({ name: 'named-pipe-client' }),
   NamedPipePlugin: class NamedPipePlugin {
     public readonly name = 'named-pipe';
     public getManifest() {
       return {
-        name: '@electron-message-bridge/adapter-named-pipe',
+        name: '@ozymandros/electron-message-bridge-adapter-named-pipe',
         supportsBinary: true,
         supportsStreaming: false,
       };
@@ -197,7 +197,7 @@ describe('loadNamedPipeAdapter', () => {
     const plugin = new mod.NamedPipePlugin('/tmp/test-shim.sock');
     expect(plugin.name).toBe('named-pipe');
     const manifest = plugin.getManifest();
-    expect(manifest.name).toBe('@electron-message-bridge/adapter-named-pipe');
+    expect(manifest.name).toBe('@ozymandros/electron-message-bridge-adapter-named-pipe');
     expect(manifest.supportsBinary).toBe(true);
     expect(manifest.supportsStreaming).toBe(false);
   });

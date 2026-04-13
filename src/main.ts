@@ -1,7 +1,7 @@
 /**
  * @module main
  *
- * Main-process entry point for electron-message-bridge.
+ * Main-process entry point for @ozymandros/electron-message-bridge.
  *
  * Import this module **only** from your Electron main process.
  *
@@ -11,7 +11,7 @@
  * @example
  * ```ts
  * // src-electron/api.ts
- * import { defineIpcApi } from 'electron-message-bridge';
+ * import { defineIpcApi } from '@ozymandros/electron-message-bridge';
  *
  * export const api = defineIpcApi({
  *   getUser:      async (id: string)       => db.users.findById(id),
@@ -62,7 +62,7 @@ const ipcMain = (electron as { ipcMain?: typeof electron.ipcMain; default?: { ip
  * });
  *
  * // Alternative: Named Pipe transport
- * import { createNamedPipeServerTransport } from '@electron-message-bridge/adapter-named-pipe';
+ * import { createNamedPipeServerTransport } from '@ozymandros/electron-message-bridge-adapter-named-pipe';
  * export const api = defineIpcApi(
  *   { getUser: async (id: string) => db.users.findById(id) },
  *   { transport: createNamedPipeServerTransport('/tmp/my-app.sock') },
@@ -79,7 +79,7 @@ export function defineIpcApi<T extends ApiHandlers>(
   if(!transport && !ipcMain) {
     throw new Error(
       'Electron ipcMain module not found. ' +
-      'This likely means you imported from "electron-message-bridge" in a non-Electron environment, ' +
+      'This likely means you imported from "@ozymandros/electron-message-bridge" in a non-Electron environment, ' +
       'or before the Electron modules are available. ' +
       'Make sure to import only from the main process and after the app is ready.',
     );
