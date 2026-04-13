@@ -12,6 +12,10 @@
     "ipcRenderer"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ozymandros/electron-message-bridge"
+  },
   "type": "module",
   "packageManager": "pnpm@10.10.0",
   "files": [
