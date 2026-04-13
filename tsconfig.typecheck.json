@@ -3,6 +3,6 @@
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "tests"],
+  "include": ["src", "tests", "packages/*/src"],
   "exclude": ["node_modules", "dist", "examples"]
 }

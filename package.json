@@ -109,7 +109,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup",
-    "build:all": "pnpm -r run build",
+    "build:all": "pnpm run build && pnpm -r --filter \"./packages/*\" run build",
     "dev": "tsup --watch",
     "docker:mock:build": "docker build -t electron-message-bridge/mock-backend:local docker/mock-backend",
     "docker:mock:up": "docker compose -f docker-compose.integration.yml up -d --build",
@@ -117,7 +117,7 @@
     "docker:mock:logs": "docker compose -f docker-compose.integration.yml logs -f mock-backend",
     "lint": "eslint src/ tests/",
     "check": "eslint src/ tests/ && tsc --noEmit -p tsconfig.typecheck.json && vitest --typecheck run",
-    "check:packages": "pnpm -r --filter \"./packages/*\" run typecheck",
+    "check:packages": "pnpm run typecheck:refs",
     "check:all": "pnpm run check && pnpm run check:packages && pnpm run test:types && pnpm run test",
     "check:all:coverage": "pnpm run check && pnpm run check:packages && pnpm run test:types && pnpm run test:coverage",
     "test": "vitest run",
@@ -129,6 +129,7 @@
     "test:watch": "vitest",
     "test:types": "vitest --typecheck run",
     "typecheck": "tsc --noEmit -p tsconfig.typecheck.json",
+    "typecheck:refs": "tsc -b --pretty false",
     "clean": "rimraf dist",
     "pack:all": "pnpm run build && pnpm --dir packages/adapter-assemblyscript run build && pnpm pack && pnpm --dir packages/adapter-assemblyscript pack --pack-destination ../.."
   },

@@ -26,10 +26,11 @@
     "noImplicitOverride": true,
     "declaration": true,
     "declarationMap": true,
+    "composite": true,
     "outDir": "dist",
     "sourceMap": true,
     "skipLibCheck": true
   },
-  "include": ["src", "tests"],
+  "include": ["src", "tests", "packages/*/src"],
   "exclude": ["node_modules", "dist"]
 }
