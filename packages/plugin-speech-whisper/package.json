@@ -1,6 +1,6 @@
 {
   "name": "@ozymandros/electron-message-bridge-plugin-speech-whisper",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Optional Whisper.cpp STT plugin for @ozymandros/electron-message-bridge: mic capture + IPC bridge (main/preload).",
   "keywords": [
     "electron",
@@ -55,11 +55,11 @@
   },
   "devDependencies": {
     "@ozymandros/electron-message-bridge": "workspace:*",
-    "@types/node": "^20.0.0",
+    "@types/node": "^20.19.39",
     "@vitest/coverage-v8": "^1.6.1",
-    "rimraf": "^5.0.0",
-    "tsup": "^8.0.0",
-    "typescript": "^5.4.0",
-    "vitest": "^1.6.0"
+    "rimraf": "^5.0.10",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^1.6.1"
   }
 }

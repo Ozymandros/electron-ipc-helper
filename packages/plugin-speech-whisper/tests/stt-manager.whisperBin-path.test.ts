@@ -51,6 +51,26 @@ describe('STTManager (whisperBin in PATH)', () => {
     const status = await stt.getStatus();
     expect(status.canRecord).toBe(true);
   });
+
+  it('falls back to default whisper when whisperBin is empty', async () => {
+    const stt = new STTManager({
+      whisperBin: '   ',
+      modelPath: '/some/path/ggml-base.bin',
+    });
+    const status = await stt.getStatus();
+    expect(status.hasBinary).toBe(true);
+    expect(status.canRecord).toBe(true);
+  });
+
+  it('falls back to default whisper when whisperBin is null', async () => {
+    const stt = new STTManager({
+      whisperBin: null,
+      modelPath: '/some/path/ggml-base.bin',
+    } as unknown as SpeechWhisperOptions);
+    const status = await stt.getStatus();
+    expect(status.hasBinary).toBe(true);
+    expect(status.canRecord).toBe(true);
+  });
 });
 
 

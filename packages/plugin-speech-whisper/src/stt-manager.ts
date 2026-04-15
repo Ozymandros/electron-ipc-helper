@@ -2,7 +2,7 @@ import { spawn } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
 import { access, unlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { delimiter, isAbsolute, join } from 'node:path';
 import type { WebContents } from 'electron';
 import type { SpeechWhisperOptions, SttResultPayload, SttState, SttStatus } from './types.js';
 
@@ -57,6 +57,47 @@ async function fileExists(path: string): Promise<boolean> {
   }
 }
 
+async function commandExistsInPath(command: string): Promise<boolean> {
+  const rawPath = process.env.PATH ?? '';
+  const pathEntries = rawPath.split(delimiter).filter((entry) => entry.trim().length > 0);
+  if (pathEntries.length === 0) return false;
+
+  const candidates = [command];
+  if (process.platform === 'win32') {
+    const hasKnownExt = /\.[^./\\]+$/.test(command);
+    const pathExts = (process.env.PATHEXT ?? '.EXE;.CMD;.BAT;.COM')
+      .split(';')
+      .map((ext) => ext.trim().toLowerCase())
+      .filter((ext) => ext.length > 0);
+    if (!hasKnownExt) {
+      for (const ext of pathExts) {
+        candidates.push(`${command}${ext}`);
+      }
+    }
+  }
+
+  for (const dir of pathEntries) {
+    for (const candidate of candidates) {
+      if (await fileExists(join(dir, candidate))) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+async function whisperBinaryExists(whisperBin: string): Promise<boolean> {
+  const normalized = whisperBin.trim();
+  if (!normalized) return false;
+  if (isAbsolute(normalized) || normalized.includes('/') || normalized.includes('\\')) {
+    return fileExists(normalized);
+  }
+  if (await fileExists(normalized)) {
+    return true;
+  }
+  return commandExistsInPath(normalized);
+}
+
 async function getTempBase(options: SpeechWhisperOptions): Promise<string> {
   if (options.tempDir) return options.tempDir;
   try {
@@ -87,9 +128,11 @@ export class STTManager {
   private whisperChild: ReturnType<typeof spawn> | null = null;
 
   constructor(options: SpeechWhisperOptions) {
+    const whisperBinInput =
+      typeof options.whisperBin === 'string' ? options.whisperBin.trim() : options.whisperBin;
     this.options = {
       ...options,
-      whisperBin: options.whisperBin ?? 'whisper',
+      whisperBin: whisperBinInput ? whisperBinInput : 'whisper',
     };
   }
 
@@ -102,7 +145,7 @@ export class STTManager {
    */
   async getStatus(): Promise<SttStatus> {
     const hasModel = await fileExists(this.options.modelPath);
-    const hasBinary = await fileExists(this.options.whisperBin);
+    const hasBinary = await whisperBinaryExists(this.options.whisperBin);
 
     let error: string | undefined = this.lastError;
 
