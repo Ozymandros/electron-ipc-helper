@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "paths": {
-      "electron": ["./tests/__mocks__/electron.ts"],
       "@ozymandros/electron-message-bridge": ["../../src/index.ts"],
       "@ozymandros/electron-message-bridge/plugins": ["../../src/plugins.ts"],
       "@ozymandros/electron-message-bridge/transport": ["../../src/transport.ts"],
@@ -22,9 +21,6 @@
     "sourceMap": true,
     "skipLibCheck": true
   },
-  "references": [
-    { "path": "../.." }
-  ],
   "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
 }

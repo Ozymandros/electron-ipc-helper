@@ -20,10 +20,49 @@
  * ```
  */
 
+
 import * as electron from 'electron';
 import { InvalidPayloadError } from './errors.js';
 import type { TransportAdapter } from './transport.js';
 import type { ApiHandlers, EventsSchema, IpcApi, IpcEvents, WindowTarget } from './types';
+
+// ─── Whisper Speech-to-Text Integration ─────────────────────────────────────
+import path from 'path';
+type SpeechWhisperRegistration = { dispose?: () => void } | void;
+type RegisterSpeechWhisperMain = (options: { whisperBin: string; modelPath: string }) => SpeechWhisperRegistration;
+
+let sttRegistration: SpeechWhisperRegistration;
+
+void electron.app.whenReady().then(() => {
+  // Detect environment and build robust model/bin paths
+  const isProd = electron.app.isPackaged;
+  const modelPath = isProd
+    ? path.join(process.resourcesPath, 'models', 'ggml-base.bin')
+    : path.join(electron.app.getAppPath(), 'models', 'ggml-base.bin');
+  const whisperBin = isProd
+    ? path.join(process.resourcesPath, 'bin', 'whisper-cli')
+    : path.join(electron.app.getAppPath(), 'bin', 'whisper-cli');
+
+  void (async () => {
+    try {
+      const whisperModuleName = '@ozymandros/electron-message-bridge-plugin-speech-whisper';
+      const whisperModule = await import(whisperModuleName);
+      const registerSpeechWhisperMain = whisperModule.registerSpeechWhisperMain as RegisterSpeechWhisperMain | undefined;
+      if (typeof registerSpeechWhisperMain === 'function') {
+        sttRegistration = registerSpeechWhisperMain({
+          whisperBin,
+          modelPath,
+        });
+      }
+    } catch {
+      // Optional plugin: keep core module usable even when the package is absent.
+    }
+  })();
+
+  electron.app.on('before-quit', () => {
+    sttRegistration?.dispose?.();
+  });
+});
 
 const ipcMain = (electron as { ipcMain?: typeof electron.ipcMain; default?: { ipcMain?: typeof electron.ipcMain } }).ipcMain
   ?? (electron as { default?: { ipcMain?: typeof electron.ipcMain } }).default?.ipcMain;

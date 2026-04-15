@@ -1,6 +1,6 @@
 {
   "name": "@ozymandros/electron-message-bridge",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "A small, typed, zero-boilerplate Electron IPC helper. Full end-to-end type inference across main, preload, and renderer.",
   "keywords": [
     "electron",
@@ -52,8 +52,8 @@
       "import": "./dist/lifecycle.mjs",
       "require": "./dist/lifecycle.cjs"
     },
+    "types": "./dist/plugins.d.ts",
     "./plugins": {
-      "types": "./dist/plugins.d.ts",
       "import": "./dist/plugins.mjs",
       "require": "./dist/plugins.cjs"
     },
@@ -112,7 +112,9 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
+    "build": "pnpm run build:core && pnpm run build:adapters",
+    "build:core": "tsup",
+    "build:adapters": "pnpm -r --filter \"./packages/adapter-*\" run build",
     "build:all": "pnpm run build && pnpm -r --filter \"./packages/*\" run build",
     "dev": "tsup --watch",
     "docker:mock:build": "docker build -t ozymandros/electron-message-bridge/mock-backend:local docker/mock-backend",
@@ -120,11 +122,15 @@
     "docker:mock:down": "docker compose -f docker-compose.integration.yml down -v",
     "docker:mock:logs": "docker compose -f docker-compose.integration.yml logs -f mock-backend",
     "lint": "eslint src/ tests/",
-    "check": "eslint src/ tests/ && tsc --noEmit -p tsconfig.typecheck.json && vitest --typecheck run",
+    "check": "pnpm run check:core && pnpm run check:adapters",
+    "check:core": "eslint src/ tests/ && tsc --noEmit -p tsconfig.typecheck.json && vitest --typecheck run tests",
+    "check:adapters": "pnpm -r --filter \"./packages/adapter-*\" run typecheck && pnpm -r --filter \"./packages/adapter-*\" run test",
     "check:packages": "pnpm run typecheck:refs",
     "check:all": "pnpm run check && pnpm run check:packages && pnpm run test:types && pnpm run test",
     "check:all:coverage": "pnpm run check && pnpm run check:packages && pnpm run test:types && pnpm run test:coverage",
-    "test": "vitest run",
+    "test": "pnpm run test:core && pnpm run test:adapters",
+    "test:core": "vitest run tests",
+    "test:adapters": "pnpm -r --filter \"./packages/adapter-*\" run test",
     "test:all": "pnpm -r run test",
     "test:api-surface": "vitest run tests/api-surface.test.ts",
     "test:integration": "vitest run tests/integration/mock-backend.integration.test.ts",
@@ -132,7 +138,9 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "test:types": "vitest --typecheck run",
-    "typecheck": "tsc --noEmit -p tsconfig.typecheck.json",
+    "typecheck": "pnpm run typecheck:core && pnpm run typecheck:adapters",
+    "typecheck:core": "tsc --noEmit -p tsconfig.typecheck.json",
+    "typecheck:adapters": "pnpm -r --filter \"./packages/adapter-*\" run typecheck",
     "typecheck:refs": "tsc -b --pretty false",
     "clean": "rimraf dist",
     "pack:all": "pnpm run build && pnpm --dir packages/adapter-assemblyscript run build && pnpm pack && pnpm --dir packages/adapter-assemblyscript pack --pack-destination ../..",
@@ -145,10 +153,9 @@
     "publish:core:dry-run": "pnpm publish --dry-run --access public --no-git-checks --registry=https://registry.npmjs.org",
     "publish:all:dry-run": "pnpm install --no-frozen-lockfile && pnpm run build:all && pnpm -r --filter \"./packages/*\" publish --dry-run --access public --no-git-checks --registry=https://registry.npmjs.org && pnpm run publish:core:dry-run"
   },
-  "peerDependencies": {
-    "electron": ">=20.0.0"
-  },
   "dependencies": {
+    "@ozymandros/electron-message-bridge-plugin-speech-whisper": "workspace:*",
+    "electron": "^41.2.0",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
@@ -157,7 +164,6 @@
     "@typescript-eslint/eslint-plugin": "^8.58.0",
     "@typescript-eslint/parser": "^8.58.0",
     "@vitest/coverage-v8": "^1.6.1",
-    "electron": "^32.0.0",
     "eslint": "^10.2.0",
     "rimraf": "^5.0.0",
     "tsup": "^8.0.0",

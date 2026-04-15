@@ -634,3 +634,27 @@ pnpm run build
 In a typical setup with 3 request/response IPC methods and 3 push events,
 `@ozymandros/electron-message-bridge` usually removes around 35 lines of IPC boilerplate
 and reduces IPC maintenance surface by roughly 70%.
+
+## Whisper Speech-to-Text Setup
+
+To enable local speech-to-text (STT) with Whisper, you must provide:
+- The Whisper model file (e.g. `ggml-base.bin`) in the `models/` directory at the project root.
+- The Whisper CLI binary (e.g. `whisper-cli` or `whisper.exe`) in the `bin/` directory at the project root.
+
+**These files are not included in the repository.**
+
+### Downloading the Model
+1. Download a Whisper model (e.g. `ggml-base.bin`) from the [official repository](https://github.com/ggerganov/whisper.cpp#models) or your preferred source.
+2. Place the file in `models/` so the path is:
+   - `models/ggml-base.bin`
+
+### Downloading the CLI Binary
+1. Build or download the Whisper CLI binary for your platform from [whisper.cpp releases](https://github.com/ggerganov/whisper.cpp#build).
+2. Place the binary in `bin/` so the path is:
+   - `bin/whisper-cli` (Linux/macOS)
+   - `bin/whisper-cli.exe` (Windows)
+
+### Notes
+- The application will fail to start STT if these files are missing or the paths are incorrect.
+- In production, these files must be bundled or copied to the correct location relative to the app's resources path.
+- You can adjust the paths in `src/main.ts` if your structure is different.

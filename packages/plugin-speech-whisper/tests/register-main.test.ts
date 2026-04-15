@@ -76,4 +76,14 @@ describe('registerSpeechWhisperMain', () => {
     expect(handle).toHaveBeenCalledWith('my:stt:start', expect.any(Function));
     expect(handle).toHaveBeenCalledWith('my:stt:stop', expect.any(Function));
   });
+
+  it('defaults whisperBin to "whisper" when omitted', async () => {
+    const { registerSpeechWhisperMain } = await import('../src/register-main.js');
+    const reg = registerSpeechWhisperMain({
+      modelPath: '/models/x.bin',
+    });
+
+    expect(reg.manager.options.whisperBin).toBe('whisper');
+    reg.dispose();
+  });
 });

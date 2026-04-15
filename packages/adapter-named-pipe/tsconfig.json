@@ -21,9 +21,6 @@
     "sourceMap": true,
     "skipLibCheck": true
   },
-  "references": [
-    { "path": "../.." }
-  ],
   "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
 }

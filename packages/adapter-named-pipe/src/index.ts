@@ -51,7 +51,7 @@ export { NamedPipeClient } from './client.js';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ADAPTER_NAME = '@electron-message-bridge/adapter-named-pipe';
+const ADAPTER_NAME = '@ozymandros/electron-message-bridge-adapter-named-pipe';
 const ADAPTER_VERSION = '0.1.0';
 
 // ─── Server transport ─────────────────────────────────────────────────────────
@@ -234,7 +234,7 @@ export class NamedPipePlugin
       name: ADAPTER_NAME,
       version: ADAPTER_VERSION,
       protocolVersion: PROTOCOL_VERSION,
-      supportsBinary: false,
+      supportsBinary: true,
       supportsStreaming: false,
       capabilities: {
         protocol: 'named-pipe',

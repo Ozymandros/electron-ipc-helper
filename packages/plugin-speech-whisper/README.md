@@ -1,5 +1,11 @@
 # @ozymandros/electron-message-bridge-plugin-speech-whisper
 
+## Whisper Model Download & Setup
+
+**This package does not include the Whisper GGML model file.** You must download it manually and configure the `modelPath` option.
+
+See [MODEL_SETUP.md](./MODEL_SETUP.md) for step-by-step instructions on downloading the model and setting the correct path in your project.
+
 Optional **local speech-to-text** for [@ozymandros/electron-message-bridge](https://www.npmjs.com/package/@ozymandros/electron-message-bridge): captures **16 kHz mono 16-bit WAV** via [`node-record-lpcm16`](https://www.npmjs.com/package/node-record-lpcm16) (SoX-backed) and runs **[Whisper.cpp](https://github.com/ggerganov/whisper.cpp)** as a **subprocess** (no .NET, no bundled binaries).
 
 ## Install
@@ -8,7 +14,21 @@ Optional **local speech-to-text** for [@ozymandros/electron-message-bridge](http
 pnpm add @ozymandros/electron-message-bridge-plugin-speech-whisper
 ```
 
+
 **Peer dependencies:** `electron` (≥20) and `@ozymandros/electron-message-bridge` (same major as your app). This package does not ship Whisper or SoX.
+
+---
+
+**Important:**
+
+- You must have [SoX](https://sourceforge.net/projects/sox/) installed on your system and its executable directory added to your `PATH` environment variable.
+  - Download: https://sourceforge.net/projects/sox/
+  - On Windows, ensure the folder containing `sox.exe` is in your `PATH`.
+  - On macOS: `brew install sox`
+  - On Linux: `apt-get install sox libsox-fmt-all`
+- The [Whisper.cpp](https://github.com/ggerganov/whisper.cpp) CLI must also be built and available (either by absolute path or in your `PATH`).
+
+---
 
 The main-process `STTManager` loads [`node-record-lpcm16`](https://www.npmjs.com/package/node-record-lpcm16) with a dynamic `import()` and calls its **`record()`** export (the package ships `module.exports = { record }`; ESM interop is handled for you).
 

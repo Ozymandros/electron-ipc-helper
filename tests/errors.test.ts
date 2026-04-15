@@ -355,7 +355,13 @@ describe('TransportError', () => {
 // ─── Integration: defineIpcApi throws InvalidPayloadError ────────────────────
 
 const { ipcMainMock } = vi.hoisted(() => ({ ipcMainMock: { handle: vi.fn(), removeHandler: vi.fn() } }));
-vi.mock('electron', () => ({ ipcMain: ipcMainMock }));
+vi.mock('electron', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...(actual as Record<string, unknown>),
+    ipcMain: ipcMainMock,
+  };
+});
 
 describe('defineIpcApi — throws InvalidPayloadError for non-function handler', () => {
   beforeEach(() => { ipcMainMock.handle.mockReset(); });

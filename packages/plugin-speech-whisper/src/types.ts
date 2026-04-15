@@ -18,8 +18,8 @@ export interface SttStatus {
 
 /** Options for {@link STTManager} and {@link registerSpeechWhisperMain}. */
 export interface SpeechWhisperOptions {
-  /** Absolute path to Whisper.cpp CLI (e.g. `main`, `whisper-cli`, or `whisper.exe`). */
-  whisperBin: string;
+  /** Absolute path or command name for Whisper.cpp CLI (default: `whisper`). */
+  whisperBin?: string;
   /** Absolute path to a GGML `.bin` model file. */
   modelPath: string;
   /**

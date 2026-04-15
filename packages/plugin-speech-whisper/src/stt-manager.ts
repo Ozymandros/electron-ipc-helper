@@ -4,8 +4,9 @@ import { access, unlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import type { WebContents } from 'electron';
-import { app, systemPreferences } from 'electron';
 import type { SpeechWhisperOptions, SttResultPayload, SttState, SttStatus } from './types.js';
+
+type ResolvedSpeechWhisperOptions = Omit<SpeechWhisperOptions, 'whisperBin'> & { whisperBin: string };
 
 type RecordFn = (options?: Record<string, unknown>) => {
   stream(): NodeJS.ReadableStream;
@@ -56,10 +57,11 @@ async function fileExists(path: string): Promise<boolean> {
   }
 }
 
-function getTempBase(options: SpeechWhisperOptions): string {
+async function getTempBase(options: SpeechWhisperOptions): Promise<string> {
   if (options.tempDir) return options.tempDir;
   try {
-    return app.getPath('temp');
+    const electron = await import('electron');
+    return electron.app.getPath('temp');
   } catch {
     return tmpdir();
   }
@@ -69,7 +71,7 @@ function getTempBase(options: SpeechWhisperOptions): string {
  * Opinionated local STT: 16 kHz mono WAV via `node-record-lpcm16`, transcription via Whisper.cpp CLI subprocess.
  */
 export class STTManager {
-  readonly options: SpeechWhisperOptions;
+  readonly options: Readonly<ResolvedSpeechWhisperOptions>;
 
   private state: SttState = 'IDLE';
   private lastError: string | undefined;
@@ -85,7 +87,10 @@ export class STTManager {
   private whisperChild: ReturnType<typeof spawn> | null = null;
 
   constructor(options: SpeechWhisperOptions) {
-    this.options = options;
+    this.options = {
+      ...options,
+      whisperBin: options.whisperBin ?? 'whisper',
+    };
   }
 
   getState(): SttState {
@@ -117,7 +122,7 @@ export class STTManager {
       error = e instanceof Error ? e.message : String(e);
     }
 
-    const mic = this.evaluateMicrophoneAccess();
+    const mic = await this.evaluateMicrophoneAccess();
     if (!mic.ok) {
       canRecord = false;
       error = mic.reason ?? error;
@@ -141,7 +146,12 @@ export class STTManager {
   async ensureMicrophonePermission(): Promise<boolean> {
     if (process.platform !== 'darwin') return true;
     if (this.options.askMicrophonePermission === false) return true;
-    return systemPreferences.askForMediaAccess('microphone');
+    try {
+      const electron = await import('electron');
+      return electron.systemPreferences.askForMediaAccess('microphone');
+    } catch {
+      return true;
+    }
   }
 
   private async ensureRecorder(): Promise<RecordFn> {
@@ -153,12 +163,13 @@ export class STTManager {
     return fn;
   }
 
-  private evaluateMicrophoneAccess(): { ok: boolean; reason?: string } {
+  private async evaluateMicrophoneAccess(): Promise<{ ok: boolean; reason?: string }> {
     if (process.platform === 'linux') {
       return { ok: true };
     }
     try {
-      const status = systemPreferences.getMediaAccessStatus('microphone');
+      const electron = await import('electron');
+      const status = electron.systemPreferences.getMediaAccessStatus('microphone');
       if (status === 'granted') return { ok: true };
       if (status === 'denied') {
         return { ok: false, reason: 'Microphone access denied in system settings.' };
@@ -187,7 +198,7 @@ export class STTManager {
     const record = await this.ensureRecorder();
 
     const outPath = join(
-      getTempBase(this.options),
+      await getTempBase(this.options),
       `eiph-stt-${Date.now()}-${Math.random().toString(16).slice(2)}.wav`,
     );
     const fileStream = createWriteStream(outPath, { encoding: 'binary' });

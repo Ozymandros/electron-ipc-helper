@@ -32,6 +32,7 @@ export default defineConfig({
       '@ozymandros/electron-message-bridge/transport': new URL('./src/transport.ts', bridgeRoot).pathname,
       '@ozymandros/electron-message-bridge/boundary': new URL('./src/boundary.ts', bridgeRoot).pathname,
       '@ozymandros/electron-message-bridge': new URL('./src/index.ts', bridgeRoot).pathname,
+      '@ozymandros/electron-message-bridge-plugin-speech-whisper': new URL('./packages/plugin-speech-whisper/src/index.ts', bridgeRoot).pathname,
     },
     typecheck: {
       tsconfig: './tsconfig.typecheck.json',

@@ -17,17 +17,21 @@ const { ipcMainHandleMock, ipcMainRemoveHandlerMock } = vi.hoisted(() => ({
   ipcMainRemoveHandlerMock: vi.fn(),
 }));
 
-vi.mock('electron', () => ({
-  ipcMain: {
-    handle: ipcMainHandleMock,
-    removeHandler: ipcMainRemoveHandlerMock,
-  },
-  ipcRenderer: {
-    invoke: vi.fn(),
-    on: vi.fn(),
-    removeListener: vi.fn(),
-  },
-}));
+vi.mock('electron', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...(actual as Record<string, unknown>),
+    ipcMain: {
+      handle: ipcMainHandleMock,
+      removeHandler: ipcMainRemoveHandlerMock,
+    },
+    ipcRenderer: {
+      invoke: vi.fn(),
+      on: vi.fn(),
+      removeListener: vi.fn(),
+    },
+  };
+});
 
 // ─── Imports ──────────────────────────────────────────────────────────────────
 

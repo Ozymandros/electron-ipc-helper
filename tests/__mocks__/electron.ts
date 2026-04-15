@@ -83,6 +83,11 @@ export const app = {
     if (name === 'userData') return process.cwd();
     return process.cwd();
   }),
+  getAppPath: vi.fn(() => process.cwd()),
+  whenReady: vi.fn(() => Promise.resolve()),
+  isPackaged: false,
+  on: vi.fn(),
+  removeListener: vi.fn(),
 };
 
 // ─── ipcRenderer ──────────────────────────────────────────────────────────────

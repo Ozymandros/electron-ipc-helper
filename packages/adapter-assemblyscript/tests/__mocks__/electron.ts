@@ -127,6 +127,15 @@ export const contextBridge = {
   _exposed,
 };
 
+// ─── app ──────────────────────────────────────────────────────────────────────
+
+export const app = {
+  whenReady: vi.fn(async () => {}),
+  isPackaged: false,
+  getAppPath: vi.fn(() => process.cwd()),
+  on: vi.fn((_event: string, _listener: () => void) => {}),
+};
+
 // ─── Test helper ─────────────────────────────────────────────────────────────
 
 /**
